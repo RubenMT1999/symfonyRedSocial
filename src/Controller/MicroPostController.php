@@ -2,26 +2,39 @@
 
 namespace App\Controller;
 
-use App\Entity\MicroPost;
-use App\Repository\MicroPostRepository;
 use DateTime;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Entity\User;
+use App\Entity\MicroPost;
+use App\Entity\UserProfile;
+use App\Repository\UserRepository;
+use App\Repository\MicroPostRepository;
+use App\Repository\UserProfileRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class MicroPostController extends AbstractController
 {
 
     private $microPostRepository;
 
-    public function __construct(MicroPostRepository $microPostRepository)
+    private $userRepository;
+    private $userProfileRepository;
+
+    public function __construct(MicroPostRepository $microPostRepository,
+                        UserRepository $userRepository,
+                         UserProfileRepository $userProfileRepository)
     {
         $this->microPostRepository = $microPostRepository;
+        $this->userRepository = $userRepository;
+        $this->userProfileRepository = $userProfileRepository;
     }
 
 
-    #[Route('/micro/post', name: 'app_micro_post')]
+    #[Route('/micro/post', methods:['GET'], name: 'app_micro_post')]
     public function getAll(): JsonResponse
     {
         /* $microPost = new MicroPost();
@@ -51,7 +64,60 @@ class MicroPostController extends AbstractController
         return new JsonResponse($data, Response::HTTP_OK);
     }
 
+    
+    #[Route('/user/create', methods:['POST'], name: 'user_create')]
+    public function addUser(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(),true);
 
+        $email = $data['email'];
+        $roles = $data['roles'];
+        $password = $data['password'];
+
+        if(empty($email) || empty($roles) || empty($password)) {
+            throw new NotFoundHttpException('Se esperan otros parámetros!');
+        }
+
+        $newUser = new User();
+
+        $newUser
+            ->setEmail($email)
+            ->setRoles($roles)
+            ->setPassword($password);
+        
+        $this->userRepository->save($newUser,true);
+
+        return new JsonResponse(['status' => 'User Creado!'], Response::HTTP_CREATED);
+    }
+
+
+    #[Route('/profile/create', methods:['POST'], name: 'profile_create')]
+    public function addProfile(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(),true);
+
+        $name = $data['name'];
+        $bio = $data['bio'];
+        $website_url = $data['website_url'];
+        $twitter_username = $data['twitter_username'];
+        $company = $data['company'];
+        $location = $data['location'];
+        $date_of_birth = $data['date_of_birth'];
+        $userId = $data['user_id'];
+
+        /* if(empty($email) || empty($roles) || empty($password)) {
+            throw new NotFoundHttpException('Se esperan otros parámetros!');
+        } */
+
+        if(!$this->userRepository->findOneBy(['id' => $userId])){
+            throw new NotFoundHttpException('No existe un User con ese Id');
+        }
+
+        $this->userProfileRepository->guardarProfile($name,$bio,$website_url,
+            $twitter_username,$company,$location,$date_of_birth,$userId);
+
+        return new JsonResponse(['status' => 'UserProfile Creado!'], Response::HTTP_CREATED);
+    }
 
 
 }
