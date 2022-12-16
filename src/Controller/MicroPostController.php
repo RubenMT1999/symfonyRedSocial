@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class MicroPostController extends AbstractController
 {
@@ -23,14 +24,17 @@ class MicroPostController extends AbstractController
 
     private $userRepository;
     private $userProfileRepository;
+    private $userPasswordHasher;
 
     public function __construct(MicroPostRepository $microPostRepository,
                         UserRepository $userRepository,
-                         UserProfileRepository $userProfileRepository)
+                         UserProfileRepository $userProfileRepository,
+                        UserPasswordHasherInterface $userPasswordHasher)
     {
         $this->microPostRepository = $microPostRepository;
         $this->userRepository = $userRepository;
         $this->userProfileRepository = $userProfileRepository;
+        $this->userPasswordHasher = $userPasswordHasher;
     }
 
 
@@ -80,10 +84,12 @@ class MicroPostController extends AbstractController
 
         $newUser = new User();
 
+        $hashPassword = $this->userPasswordHasher->hashPassword($newUser, $password);
+
         $newUser
             ->setEmail($email)
             ->setRoles($roles)
-            ->setPassword($password);
+            ->setPassword($hashPassword);
         
         $this->userRepository->save($newUser,true);
 
