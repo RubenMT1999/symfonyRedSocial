@@ -69,7 +69,7 @@ class MicroPostController extends AbstractController
     }
 
     
-    #[Route('/user/create', methods:['POST'], name: 'user_create')]
+    /* #[Route('/user/create', methods:['POST'], name: 'user_create')]
     public function addUser(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(),true);
@@ -94,7 +94,7 @@ class MicroPostController extends AbstractController
         $this->userRepository->save($newUser,true);
 
         return new JsonResponse(['status' => 'User Creado!'], Response::HTTP_CREATED);
-    }
+    } */
 
 
     #[Route('/profile/create', methods:['POST'], name: 'profile_create')]
