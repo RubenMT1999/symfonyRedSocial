@@ -9,6 +9,8 @@ use App\Entity\UserProfile;
 use App\Repository\UserRepository;
 use App\Repository\MicroPostRepository;
 use App\Repository\UserProfileRepository;
+use Exception;
+use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,6 +18,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class MicroPostController extends AbstractController
 {
@@ -26,15 +30,19 @@ class MicroPostController extends AbstractController
     private $userProfileRepository;
     private $userPasswordHasher;
 
+    private $jwtEncoder;
+
     public function __construct(MicroPostRepository $microPostRepository,
                         UserRepository $userRepository,
                          UserProfileRepository $userProfileRepository,
-                        UserPasswordHasherInterface $userPasswordHasher)
+                        UserPasswordHasherInterface $userPasswordHasher,
+                        JWTEncoderInterface $jwtEncoder)
     {
         $this->microPostRepository = $microPostRepository;
         $this->userRepository = $userRepository;
         $this->userProfileRepository = $userProfileRepository;
         $this->userPasswordHasher = $userPasswordHasher;
+        $this->jwtEncoder = $jwtEncoder;
     }
 
 
@@ -69,7 +77,7 @@ class MicroPostController extends AbstractController
     }
 
     
-    /* #[Route('/user/create', methods:['POST'], name: 'user_create')]
+    #[Route('/user/create', methods:['POST'], name: 'user_create')]
     public function addUser(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(),true);
@@ -94,7 +102,7 @@ class MicroPostController extends AbstractController
         $this->userRepository->save($newUser,true);
 
         return new JsonResponse(['status' => 'User Creado!'], Response::HTTP_CREATED);
-    } */
+    }
 
 
     #[Route('/profile/create', methods:['POST'], name: 'profile_create')]
@@ -124,6 +132,32 @@ class MicroPostController extends AbstractController
 
         return new JsonResponse(['status' => 'UserProfile Creado!'], Response::HTTP_CREATED);
     }
+
+
+
+    #[Route('/userLogged', methods:['GET'], name: 'user_logged')]
+    public function userLogged(Request $request): JsonResponse{
+        
+        // Obtener el token JWT del encabezado de la solicitud
+        $token = $request->headers->get('Authorization');
+        if ($token) {
+            // Decodificar el token JWT y obtener el contenido
+            $data = $this->jwtEncoder->decode($token);
+
+            $data2[] = [
+                'username' => $data['username'],
+                'roles' => $data['roles']
+            ];
+            
+            // $data es un array con los datos del token JWT
+
+            // Transformar el array a formato JSON y devolverlo como respuesta
+            return new JsonResponse($data2);
+        }
+    }
+
+
+    
 
 
 }
