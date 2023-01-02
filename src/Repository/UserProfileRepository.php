@@ -2,7 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\UserProfile;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -46,11 +49,13 @@ class UserProfileRepository extends ServiceEntityRepository
 
 
     public function guardarProfile($name, $bio, $website_url, $twitter_username,
-                                    $company, $location, $date_of_birth, $id_user)
+                                    $company, $location, $date_of_birth, $usermail)
     {
         $newProfile = new UserProfile;
 
-        $user = $this->userRepository->findOneBy(['id' => $id_user]);
+        $user = $this->userRepository->findOneBy(['email' => $usermail]);
+
+        $fecha = new DateTime($date_of_birth);
 
         $newProfile
             ->setName($name)
@@ -59,12 +64,26 @@ class UserProfileRepository extends ServiceEntityRepository
             ->setTwitterUsername($twitter_username)
             ->setCompany($company)
             ->setLocation($location)
-            ->setDateOfBirth($date_of_birth)
+            ->setDateOfBirth($fecha)
             ->setUser($user);
     
         $this->getEntityManager()->persist($newProfile);
         $this->getEntityManager()->flush();
     }
+
+
+    /* public function findOneByUserEmail(User $usuario): ?UserProfile
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT u
+            FROM App\Entity\UserProfile u
+            WHERE u.user = :usuario'
+        )->setParameter('usuario', $usuario);
+
+        return $query->getOneOrNullResult();
+    } */
 
 
 //    /**
@@ -82,13 +101,13 @@ class UserProfileRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?UserProfile
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /* public function findOneBySomeField($value): ?UserProfile
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.exampleField = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    } */
 }

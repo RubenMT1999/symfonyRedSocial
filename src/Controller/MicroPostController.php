@@ -26,23 +26,11 @@ class MicroPostController extends AbstractController
 
     private $microPostRepository;
 
-    private $userRepository;
-    private $userProfileRepository;
-    private $userPasswordHasher;
+    
 
-    private $jwtEncoder;
-
-    public function __construct(MicroPostRepository $microPostRepository,
-                        UserRepository $userRepository,
-                         UserProfileRepository $userProfileRepository,
-                        UserPasswordHasherInterface $userPasswordHasher,
-                        JWTEncoderInterface $jwtEncoder)
+    public function __construct(MicroPostRepository $microPostRepository)
     {
         $this->microPostRepository = $microPostRepository;
-        $this->userRepository = $userRepository;
-        $this->userProfileRepository = $userProfileRepository;
-        $this->userPasswordHasher = $userPasswordHasher;
-        $this->jwtEncoder = $jwtEncoder;
     }
 
 
@@ -77,85 +65,7 @@ class MicroPostController extends AbstractController
     }
 
     
-    #[Route('/user/create', methods:['POST'], name: 'user_create')]
-    public function addUser(Request $request): JsonResponse
-    {
-        $data = json_decode($request->getContent(),true);
-
-        $email = $data['email'];
-        $roles = $data['roles'];
-        $password = $data['password'];
-
-        if(empty($email) || empty($roles) || empty($password)) {
-            throw new NotFoundHttpException('Se esperan otros parámetros!');
-        }
-
-        $newUser = new User();
-
-        $hashPassword = $this->userPasswordHasher->hashPassword($newUser, $password);
-
-        $newUser
-            ->setEmail($email)
-            ->setRoles($roles)
-            ->setPassword($hashPassword);
-        
-        $this->userRepository->save($newUser,true);
-
-        return new JsonResponse(['status' => 'User Creado!'], Response::HTTP_CREATED);
-    }
-
-
-    #[Route('/profile/create', methods:['POST'], name: 'profile_create')]
-    public function addProfile(Request $request): JsonResponse
-    {
-        $data = json_decode($request->getContent(),true);
-
-        $name = $data['name'];
-        $bio = $data['bio'];
-        $website_url = $data['website_url'];
-        $twitter_username = $data['twitter_username'];
-        $company = $data['company'];
-        $location = $data['location'];
-        $date_of_birth = $data['date_of_birth'];
-        $userId = $data['user_id'];
-
-        /* if(empty($email) || empty($roles) || empty($password)) {
-            throw new NotFoundHttpException('Se esperan otros parámetros!');
-        } */
-
-        if(!$this->userRepository->findOneBy(['id' => $userId])){
-            throw new NotFoundHttpException('No existe un User con ese Id');
-        }
-
-        $this->userProfileRepository->guardarProfile($name,$bio,$website_url,
-            $twitter_username,$company,$location,$date_of_birth,$userId);
-
-        return new JsonResponse(['status' => 'UserProfile Creado!'], Response::HTTP_CREATED);
-    }
-
-
-
-    #[Route('/userLogged', methods:['GET'], name: 'user_logged')]
-    public function userLogged(Request $request): JsonResponse{
-        
-        // Obtener el token JWT del encabezado de la solicitud
-        $token = $request->headers->get('Authorization');
-        if ($token) {
-            // Decodificar el token JWT y obtener el contenido
-            $data = $this->jwtEncoder->decode($token);
-
-            $data2[] = [
-                'username' => $data['username'],
-                'roles' => $data['roles']
-            ];
-            
-            // $data es un array con los datos del token JWT
-
-            // Transformar el array a formato JSON y devolverlo como respuesta
-            return new JsonResponse($data2);
-        }
-    }
-
+    
 
     
 
