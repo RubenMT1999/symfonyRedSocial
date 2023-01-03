@@ -72,6 +72,15 @@ class UserProfileRepository extends ServiceEntityRepository
     }
 
 
+    public function updateProfile(UserProfile $profile) :UserProfile{
+
+        $this->getEntityManager()->persist($profile);
+        $this->getEntityManager()->flush();
+        return $profile;
+    }
+
+
+
     /* public function findOneByUserEmail(User $usuario): ?UserProfile
     {
         $entityManager = $this->getEntityManager();

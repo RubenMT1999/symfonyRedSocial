@@ -90,6 +90,21 @@ class ProfileController extends AbstractController
             throw new NotFoundHttpException('No existe un User con ese email');
         }
 
+        $obtenerUser = $this->userRepository->findOneBy(['email' => $usermail]);
+        if($obtenerUser->getUserProfile() != null){
+            $obtenerUser->getUserProfile()->setName($name);
+            $obtenerUser->getUserProfile()->setBio($bio);
+            $obtenerUser->getUserProfile()->setWebsiteUrl($website_url);
+            $obtenerUser->getUserProfile()->setTwitterUsername($twitter_username);
+            $obtenerUser->getUserProfile()->setCompany($company);
+            $obtenerUser->getUserProfile()->setLocation($location);
+            $fecha = new DateTime($date_of_birth);
+            $obtenerUser->getUserProfile()->setDateOfBirth($fecha);
+
+            $updatedProfile = $this->userProfileRepository->updateProfile($obtenerUser->getUserProfile());
+            return new JsonResponse(['status' => 'UserProfile Actualizado!'], Response::HTTP_CREATED);
+        }
+
         $this->userProfileRepository->guardarProfile($name,$bio,$website_url,
             $twitter_username,$company,$location,$date_of_birth,$usermail);
 
@@ -97,7 +112,7 @@ class ProfileController extends AbstractController
     }
 
 
-    #[Route('/profile/get', methods:['GET'], name: 'profile_get')]
+    #[Route('/profile/get', methods:['POST'], name: 'profile_get')]
     public function getProfile(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(),true);
@@ -115,7 +130,7 @@ class ProfileController extends AbstractController
             throw new NotFoundHttpException('No existe un profile de ese usuario');
         }
 
-        $data[] = [
+        $data2[] = [
             'name' => $miProfile->getName(),
             'bio' => $miProfile->getBio(),
             'website_url' => $miProfile->getWebsiteUrl(),
@@ -125,8 +140,7 @@ class ProfileController extends AbstractController
             'date_of_birth' => $miProfile->getDateOfBirth(),
         ];
 
-        return new JsonResponse(['status' => 'UserProfile encontrado!',
-                                    'userProfile' => $data], Response::HTTP_OK);
+        return new JsonResponse(['userProfile' => $data2], Response::HTTP_OK);
     }
 
 
