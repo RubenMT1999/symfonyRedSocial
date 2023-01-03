@@ -32,6 +32,9 @@ class UserProfile
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $location = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $phoneNumber = null;
+
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateOfBirth = null;
 
@@ -42,6 +45,18 @@ class UserProfile
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+
+    public function setPhoneNumber(?string $phoneNumber): self
+    {
+        $this->name = $phoneNumber;
+
+        return $this;
     }
 
     public function getName(): ?string
