@@ -61,6 +61,10 @@ class ProfileController extends AbstractController
             ->setEmail($email)
             ->setRoles($roles)
             ->setPassword($hashPassword);
+
+        
+        $this->userProfileRepository->establecerProfileVacio($newUser);
+        
         
         $this->userRepository->save($newUser,true);
 
@@ -91,22 +95,22 @@ class ProfileController extends AbstractController
         }
 
         $obtenerUser = $this->userRepository->findOneBy(['email' => $usermail]);
-        if($obtenerUser->getUserProfile() != null){
-            $obtenerUser->getUserProfile()->setName($name);
-            $obtenerUser->getUserProfile()->setBio($bio);
-            $obtenerUser->getUserProfile()->setWebsiteUrl($website_url);
-            $obtenerUser->getUserProfile()->setTwitterUsername($twitter_username);
-            $obtenerUser->getUserProfile()->setCompany($company);
-            $obtenerUser->getUserProfile()->setLocation($location);
-            $fecha = new DateTime($date_of_birth);
+
+        $obtenerUser->getUserProfile()->setName($name);
+        $obtenerUser->getUserProfile()->setBio($bio);
+        $obtenerUser->getUserProfile()->setWebsiteUrl($website_url);
+        $obtenerUser->getUserProfile()->setTwitterUsername($twitter_username);
+        $obtenerUser->getUserProfile()->setCompany($company);
+        $obtenerUser->getUserProfile()->setLocation($location);
+        $fecha = new DateTime($date_of_birth);
+
+        if(empty($fecha)){
+            $obtenerUser->getUserProfile()->setDateOfBirth(null);
+        }else{
             $obtenerUser->getUserProfile()->setDateOfBirth($fecha);
-
-            $updatedProfile = $this->userProfileRepository->updateProfile($obtenerUser->getUserProfile());
-            return new JsonResponse(['status' => 'UserProfile Actualizado!'], Response::HTTP_CREATED);
         }
-
-        $this->userProfileRepository->guardarProfile($name,$bio,$website_url,
-            $twitter_username,$company,$location,$date_of_birth,$usermail);
+            
+        $this->userProfileRepository->updateProfile($obtenerUser->getUserProfile());
 
         return new JsonResponse(['status' => 'UserProfile Creado!'], Response::HTTP_CREATED);
     }

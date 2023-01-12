@@ -80,6 +80,24 @@ class UserProfileRepository extends ServiceEntityRepository
     }
 
 
+    public function establecerProfileVacio(User $user){
+        
+        $nuevoProfile = new UserProfile;
+
+        $nuevoProfile
+            ->setName(null)
+            ->setBio(null)
+            ->setWebsiteUrl(null)
+            ->setTwitterUsername($user->getEmail())
+            ->setCompany(null)
+            ->setLocation(null)
+            ->setDateOfBirth(null)
+            ->setUser($user);
+        
+        $user->setUserProfile($nuevoProfile);
+    }
+
+
 
     /* public function findOneByUserEmail(User $usuario): ?UserProfile
     {
