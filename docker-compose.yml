@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  # add the mariadb service
+  mariadb:
+    image: mariadb:10.8.3
+    container_name: mariadb
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: password
+    ports:
+      - 3306:3306
+  
+  # Optional GUI for mariadb
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
