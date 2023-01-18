@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\UserRepository;
 use App\utils\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,7 +32,6 @@ class UserController extends AbstractController
         // $busqueda = array('name'=> $nombre);
         $listUsuario = $userRepository ->findAll();
         $listJson = $utilidades -> toJson($listUsuario);
-        var_dump($listJson);
         return new JsonResponse($listJson, 200,[], true);
     }
 }
