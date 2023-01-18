@@ -4,16 +4,20 @@ namespace App\Entity;
 
 use App\Repository\UserProfileRepository;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserProfileRepository::class)]
 class UserProfile
 {
+
+   
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 

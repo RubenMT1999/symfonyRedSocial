@@ -2,33 +2,36 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Entity\UserProfile;
-use App\Repository\UserProfileRepository;
 use App\Repository\UserRepository;
+use App\utils\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
-{
+{  
+  
 
 
-    private $userRepository;
-    private $userProfileRepository;
-
-    public function __construct(UserRepository $userRepository,
-                         UserProfileRepository $userProfileRepository)
+    #[Route('/user', name: 'app_user')]
+    public function index(): Response
     {
-        $this->userRepository = $userRepository;
-        $this->userProfileRepository = $userProfileRepository;
+        return $this->render('user/index.html.twig', [
+            'controller_name' => 'UserController',
+        ]);
     }
 
+  
 
-    
-    
-
-
+    #[Route('/user/list', name: 'app_user_list')]
+    public function list(UserRepository $userRepository,Utils $utilidades, Request $request): JsonResponse
+    {   
+        // $nombre = $request -> request ->get('name');
+        // $busqueda = array('name'=> $nombre);
+        $listUsuario = $userRepository ->findAll();
+        $listJson = $utilidades -> toJson($listUsuario);
+        var_dump($listJson);
+        return new JsonResponse($listJson, 200,[], true);
+    }
 }

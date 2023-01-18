@@ -127,7 +127,7 @@ class ProfileController extends AbstractController
         }
 
         if(!$miProfile){
-            throw new NotFoundHttpException('No existe un profile de ese usuario');
+            throw new NotFoundHttpException('No existe un perfil de ese usuario');
         }
 
         $data2[] = [
