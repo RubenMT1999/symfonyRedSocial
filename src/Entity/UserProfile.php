@@ -54,7 +54,7 @@ class UserProfile
 
     public function setPhoneNumber(?string $phoneNumber): self
     {
-        $this->name = $phoneNumber;
+        $this->phoneNumber = $phoneNumber;
 
         return $this;
     }
