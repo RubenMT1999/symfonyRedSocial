@@ -156,23 +156,26 @@ class ProfileController extends AbstractController
 
         $user = $data['username'];
 
-        $miProfile = $this->userProfileRepository->findOneBy(['twitterUsername' => $user]);
+        $misProfiles = $this->userProfileRepository->findBy(['twitterUsername' => $user]);
 
 
-        if(!$miProfile){
+        if(!$misProfiles){
             throw new NotFoundHttpException('No existe un profile de ese usuario');
         }
 
-        $data2[] = [
-            'name' => $miProfile->getName(),
-            'bio' => $miProfile->getBio(),
-            'website_url' => $miProfile->getWebsiteUrl(),
-            'username' => $miProfile->getTwitterUsername(),
-            'company' => $miProfile->getCompany(),
-            'location' => $miProfile->getLocation(),
-            'date_of_birth' => $miProfile->getDateOfBirth(),
-            'phone_number' => $miProfile->getPhoneNumber(),
-        ];
+        foreach($misProfiles as $miProfile){
+            $data2[] = [
+                'name' => $miProfile->getName(),
+                'bio' => $miProfile->getBio(),
+                'website_url' => $miProfile->getWebsiteUrl(),
+                'username' => $miProfile->getTwitterUsername(),
+                'company' => $miProfile->getCompany(),
+                'direccion' => $miProfile->getLocation(),
+                'fecha' => $miProfile->getDateOfBirth(),
+                'phone_number' => $miProfile->getPhoneNumber(),
+            ];
+        }
+        
 
         return new JsonResponse(['userProfile' => $data2], Response::HTTP_OK);
     }
