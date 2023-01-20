@@ -1,6 +1,6 @@
 <?php
 
-namespace App\utils;
+namespace App\utilidades;
 
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
