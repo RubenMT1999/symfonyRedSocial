@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserProfileRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,7 +19,6 @@ class UserProfile
     #[ORM\Column]
     private ?int $id = null;
 
-    
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
@@ -47,6 +47,9 @@ class UserProfile
     #[ORM\OneToOne(inversedBy: 'userProfile', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(name: 'id', nullable: false)]
     private ?User $user = null;
+
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Post::class, orphanRemoval: true)]
+    private Collection $post;
 
     public function getId(): ?int
     {
@@ -160,4 +163,22 @@ class UserProfile
 
         return $this;
     }
+
+    /**
+     * @return Collection
+     */
+    public function getPost(): Collection
+    {
+        return $this->post;
+    }
+
+    /**
+     * @param Collection $post
+     */
+    public function setPost(Collection $post): void
+    {
+        $this->post = $post;
+    }
+
+
 }
