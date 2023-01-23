@@ -70,9 +70,9 @@ class Post
         return $this;
     }
 
-    public function getPublicationDate(): ?\DateTimeInterface
+    public function getPublicationDate(): ?string
     {
-        return $this->publication_date;
+        return $this->publication_date->format('Y-m-d');
     }
 
     public function setPublicationDate(\DateTimeInterface $publication_date): self
