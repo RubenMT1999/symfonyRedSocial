@@ -2,15 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Entity\UserProfile;
 use App\Repository\UserProfileRepository;
 use App\Repository\UserRepository;
 use App\Utilidades\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -18,18 +16,16 @@ class UserController extends AbstractController
 {
 
 
-    private $userRepository;
-    private $userProfileRepository;
 
-
-    public function __construct(UserRepository $userRepository,
-                         UserProfileRepository $userProfileRepository)
+    #[Route('/user', name: 'app_user')]
+    public function index(): Response
     {
-        $this->userRepository = $userRepository;
-        $this->userProfileRepository = $userProfileRepository;
+        return $this->render('user/index.html.twig', [
+            'controller_name' => 'UserController',
+        ]);
     }
 
-    #[Route('/user/list', name:'app_usuario_listar', methods:['GET'])]
+  #[Route('/user/list', name:'app_usuario_listar', methods:['GET'])]
     public function list(UserRepository $userRepository, Utils $utils): JsonResponse{
 
     $listUsuarios = $userRepository->findAll();
@@ -60,7 +56,7 @@ class UserController extends AbstractController
 
 
 
-    return new JsonResponse($usuJson,200,[],true);        
+    return new JsonResponse($usuJson,200,[],true);
     }
 
     #[Route('user/delete/{id}', name:'app_usuario_borrar_id', methods:['DELETE'])]
@@ -76,10 +72,36 @@ class UserController extends AbstractController
 
         return new JsonResponse($usuJson,200,[],true);
 
-
     }
-    
-    
 
+
+
+    #[Route('/user/name',  name: 'app_user_list_name' ,methods:['POST'])]
+    public function list_name(UserProfileRepository $userProfileRepository,UserRepository $userRepository,Utils $utilidades, Request $request): JsonResponse
+    {
+        // $nombre = $request -> request ->get('name');
+        // $busqueda = array('name'=> $nombre);
+        $data = json_decode($request->getContent(),true);
+        $userProfile = $userRepository->findOneBy(['email' => $data]);
+        $listProfile = $userProfileRepository->findOneBy(['user' => $userProfile]);
+        if ($listProfile == null){
+            throw new NotFoundHttpException('No existe Usuario con ese Email');
+        }else {
+            $data2[] = [
+                'name' => $listProfile->getName(),
+                'bio' => $listProfile->getBio(),
+                'website_url' => $listProfile->getWebsiteUrl(),
+                'username' => $listProfile->getTwitterUsername(),
+                'company' => $listProfile->getCompany(),
+                'location' => $listProfile->getLocation(),
+                'email' => $listProfile->getUser()->getEmail(),
+                'date_of_birth' => $listProfile->getDateOfBirth()
+            ];
+        }
+            $listJson = $utilidades -> toJson($data2);
+
+
+        return new JsonResponse($listJson, 200,[], true);
+    }
 
 }
