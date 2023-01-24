@@ -205,4 +205,36 @@ class ProfileController extends AbstractController
     }
 
 
+    #[Route('/sugerencia', methods:['POST'], name: 'sugerir_profile')]
+    public function sugerirProfile(Request $request): JsonResponse{
+
+        $data = json_decode($request->getContent(),true);
+
+        $user = $data['username'];
+
+        $misPerfiles = $this->userProfileRepository->sugerirProfile($user);
+
+        if(!$misPerfiles){
+            throw new NotFoundHttpException('No coincide ningún perfil.');
+        }
+
+
+        foreach($misPerfiles as $miProfile){
+            $data2[] = [
+                'name' => $miProfile->getName(),
+                'bio' => $miProfile->getBio(),
+                'website_url' => $miProfile->getWebsiteUrl(),
+                'username' => $miProfile->getTwitterUsername(),
+                'company' => $miProfile->getCompany(),
+                'direccion' => $miProfile->getLocation(),
+                'fecha' => $miProfile->getDateOfBirth(),
+                'phone_number' => $miProfile->getPhoneNumber(),
+            ];
+        }
+        
+        return new JsonResponse(['userProfile' => $data2], Response::HTTP_OK);
+    }
+
+
+
 }

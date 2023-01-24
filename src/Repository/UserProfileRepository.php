@@ -99,6 +99,22 @@ class UserProfileRepository extends ServiceEntityRepository
         $user->setUserProfile($nuevoProfile);
     }
 
+    /**
+    * @return UserProfile[]
+     */
+    public function sugerirProfile(String $string): array{
+
+        $entityManager = $this->getEntityManager();
+
+        return $this->createQueryBuilder('u')
+           ->andWhere('u.twitterUsername LIKE :val')
+           ->setParameter('val', $string.'%')
+           ->setMaxResults(10)
+           ->getQuery()
+           ->getResult()
+       ;
+
+    }
 
     /* public function findOneByUserEmail(User $usuario): ?UserProfile
     {
