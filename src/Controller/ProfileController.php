@@ -22,17 +22,17 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class ProfileController extends AbstractController
 {
-    
+
     private $userRepository;
     private $userProfileRepository;
     private $userPasswordHasher;
 
     private $jwtEncoder;
 
-    public function __construct(UserRepository $userRepository,
-                         UserProfileRepository $userProfileRepository,
-                        UserPasswordHasherInterface $userPasswordHasher,
-                        JWTEncoderInterface $jwtEncoder)
+    public function __construct(UserRepository              $userRepository,
+                                UserProfileRepository       $userProfileRepository,
+                                UserPasswordHasherInterface $userPasswordHasher,
+                                JWTEncoderInterface         $jwtEncoder)
     {
         $this->userRepository = $userRepository;
         $this->userProfileRepository = $userProfileRepository;
@@ -40,16 +40,16 @@ class ProfileController extends AbstractController
         $this->jwtEncoder = $jwtEncoder;
     }
 
-    #[Route('/user/create', methods:['POST'], name: 'user_create')]
+    #[Route('/user/create', methods: ['POST'], name: 'user_create')]
     public function addUser(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(),true);
+        $data = json_decode($request->getContent(), true);
 
         $email = $data['email'];
         $roles = $data['roles'];
         $password = $data['password'];
 
-        if(empty($email) || empty($roles) || empty($password)) {
+        if (empty($email) || empty($roles) || empty($password)) {
             throw new NotFoundHttpException('Se esperan otros parámetros!');
         }
 
@@ -61,17 +61,17 @@ class ProfileController extends AbstractController
             ->setEmail($email)
             ->setRoles($roles)
             ->setPassword($hashPassword);
-        
-        $this->userRepository->save($newUser,true);
+
+        $this->userRepository->save($newUser, true);
 
         return new JsonResponse(['status' => 'User Creado!'], Response::HTTP_CREATED);
     }
 
 
-    #[Route('/profile/create', methods:['POST'], name: 'profile_create')]
+    #[Route('/profile/create', methods: ['POST'], name: 'profile_create')]
     public function addProfile(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(),true);
+        $data = json_decode($request->getContent(), true);
 
         $name = $data['name'];
         $bio = $data['bio'];
@@ -86,12 +86,12 @@ class ProfileController extends AbstractController
             throw new NotFoundHttpException('Se esperan otros parámetros!');
         } */
 
-        if(!$this->userRepository->findOneBy(['email' => $usermail])){
+        if (!$this->userRepository->findOneBy(['email' => $usermail])) {
             throw new NotFoundHttpException('No existe un User con ese email');
         }
 
         $obtenerUser = $this->userRepository->findOneBy(['email' => $usermail]);
-        if($obtenerUser->getUserProfile() != null){
+        if ($obtenerUser->getUserProfile() != null) {
             $obtenerUser->getUserProfile()->setName($name);
             $obtenerUser->getUserProfile()->setBio($bio);
             $obtenerUser->getUserProfile()->setWebsiteUrl($website_url);
@@ -105,28 +105,28 @@ class ProfileController extends AbstractController
             return new JsonResponse(['status' => 'UserProfile Actualizado!'], Response::HTTP_CREATED);
         }
 
-        $this->userProfileRepository->guardarProfile($name,$bio,$website_url,
-            $twitter_username,$company,$location,$date_of_birth,$usermail);
+        $this->userProfileRepository->guardarProfile($name, $bio, $website_url,
+            $twitter_username, $company, $location, $date_of_birth, $usermail);
 
         return new JsonResponse(['status' => 'UserProfile Creado!'], Response::HTTP_CREATED);
     }
 
 
-    #[Route('/profile/get', methods:['POST'], name: 'profile_get')]
+    #[Route('/profile/get', methods: ['POST'], name: 'profile_get')]
     public function getProfile(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(),true);
+        $data = json_decode($request->getContent(), true);
 
         $user = $data['user'];
 
         $miUsuario = $this->userRepository->findOneBy(['email' => $user]);
         $miProfile = $this->userProfileRepository->findOneBy(['user' => $miUsuario]);
 
-        if(!$miUsuario){
+        if (!$miUsuario) {
             throw new NotFoundHttpException('No existe ese usuario');
         }
 
-        if(!$miProfile){
+        if (!$miProfile) {
             throw new NotFoundHttpException('No existe un perfil de ese usuario');
         }
 
@@ -144,11 +144,10 @@ class ProfileController extends AbstractController
     }
 
 
+    #[Route('/userLogged', methods: ['GET'], name: 'user_logged')]
+    public function userLogged(Request $request): JsonResponse
+    {
 
-
-    #[Route('/userLogged', methods:['GET'], name: 'user_logged')]
-    public function userLogged(Request $request): JsonResponse{
-        
         // Obtener el token JWT del encabezado de la solicitud
         $token = $request->headers->get('Authorization');
         if ($token) {
@@ -159,7 +158,7 @@ class ProfileController extends AbstractController
                 'username' => $data['username'],
                 'roles' => $data['roles']
             ];
-            
+
             // $data es un array con los datos del token JWT
 
             // Transformar el array a formato JSON y devolverlo como respuesta

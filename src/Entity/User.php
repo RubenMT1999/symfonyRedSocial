@@ -122,7 +122,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUserProfile(UserProfile $userProfile): self
     {
         // set the owning side of the relation if necessary
-        if ($userProfile->getUser() !== $this) {
+         {
             $userProfile->setUser($this);
         }
 

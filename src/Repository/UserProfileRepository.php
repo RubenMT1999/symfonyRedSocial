@@ -81,6 +81,8 @@ class UserProfileRepository extends ServiceEntityRepository
 
 
 
+
+
     /* public function findOneByUserEmail(User $usuario): ?UserProfile
     {
         $entityManager = $this->getEntityManager();

@@ -63,7 +63,7 @@ class UserProfile
 
     public function setPhoneNumber(?string $phoneNumber): self
     {
-        $this->name = $phoneNumber;
+        $this->phoneNumber = $phoneNumber;
 
         return $this;
     }
@@ -140,9 +140,9 @@ class UserProfile
         return $this;
     }
 
-    public function getDateOfBirth(): ?\DateTimeInterface
+    public function getDateOfBirth(): ?string
     {
-        return $this->dateOfBirth;
+        return $this->dateOfBirth->format('Y-m-d');
     }
 
     public function setDateOfBirth(?\DateTimeInterface $dateOfBirth): self
@@ -152,10 +152,10 @@ class UserProfile
         return $this;
     }
 
-    public function getUser(): ?User
+    /*public function getUser(): ?User
     {
         return $this->user;
-    }
+    }*/
 
     public function setUser(User $user): self
     {
