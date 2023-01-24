@@ -63,25 +63,19 @@ class UserController extends AbstractController
     return new JsonResponse($usuJson,200,[],true);        
     }
 
-    #[Route('user/delete/id', name:'app_usuario_borrar_nombre', methods:['DELETE'])]
-    public function deleteUser(UserProfileRepository $userProfileRepository, Request $request): string{
+    #[Route('user/delete/{id}', name:'app_usuario_borrar_id', methods:['DELETE'])]
+    public function deleteUser($id, Utils $utils,): JsonResponse{
 
-    $id = $request->query->get("id");
+    $usuario = $this->userRepository->findOneBy(['id' =>$id]);
 
-    $param = array(
-        "id" => $id
-    );
+    $this->userRepository->removeUser($usuario);
 
-    $borrarUsuario = $userProfileRepository->delete($id);
+    $mensaje = "Usuario eliminado";
 
-    if(empty($userProfileRepository->findBy($id))){
-        return "Usuario Eliminado";
-    }else{
-        return "Ha ocurrido un problema";
-    }
+    $usuJson = $utils->toJson($mensaje);
 
-    
-        
+        return new JsonResponse($usuJson,200,[],true);
+
 
     }
     
