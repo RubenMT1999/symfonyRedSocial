@@ -72,18 +72,9 @@ class UserController extends AbstractController
 
         return new JsonResponse($usuJson,200,[],true);
 
-
     }
 
-    #[Route('/user/list', name: 'app_user_list')]
-    public function list(UserRepository $userRepository,Utils $utilidades, Request $request): JsonResponse
-    {
-        // $nombre = $request -> request ->get('name');
-        // $busqueda = array('name'=> $nombre);
-        $listUsuario = $userRepository ->findAll();
-        $listJson = $utilidades -> toJson($listUsuario);
-        return new JsonResponse($listJson, 200,[], true);
-    }
+
 
     #[Route('/user/name',  name: 'app_user_list_name' ,methods:['POST'])]
     public function list_name(UserProfileRepository $userProfileRepository,UserRepository $userRepository,Utils $utilidades, Request $request): JsonResponse
