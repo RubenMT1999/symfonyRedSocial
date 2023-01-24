@@ -52,6 +52,17 @@ class PostRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+//    public function update($value): array
+//    {
+//        return $this->update('p')
+//            ->set('p.id_user = :val')
+//            ->setParameter('val', $value)
+//            ->orderBy('p.publication_date', 'DESC')
+//            ->getQuery()
+//            ->getResult()
+//            ;
+//    }
+
 
 //    public function findOneBySomeField($value): ?Post
 //    {

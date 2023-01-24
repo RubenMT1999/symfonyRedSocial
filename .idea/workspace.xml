@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e730bf92-1ee1-4686-9466-8df54fb55a62" name="Changes" comment="Post/user">
+    <list default="true" id="e730bf92-1ee1-4686-9466-8df54fb55a62" name="Changes" comment="Post/create">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/PostRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/PostRepository.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,6 +151,7 @@
       <workItem from="1674225424747" duration="4657000" />
       <workItem from="1674231793935" duration="8785000" />
       <workItem from="1674495607557" duration="2029000" />
+      <workItem from="1674577203055" duration="9050000" />
     </task>
     <task id="LOCAL-00001" summary="prueba">
       <created>1674068855044</created>
@@ -173,7 +174,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674243184693</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Post/create">
+      <created>1674502806382</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1674502806382</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -194,45 +202,76 @@
     <MESSAGE value="prueba" />
     <MESSAGE value="BBDD" />
     <MESSAGE value="Post/user" />
-    <option name="LAST_COMMIT_MESSAGE" value="Post/user" />
+    <MESSAGE value="Post/create" />
+    <option name="LAST_COMMIT_MESSAGE" value="Post/create" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
-          <line>46</line>
-          <option name="timeStamp" value="58" />
+          <line>99</line>
+          <option name="timeStamp" value="97" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
-          <line>47</line>
-          <option name="timeStamp" value="59" />
+          <line>100</line>
+          <option name="timeStamp" value="98" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
-          <line>48</line>
-          <option name="timeStamp" value="60" />
+          <line>102</line>
+          <option name="timeStamp" value="99" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
-          <line>52</line>
-          <option name="timeStamp" value="61" />
+          <line>103</line>
+          <option name="timeStamp" value="100" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
-          <line>53</line>
-          <option name="timeStamp" value="65" />
+          <line>104</line>
+          <option name="timeStamp" value="101" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
-          <line>26</line>
-          <option name="timeStamp" value="69" />
+          <line>105</line>
+          <option name="timeStamp" value="102" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
-          <line>49</line>
-          <option name="timeStamp" value="73" />
+          <line>106</line>
+          <option name="timeStamp" value="103" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
+          <line>107</line>
+          <option name="timeStamp" value="104" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
+          <line>108</line>
+          <option name="timeStamp" value="105" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
+          <line>109</line>
+          <option name="timeStamp" value="106" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
+          <line>110</line>
+          <option name="timeStamp" value="107" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
+          <line>96</line>
+          <option name="timeStamp" value="108" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
+          <line>101</line>
+          <option name="timeStamp" value="109" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
