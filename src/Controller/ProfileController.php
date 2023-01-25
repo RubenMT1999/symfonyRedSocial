@@ -62,7 +62,9 @@ class ProfileController extends AbstractController
             ->setRoles($roles)
             ->setPassword($hashPassword);
 
-        $this->userRepository->save($newUser, true);
+        $this->userProfileRepository->establecerProfileVacio($newUser);
+        
+        $this->userRepository->save($newUser,true);
 
         return new JsonResponse(['status' => 'User Creado!'], Response::HTTP_CREATED);
     }
@@ -81,6 +83,7 @@ class ProfileController extends AbstractController
         $location = $data['location'];
         $date_of_birth = $data['date_of_birth'];
         $usermail = $data['usermail'];
+        $phone_number = $data['phone_number'];
 
         /* if(empty($email) || empty($roles) || empty($password)) {
             throw new NotFoundHttpException('Se esperan otros parámetros!');
@@ -98,6 +101,7 @@ class ProfileController extends AbstractController
             $obtenerUser->getUserProfile()->setTwitterUsername($twitter_username);
             $obtenerUser->getUserProfile()->setCompany($company);
             $obtenerUser->getUserProfile()->setLocation($location);
+            $obtenerUser->getUserProfile()->setPhoneNumber($phone_number);
             $fecha = new DateTime($date_of_birth);
             $obtenerUser->getUserProfile()->setDateOfBirth($fecha);
 
@@ -105,8 +109,8 @@ class ProfileController extends AbstractController
             return new JsonResponse(['status' => 'UserProfile Actualizado!'], Response::HTTP_CREATED);
         }
 
-        $this->userProfileRepository->guardarProfile($name, $bio, $website_url,
-            $twitter_username, $company, $location, $date_of_birth, $usermail);
+        $this->userProfileRepository->guardarProfile($name,$bio,$website_url,
+            $twitter_username,$company,$location,$date_of_birth,$usermail,$phone_number);
 
         return new JsonResponse(['status' => 'UserProfile Creado!'], Response::HTTP_CREATED);
     }
@@ -138,7 +142,72 @@ class ProfileController extends AbstractController
             'company' => $miProfile->getCompany(),
             'location' => $miProfile->getLocation(),
             'date_of_birth' => $miProfile->getDateOfBirth(),
+            'phone_number' => $miProfile->getPhoneNumber(),
         ];
+
+        return new JsonResponse(['userProfile' => $data2], Response::HTTP_OK);
+    }
+
+
+    #[Route('/profile/buscar', methods:['POST'], name: 'buscar_usuario')]
+    public function buscarUsuario(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(),true);
+
+        $user = $data['username'];
+
+        $misProfiles = $this->userProfileRepository->findBy(['twitterUsername' => $user]);
+
+
+        if(!$misProfiles){
+            throw new NotFoundHttpException('No existe un profile de ese usuario');
+        }
+
+        foreach($misProfiles as $miProfile){
+            $data2[] = [
+                'name' => $miProfile->getName(),
+                'bio' => $miProfile->getBio(),
+                'website_url' => $miProfile->getWebsiteUrl(),
+                'username' => $miProfile->getTwitterUsername(),
+                'company' => $miProfile->getCompany(),
+                'direccion' => $miProfile->getLocation(),
+                'fecha' => $miProfile->getDateOfBirth(),
+                'phone_number' => $miProfile->getPhoneNumber(),
+            ];
+        }
+        
+
+        return new JsonResponse(['userProfile' => $data2], Response::HTTP_OK);
+    }
+
+
+    #[Route('/profile/buscar', methods:['POST'], name: 'buscar_usuario')]
+    public function buscarUsuario(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(),true);
+
+        $user = $data['username'];
+
+        $misProfiles = $this->userProfileRepository->findBy(['twitterUsername' => $user]);
+
+
+        if(!$misProfiles){
+            throw new NotFoundHttpException('No existe un profile de ese usuario');
+        }
+
+        foreach($misProfiles as $miProfile){
+            $data2[] = [
+                'name' => $miProfile->getName(),
+                'bio' => $miProfile->getBio(),
+                'website_url' => $miProfile->getWebsiteUrl(),
+                'username' => $miProfile->getTwitterUsername(),
+                'company' => $miProfile->getCompany(),
+                'direccion' => $miProfile->getLocation(),
+                'fecha' => $miProfile->getDateOfBirth(),
+                'phone_number' => $miProfile->getPhoneNumber(),
+            ];
+        }
+        
 
         return new JsonResponse(['userProfile' => $data2], Response::HTTP_OK);
     }
@@ -165,6 +234,38 @@ class ProfileController extends AbstractController
             return new JsonResponse($data2);
         }
     }
+
+
+    #[Route('/sugerencia', methods:['POST'], name: 'sugerir_profile')]
+    public function sugerirProfile(Request $request): JsonResponse{
+
+        $data = json_decode($request->getContent(),true);
+
+        $user = $data['username'];
+
+        $misPerfiles = $this->userProfileRepository->sugerirProfile($user);
+
+        if(!$misPerfiles){
+            throw new NotFoundHttpException('No coincide ningún perfil.');
+        }
+
+
+        foreach($misPerfiles as $miProfile){
+            $data2[] = [
+                'name' => $miProfile->getName(),
+                'bio' => $miProfile->getBio(),
+                'website_url' => $miProfile->getWebsiteUrl(),
+                'username' => $miProfile->getTwitterUsername(),
+                'company' => $miProfile->getCompany(),
+                'direccion' => $miProfile->getLocation(),
+                'fecha' => $miProfile->getDateOfBirth(),
+                'phone_number' => $miProfile->getPhoneNumber(),
+            ];
+        }
+        
+        return new JsonResponse(['userProfile' => $data2], Response::HTTP_OK);
+    }
+
 
 
 }
