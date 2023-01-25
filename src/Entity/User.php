@@ -114,10 +114,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-//    public function getUserProfile(): ?UserProfile
-//    {
-//        return $this->userProfile;
-//    }
+    public function getUserProfile(): ?UserProfile
+    {
+        return $this->userProfile;
+    }
 
     public function setUserProfile(UserProfile $userProfile): self
     {
