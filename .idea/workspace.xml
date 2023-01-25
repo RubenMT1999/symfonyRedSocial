@@ -2,8 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e730bf92-1ee1-4686-9466-8df54fb55a62" name="Changes" comment="post/update">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20230118175914.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20230120184250.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/CommentsController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/MicroPostController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PostController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Comment.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/MicroPost.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Post.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Post.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/CommentRepository.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/MicroPostRepository.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/comments/index.html.twig" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -152,7 +165,7 @@
       <workItem from="1674231793935" duration="8785000" />
       <workItem from="1674495607557" duration="2029000" />
       <workItem from="1674577203055" duration="9069000" />
-      <workItem from="1674662474644" duration="2763000" />
+      <workItem from="1674662474644" duration="10252000" />
     </task>
     <task id="LOCAL-00001" summary="prueba">
       <created>1674068855044</created>
@@ -189,7 +202,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674588865690</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="post/update">
+      <created>1674665363658</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1674665363658</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -218,69 +238,49 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
-          <line>102</line>
-          <option name="timeStamp" value="99" />
+          <url>file://$PROJECT_DIR$/src/Controller/CommentsController.php</url>
+          <line>54</line>
+          <option name="timeStamp" value="142" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
-          <line>103</line>
-          <option name="timeStamp" value="100" />
+          <url>file://$PROJECT_DIR$/src/Controller/CommentsController.php</url>
+          <line>55</line>
+          <option name="timeStamp" value="143" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
-          <line>104</line>
-          <option name="timeStamp" value="101" />
+          <url>file://$PROJECT_DIR$/src/Controller/CommentsController.php</url>
+          <line>51</line>
+          <option name="timeStamp" value="144" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
-          <line>105</line>
-          <option name="timeStamp" value="102" />
+          <url>file://$PROJECT_DIR$/src/Controller/CommentsController.php</url>
+          <line>59</line>
+          <option name="timeStamp" value="145" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
-          <line>106</line>
-          <option name="timeStamp" value="103" />
+          <url>file://$PROJECT_DIR$/src/Controller/CommentsController.php</url>
+          <line>60</line>
+          <option name="timeStamp" value="146" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
-          <line>107</line>
-          <option name="timeStamp" value="104" />
+          <url>file://$PROJECT_DIR$/src/Controller/CommentsController.php</url>
+          <line>61</line>
+          <option name="timeStamp" value="147" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
-          <line>108</line>
-          <option name="timeStamp" value="105" />
+          <url>file://$PROJECT_DIR$/src/Controller/CommentsController.php</url>
+          <line>62</line>
+          <option name="timeStamp" value="149" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
-          <line>109</line>
-          <option name="timeStamp" value="106" />
+          <url>file://$PROJECT_DIR$/src/Controller/CommentsController.php</url>
+          <line>68</line>
+          <option name="timeStamp" value="151" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
-          <line>110</line>
-          <option name="timeStamp" value="107" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
-          <line>96</line>
-          <option name="timeStamp" value="108" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
-          <line>101</line>
-          <option name="timeStamp" value="109" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
-          <line>100</line>
-          <option name="timeStamp" value="110" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/Controller/PostController.php</url>
-          <line>99</line>
-          <option name="timeStamp" value="111" />
+          <url>file://$PROJECT_DIR$/src/Controller/CommentsController.php</url>
+          <line>70</line>
+          <option name="timeStamp" value="152" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

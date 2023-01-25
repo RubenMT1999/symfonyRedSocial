@@ -40,8 +40,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserProfile $userProfile = null;
 
-    #[ORM\ManyToMany(targetEntity: MicroPost::class, mappedBy: 'likedBy')]
-    private Collection $liked;
+    #[ORM\OneToMany(mappedBy: 'id_user', targetEntity: Comments::class)]
+    private Collection $id_comments;
+
+    public function __construct()
+    {
+        $this->id_comments = new ArrayCollection();
+    }
+
 
 
     public function getId(): ?int
@@ -132,31 +138,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, MicroPost>
+     * @return Collection<int, Comments>
      */
-    public function getLiked(): Collection
+    public function getIdComments(): Collection
     {
-        return $this->liked;
+        return $this->id_comments;
     }
 
-    public function addLiked(MicroPost $liked): self
+    public function addIdComment(Comments $idComment): self
     {
-        if (!$this->liked->contains($liked)) {
-            $this->liked->add($liked);
-            $liked->addLikedBy($this);
+        if (!$this->id_comments->contains($idComment)) {
+            $this->id_comments->add($idComment);
+            $idComment->setIdUser($this);
         }
 
         return $this;
     }
 
-    public function removeLiked(MicroPost $liked): self
+    public function removeIdComment(Comments $idComment): self
     {
-        if ($this->liked->removeElement($liked)) {
-            $liked->removeLikedBy($this);
+        if ($this->id_comments->removeElement($idComment)) {
+            // set the owning side to null (unless already changed)
+            if ($idComment->getIdUser() === $this) {
+                $idComment->setIdUser(null);
+            }
         }
 
         return $this;
     }
-
 
 }

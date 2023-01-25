@@ -113,12 +113,6 @@ class PostController extends AbstractController
 
         }
 
-//        $newPost
-//            ->setMessage($data['message'])
-//            ->setImage($data['image'])
-//            ->setRelio($data['relio'])
-//            ->setPublicationDate($date)
-//            ->setIdUser($userRepository->findOneBy(['email'=>$data]));
         $postRepository->save($data2, true);
 
         return new JsonResponse(['status' => 'Post Actualizado'], Response::HTTP_CREATED);
