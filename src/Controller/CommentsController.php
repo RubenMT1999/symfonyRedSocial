@@ -32,7 +32,8 @@ class CommentsController extends AbstractController
         $newComments
             ->setText($data['text'])
             ->setIdPost($postRepository->findOneBy(['id'=>$data]))
-            ->setIdUser($userRepository->findOneBy(['id'=>$data]));
+            ->setIdUser($userRepository->findOneBy(['email'=>$data]))
+            ->setDateComments($data['date_comments']);
         $commentsRepository->save($newComments, true);
 
         return new JsonResponse(['status' => 'Comentario creado'], Response::HTTP_CREATED);
@@ -55,7 +56,7 @@ class CommentsController extends AbstractController
         $data = json_decode($request->getContent(),true);
         $data2 = $commentsRepository->findOneBy(['id'=>$data]);
         $id_post = $postRepository->findOneBy(['id'=>$data]);
-        $id_user = $userRepository->findOneBy(['id'=>$data]);
+        $id_user = $userRepository->findOneBy(['email'=>$data]);
 
         if($data2 == null){
             return new JsonResponse(['status' => 'No existe comentario'], Response::HTTP_CREATED);
@@ -63,13 +64,53 @@ class CommentsController extends AbstractController
             $data2->setText($data['text']);
             $data2->setIdPost($id_post);
             $data2->setIdUser($id_user);
-
         }
 
         $commentsRepository->save($data2, true);
 
         return new JsonResponse(['status' => 'Comentario Actualizado'], Response::HTTP_CREATED);
     }
+
+    #[Route('/comments/post',  name: 'comments_post' ,methods:['GET'])]
+    public function comments_post(UserRepository $userRepository, CommentsRepository $commentsRepository, Utils $utilidades, Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(),true);
+        $listPost = $commentsRepository->findCommentsOrder($data);
+
+        $data2 = [];
+        foreach($listPost as $array){
+        $id = $userRepository->findOneBy(['id'=>$array->getIdUser()]);
+            $data2[] = [
+                'text' => $array->getText(),
+                'date_comments' => $array->getDateComments(),
+                'email' => $id->getUserProfile()->getName()
+            ];
+        }
+        $listJson = $utilidades -> toJson($data2);
+        return new JsonResponse($listJson, 200,[], true);
+    }
+
+    #[Route('/comments/user',  name: 'comments_user' ,methods:['GET'])]
+    public function comments_user(UserRepository $userRepository,PostRepository $postRepository, CommentsRepository $commentsRepository, Utils $utilidades, Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(),true);
+        $id = $userRepository->findOneBy($data);
+        $listPost = $commentsRepository->findCommentsUserOrder($id);
+
+        $data2 = [];
+        foreach($listPost as $array){
+            $id = $postRepository->findOneBy(['id'=>$array->getIdPost()]);
+            $data2[] = [
+                'text' => $array->getText(),
+                'date_comments' => $array->getDateComments(),
+                'message' => $id->getMessage()
+            ];
+        }
+        $listJson = $utilidades -> toJson($data2);
+        return new JsonResponse($listJson, 200,[], true);
+    }
+
+
 
 
 

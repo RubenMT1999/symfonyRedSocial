@@ -39,6 +39,27 @@ class CommentsRepository extends ServiceEntityRepository
         }
     }
 
+    public function findCommentsOrder($value): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.id_post = :val')
+            ->setParameter('val', $value)
+            ->orderBy('p.date_comments', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+    public function findCommentsUserOrder($value): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.id_user = :val')
+            ->setParameter('val', $value)
+            ->orderBy('p.date_comments', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    /**
 //     * @return Comments[] Returns an array of Comments objects
 //     */
