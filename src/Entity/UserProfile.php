@@ -23,7 +23,7 @@ class UserProfile
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $websiteUrl = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true, unique:true)]
     private ?string $twitterUsername = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -35,6 +35,9 @@ class UserProfile
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $phoneNumber = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateOfBirth = null;
 
@@ -45,6 +48,18 @@ class UserProfile
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
     }
 
     public function getPhoneNumber(): ?string

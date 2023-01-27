@@ -19,6 +19,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use OpenApi\Annotations as OA;
 
 class ProfileController extends AbstractController
 {
@@ -40,6 +43,29 @@ class ProfileController extends AbstractController
         $this->jwtEncoder = $jwtEncoder;
     }
 
+
+
+    /**
+     * List the rewards of the specified user.
+     *
+     * This call takes into account all confirmed awards, but not pending or refused awards.
+     *
+     * @Route("/user/create", methods={"POST"})
+     * @OA\Response(
+     *     response=200,
+     *     description="Returns status user created",
+     *     @OA\JsonContent(
+     *        type="array",
+     *        @OA\Items(ref=@Model(type=User::class, groups={"full"}))
+     *     )
+     * )
+     * @OA\Parameter(
+     *     name="email",
+     *     in="query",
+     *     description="The field used to order rewards",
+     *     @OA\Schema(type="string")
+     * )
+     */
     #[Route('/user/create', methods:['POST'], name: 'user_create')]
     public function addUser(Request $request): JsonResponse
     {
@@ -94,6 +120,16 @@ class ProfileController extends AbstractController
         }
 
         $obtenerUser = $this->userRepository->findOneBy(['email' => $usermail]);
+        $obtenerProfile = $this->userProfileRepository->findOneBy(['twitterUsername' => $twitter_username]);
+
+
+        if($obtenerProfile != null){
+            if($obtenerProfile->getTwitterUsername() != $obtenerUser->getEmail()
+                && $obtenerProfile->getTwitterUsername() != $obtenerUser->getUserProfile()->getTwitterUsername()){
+                return new JsonResponse(['status' => 'Ese username ya está en uso!'], Response::HTTP_CONFLICT);
+            }
+        }
+
         if($obtenerUser->getUserProfile() != null){
             $obtenerUser->getUserProfile()->setName($name);
             $obtenerUser->getUserProfile()->setBio($bio);
