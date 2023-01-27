@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Followers;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -16,9 +17,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class FollowersRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, Followers::class);
+        $this->manager = $manager;
     }
 
     public function save(Followers $entity, bool $flush = false): void
@@ -39,6 +41,11 @@ class FollowersRepository extends ServiceEntityRepository
         }
     }
 
+    public function removeFollower(Followers $followers){
+        $this->manager->remove($followers);
+        $this->manager->flush();
+    }
+
 //    /**
 //     * @return Followers[] Returns an array of Followers objects
 //     */
@@ -53,6 +60,14 @@ class FollowersRepository extends ServiceEntityRepository
 //            ->getResult()
 //        ;
 //    }
+        public function findIdFollowers($value1, $value2): array {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.id_emisor= :value1','f.id_receptor = :value2')
+            ->setParameter('value1', $value1)
+            ->setParameter('value2', $value2)
+            ->getQuery()
+            ->getResult();
+        }
 
 //    public function findOneBySomeField($value): ?Followers
 //    {
