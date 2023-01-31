@@ -3,12 +3,17 @@
 namespace App\Entity;
 
 use App\Repository\UserProfileRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: UserProfileRepository::class)]
 class UserProfile
 {
+
+   
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -41,9 +46,13 @@ class UserProfile
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateOfBirth = null;
 
+    #[Ignore]
     #[ORM\OneToOne(inversedBy: 'userProfile', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'id', nullable: false)]
     private ?User $user = null;
+
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Post::class, orphanRemoval: true)]
+    private Collection $post;
 
     public function getId(): ?int
     {
@@ -146,9 +155,9 @@ class UserProfile
         return $this;
     }
 
-    public function getDateOfBirth(): ?\DateTimeInterface
+    public function getDateOfBirth(): ?string
     {
-        return $this->dateOfBirth;
+        return $this->dateOfBirth->format('Y-m-d');
     }
 
     public function setDateOfBirth(?\DateTimeInterface $dateOfBirth): self
@@ -158,10 +167,10 @@ class UserProfile
         return $this;
     }
 
-    public function getUser(): ?User
+    /*public function getUser(): ?User
     {
         return $this->user;
-    }
+    }*/
 
     public function setUser(User $user): self
     {
@@ -169,4 +178,22 @@ class UserProfile
 
         return $this;
     }
+
+    /**
+     * @return Collection
+     */
+    public function getPost(): Collection
+    {
+        return $this->post;
+    }
+
+    /**
+     * @param Collection $post
+     */
+    public function setPost(Collection $post): void
+    {
+        $this->post = $post;
+    }
+
+
 }

@@ -27,17 +27,17 @@ use function PHPSTORM_META\type;
 
 class ProfileController extends AbstractController
 {
-    
+
     private $userRepository;
     private $userProfileRepository;
     private $userPasswordHasher;
 
     private $jwtEncoder;
 
-    public function __construct(UserRepository $userRepository,
-                         UserProfileRepository $userProfileRepository,
-                        UserPasswordHasherInterface $userPasswordHasher,
-                        JWTEncoderInterface $jwtEncoder)
+    public function __construct(UserRepository              $userRepository,
+                                UserProfileRepository       $userProfileRepository,
+                                UserPasswordHasherInterface $userPasswordHasher,
+                                JWTEncoderInterface         $jwtEncoder)
     {
         $this->userRepository = $userRepository;
         $this->userProfileRepository = $userProfileRepository;
@@ -70,13 +70,13 @@ class ProfileController extends AbstractController
     )] */
     public function addUser(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(),true);
+        $data = json_decode($request->getContent(), true);
 
         $email = $data['email'];
         $roles = $data['roles'];
         $password = $data['password'];
 
-        if(empty($email) || empty($roles) || empty($password)) {
+        if (empty($email) || empty($roles) || empty($password)) {
             throw new NotFoundHttpException('Se esperan otros parámetros!');
         }
 
@@ -90,17 +90,17 @@ class ProfileController extends AbstractController
             ->setPassword($hashPassword);
 
         $this->userProfileRepository->establecerProfileVacio($newUser);
-        
-        $this->userRepository->save($newUser,true);
+
+        $this->userRepository->save($newUser, true);
 
         return new JsonResponse(['status' => 'User Creado!'], Response::HTTP_CREATED);
     }
 
 
-    #[Route('/profile/create', methods:['POST'], name: 'profile_create')]
+    #[Route('/profile/create', methods: ['POST'], name: 'profile_create')]
     public function addProfile(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(),true);
+        $data = json_decode($request->getContent(), true);
 
         $name = $data['name'];
         $bio = $data['bio'];
@@ -116,7 +116,7 @@ class ProfileController extends AbstractController
             throw new NotFoundHttpException('Se esperan otros parámetros!');
         } */
 
-        if(!$this->userRepository->findOneBy(['email' => $usermail])){
+        if (!$this->userRepository->findOneBy(['email' => $usermail])) {
             throw new NotFoundHttpException('No existe un User con ese email');
         }
 
@@ -146,29 +146,29 @@ class ProfileController extends AbstractController
             return new JsonResponse(['status' => 'UserProfile Actualizado!'], Response::HTTP_CREATED);
         }
 
-        $this->userProfileRepository->guardarProfile($name,$bio,$website_url,
-            $twitter_username,$company,$location,$date_of_birth,$usermail,$phone_number);
+        $this->userProfileRepository->guardarProfile($name, $bio, $website_url,
+            $twitter_username, $company, $location, $date_of_birth, $usermail, $phone_number);
 
         return new JsonResponse(['status' => 'UserProfile Creado!'], Response::HTTP_CREATED);
     }
 
 
-    #[Route('/profile/get', methods:['POST'], name: 'profile_get')]
+    #[Route('/profile/get', methods: ['POST'], name: 'profile_get')]
     public function getProfile(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(),true);
+        $data = json_decode($request->getContent(), true);
 
         $user = $data['user'];
 
         $miUsuario = $this->userRepository->findOneBy(['email' => $user]);
         $miProfile = $this->userProfileRepository->findOneBy(['user' => $miUsuario]);
 
-        if(!$miUsuario){
+        if (!$miUsuario) {
             throw new NotFoundHttpException('No existe ese usuario');
         }
 
-        if(!$miProfile){
-            throw new NotFoundHttpException('No existe un profile de ese usuario');
+        if (!$miProfile) {
+            throw new NotFoundHttpException('No existe un perfil de ese usuario');
         }
 
         $data2[] = [
@@ -186,21 +186,21 @@ class ProfileController extends AbstractController
     }
 
 
-    #[Route('/profile/buscar', methods:['POST'], name: 'buscar_usuario')]
+    #[Route('/profile/buscar', methods: ['POST'], name: 'buscar_usuario')]
     public function buscarUsuario(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(),true);
+        $data = json_decode($request->getContent(), true);
 
         $user = $data['username'];
 
         $misProfiles = $this->userProfileRepository->findBy(['twitterUsername' => $user]);
 
 
-        if(!$misProfiles){
+        if (!$misProfiles) {
             throw new NotFoundHttpException('No existe un profile de ese usuario');
         }
 
-        foreach($misProfiles as $miProfile){
+        foreach ($misProfiles as $miProfile) {
             $data2[] = [
                 'name' => $miProfile->getName(),
                 'bio' => $miProfile->getBio(),
@@ -212,17 +212,48 @@ class ProfileController extends AbstractController
                 'phone_number' => $miProfile->getPhoneNumber(),
             ];
         }
-        
+
 
         return new JsonResponse(['userProfile' => $data2], Response::HTTP_OK);
     }
 
 
+    #[Route('/profile/buscar', methods: ['POST'], name: 'buscar_usuario')]
+    public function buscarUser(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $user = $data['username'];
+
+        $misProfiles = $this->userProfileRepository->findBy(['twitterUsername' => $user]);
 
 
-    #[Route('/userLogged', methods:['GET'], name: 'user_logged')]
-    public function userLogged(Request $request): JsonResponse{
-        
+        if (!$misProfiles) {
+            throw new NotFoundHttpException('No existe un profile de ese usuario');
+        }
+
+        foreach ($misProfiles as $miProfile) {
+            $data2[] = [
+                'name' => $miProfile->getName(),
+                'bio' => $miProfile->getBio(),
+                'website_url' => $miProfile->getWebsiteUrl(),
+                'username' => $miProfile->getTwitterUsername(),
+                'company' => $miProfile->getCompany(),
+                'direccion' => $miProfile->getLocation(),
+                'fecha' => $miProfile->getDateOfBirth(),
+                'phone_number' => $miProfile->getPhoneNumber(),
+            ];
+        }
+
+
+        return new JsonResponse(['userProfile' => $data2], Response::HTTP_OK);
+    }
+
+
+    #[Route('/userLogged', methods: ['GET'], name: 'user_logged')]
+    public function userLogged(Request $request): JsonResponse
+    {
+
         // Obtener el token JWT del encabezado de la solicitud
         $token = $request->headers->get('Authorization');
         if ($token) {
@@ -233,13 +264,15 @@ class ProfileController extends AbstractController
                 'username' => $data['username'],
                 'roles' => $data['roles']
             ];
-            
+
             // $data es un array con los datos del token JWT
 
             // Transformar el array a formato JSON y devolverlo como respuesta
-            return new JsonResponse($data2);
+
         }
+        return new JsonResponse($data2);
     }
+
 
 
     #[Route('/sugerencia', methods:['POST'], name: 'sugerir_profile')]
