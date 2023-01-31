@@ -47,20 +47,18 @@ class FollowersController extends AbstractController
         $this->followersRepository = $followersRepository;
     }
 
-    #[Route('followers/delete/{idReceptor}', name:'app_followers_borrar_id', methods:['DELETE'])]
-    public function deleteUser($idReceptor, Utils $utils,Request $request): JsonResponse{
-        $data = json_decode($request->getContent(),true);
+    #[Route('followers/delete', name:'app_followers_borrar_id', methods:['DELETE'])]
+    public function deleteUser( Utils $utils,Request $request): JsonResponse{
 
-        $userJson = $data['id'];
+        $userToken = $utils->obtenerUsuarioToken($request);
 
-        $userEmisor = $this->userRepository->findOneBy(['id'=> $userJson]);
+        $userEmisor = $this->userRepository->findOneBy(['email' =>$userToken->getEmail()]);
 
-        $idEmisor = $userEmisor->getId();
+        $nick = $request-> query->get("nick");
 
+        $userReceptor = $this->userProfileRepository->findOneBy(['twitterUsername' => $nick]);
 
-        $follower = $this->followersRepository->findIdFollowers($idEmisor,$idReceptor);
-
-
+        $follower = $this->followersRepository->findIdFollowers($userEmisor->getId(), $userReceptor->getUser()->getId());
 
         $this->followersRepository->removeFollower($follower);
 
