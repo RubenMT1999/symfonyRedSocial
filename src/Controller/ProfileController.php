@@ -63,8 +63,8 @@ class ProfileController extends AbstractController
             ->setPassword($hashPassword);
 
         $this->userProfileRepository->establecerProfileVacio($newUser);
-        
-        $this->userRepository->save($newUser,true);
+
+        $this->userRepository->save($newUser, true);
 
         return new JsonResponse(['status' => 'User Creado!'], Response::HTTP_CREATED);
     }
@@ -109,8 +109,8 @@ class ProfileController extends AbstractController
             return new JsonResponse(['status' => 'UserProfile Actualizado!'], Response::HTTP_CREATED);
         }
 
-        $this->userProfileRepository->guardarProfile($name,$bio,$website_url,
-            $twitter_username,$company,$location,$date_of_birth,$usermail,$phone_number);
+        $this->userProfileRepository->guardarProfile($name, $bio, $website_url,
+            $twitter_username, $company, $location, $date_of_birth, $usermail, $phone_number);
 
         return new JsonResponse(['status' => 'UserProfile Creado!'], Response::HTTP_CREATED);
     }
@@ -149,21 +149,21 @@ class ProfileController extends AbstractController
     }
 
 
-    #[Route('/profile/buscar', methods:['POST'], name: 'buscar_usuario')]
+    #[Route('/profile/buscar', methods: ['POST'], name: 'buscar_usuario')]
     public function buscarUsuario(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(),true);
+        $data = json_decode($request->getContent(), true);
 
         $user = $data['username'];
 
         $misProfiles = $this->userProfileRepository->findBy(['twitterUsername' => $user]);
 
 
-        if(!$misProfiles){
+        if (!$misProfiles) {
             throw new NotFoundHttpException('No existe un profile de ese usuario');
         }
 
-        foreach($misProfiles as $miProfile){
+        foreach ($misProfiles as $miProfile) {
             $data2[] = [
                 'name' => $miProfile->getName(),
                 'bio' => $miProfile->getBio(),
@@ -175,27 +175,27 @@ class ProfileController extends AbstractController
                 'phone_number' => $miProfile->getPhoneNumber(),
             ];
         }
-        
+
 
         return new JsonResponse(['userProfile' => $data2], Response::HTTP_OK);
     }
 
 
-    #[Route('/profile/buscar', methods:['POST'], name: 'buscar_usuario')]
-    public function buscarUsuario(Request $request): JsonResponse
+    #[Route('/profile/buscar', methods: ['POST'], name: 'buscar_usuario')]
+    public function buscarUser(Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(),true);
+        $data = json_decode($request->getContent(), true);
 
         $user = $data['username'];
 
         $misProfiles = $this->userProfileRepository->findBy(['twitterUsername' => $user]);
 
 
-        if(!$misProfiles){
+        if (!$misProfiles) {
             throw new NotFoundHttpException('No existe un profile de ese usuario');
         }
 
-        foreach($misProfiles as $miProfile){
+        foreach ($misProfiles as $miProfile) {
             $data2[] = [
                 'name' => $miProfile->getName(),
                 'bio' => $miProfile->getBio(),
@@ -207,7 +207,7 @@ class ProfileController extends AbstractController
                 'phone_number' => $miProfile->getPhoneNumber(),
             ];
         }
-        
+
 
         return new JsonResponse(['userProfile' => $data2], Response::HTTP_OK);
     }
@@ -231,9 +231,11 @@ class ProfileController extends AbstractController
             // $data es un array con los datos del token JWT
 
             // Transformar el array a formato JSON y devolverlo como respuesta
-            return new JsonResponse($data2);
+
         }
+        return new JsonResponse($data2);
     }
+
 
 
     #[Route('/sugerencia', methods:['POST'], name: 'sugerir_profile')]
