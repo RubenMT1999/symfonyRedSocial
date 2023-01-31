@@ -21,7 +21,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\User\UserInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
+
+use function PHPSTORM_META\type;
 
 class ProfileController extends AbstractController
 {
@@ -45,28 +47,27 @@ class ProfileController extends AbstractController
 
 
 
-    /**
-     * List the rewards of the specified user.
-     *
-     * This call takes into account all confirmed awards, but not pending or refused awards.
-     *
-     * @Route("/user/create", methods={"POST"})
-     * @OA\Response(
-     *     response=200,
-     *     description="Returns status user created",
-     *     @OA\JsonContent(
-     *        type="array",
-     *        @OA\Items(ref=@Model(type=User::class, groups={"full"}))
-     *     )
-     * )
-     * @OA\Parameter(
-     *     name="email",
-     *     in="query",
-     *     description="The field used to order rewards",
-     *     @OA\Schema(type="string")
-     * )
-     */
+    
+
     #[Route('/user/create', methods:['POST'], name: 'user_create')]
+/*     #[OA\Response(
+        response: 200,
+        description: 'Usuario creado correctamente',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: User::class, groups: ['full']))
+        )
+    )]
+    #[OA\RequestBody(
+        description: 'Envía el email, los roles y el password',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property:'email',type:'string'),
+                new OA\Property(property:'roles',type:'array', @OA\Items(anyOf={@OA\Schema(type: "string")})),
+                new OA\Property(property:'password',type:'string'),
+            ]
+        )
+    )] */
     public function addUser(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(),true);
