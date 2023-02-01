@@ -54,13 +54,15 @@ class FollowersController extends AbstractController
 
         $userEmisor = $this->userRepository->findOneBy(['email' =>$userToken->getEmail()]);
 
-        $nick = $request-> query->get("nick");
+        $idEliminar =  $request-> query->get("idEliminar");
 
-        $userReceptor = $this->userProfileRepository->findOneBy(['twitterUsername' => $nick]);
+        $value2 = (int) $idEliminar;
 
-        $follower = $this->followersRepository->findIdFollowers($userEmisor->getId(), $userReceptor->getUser()->getId());
+        $follower = $this->followersRepository->findIdFollowers($userEmisor->getId(), $value2);
 
-        $this->followersRepository->removeFollower($follower);
+        $followerBorrar = $this->followersRepository->findOneBy(['id' =>$follower[0]['id']]);
+
+        $this->followersRepository->removeFollower($followerBorrar);
 
         $mensaje = "Follower eliminado";
 
