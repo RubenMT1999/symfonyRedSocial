@@ -25,7 +25,7 @@ class PostController extends AbstractController
         ]);
     }
     //Visualizar todos las publicaciones de tus seguidores.
-    #[Route('/post/user',  name: 'app_user_post' ,methods:['GET'])]
+    #[Route('/post/user',  name: 'app_post_user' ,methods:['GET'])]
     public function post_user(PostRepository $postRepository,FollowersRepository $followersRepository,UserRepository $userRepository,Utils $utilidades, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(),true);
@@ -44,7 +44,7 @@ class PostController extends AbstractController
         return new JsonResponse($listJson, 200,[], true);
     }
     //Crear post de un usuario.
-    #[Route('/post/create',  name: 'app_user_post' ,methods:['POST'])]
+    #[Route('/post/create',  name: 'post_create' ,methods:['POST'])]
     public function post_create(PostRepository $postRepository,UserRepository $userRepository, Request $request): JsonResponse
     {
         $newPost= new Post;
@@ -63,13 +63,14 @@ class PostController extends AbstractController
         return new JsonResponse(['status' => 'Post Creado'], Response::HTTP_CREATED);
     }
     //Visualizar las publicaciones del usuario.
-    #[Route('/post/user/list',  name: 'app_user_post' ,methods:['GET'])]
+    #[Route('/post/user/list',  name: 'app_user_list' ,methods:['GET'])]
     public function post_user_list(PostRepository $postRepository,UserRepository $userRepository,Utils $utilidades, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(),true);
         $user = $userRepository->findOneBy(['email' => $data]);
 //        $listProfile = $followersRepository->findOneBy(['id_receptor' => $user]);
         $listPost = $postRepository ->findPostOrder($user);
+        $data2= [];
         foreach($listPost as $array){
             $data2[] = [
                 'message' => $array->getMessage(),
@@ -78,8 +79,8 @@ class PostController extends AbstractController
                 'publication' => $array->getPublicationDate()
             ];
         }
-        $listJson = $utilidades -> toJson($data2);
-        return new JsonResponse($listJson, 200,[], true);
+        
+        return new JsonResponse(['userPosts' => $data2], Response::HTTP_OK);
     }
     //Borrar publicación.
     #[Route('/post/delete',  name: 'app_delete_post' ,methods:['DELETE'])]

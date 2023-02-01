@@ -46,10 +46,6 @@ class ProfileController extends AbstractController
     }
 
 
-
-    
-
-    #[Route('/user/create', methods:['POST'], name: 'user_create')]
 /*     #[OA\Response(
         response: 200,
         description: 'Usuario creado correctamente',
@@ -68,6 +64,9 @@ class ProfileController extends AbstractController
             ]
         )
     )] */
+    
+
+    #[Route('/user/create', methods:['POST'], name: 'user_create')]
     public function addUser(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
