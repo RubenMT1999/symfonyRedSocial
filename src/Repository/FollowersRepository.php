@@ -49,6 +49,11 @@ class FollowersRepository extends ServiceEntityRepository
         $this->manager->flush();
     }
 
+    public function addFollower(Followers $followers){
+        $this->getEntityManager()->persist($followers);
+        $this->manager->flush();
+    }
+
 //    /**
 //     * @return Followers[] Returns an array of Followers objects
 //     */
