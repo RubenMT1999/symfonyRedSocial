@@ -49,6 +49,7 @@ class Utils
 
 
         // Obtener el token JWT del encabezado de la solicitud
+        $usuario = new User();
         $token = $request->headers->get('Authorization');
         if ($token) {
             // Decodificar el token JWT y obtener el contenido
