@@ -43,7 +43,7 @@ class UserProfile
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateOfBirth = null;
 
-    #[Ignore]
+
     #[ORM\OneToOne(inversedBy: 'userProfile', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(name: 'id', nullable: false)]
     private ?User $user = null;
@@ -140,10 +140,15 @@ class UserProfile
         return $this;
     }
 
-    public function getDateOfBirth(): ?string
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getDateOfBirth(): ?\DateTimeInterface
     {
-        return $this->dateOfBirth->format('Y-m-d');
+        return $this->dateOfBirth;
     }
+
+
 
     public function setDateOfBirth(?\DateTimeInterface $dateOfBirth): self
     {
