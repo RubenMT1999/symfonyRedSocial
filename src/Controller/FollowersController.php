@@ -85,13 +85,18 @@ class FollowersController extends AbstractController
 
         $userAddFollow = $this->userRepository->findOneBy(['id' => $idUserParam]);
 
-        $Follow = new Followers();
+        $follow = new Followers();
+
+        $follow->setIdEmisor($userFollow->getId());
+        $follow->setIdReceptor($userAddFollow->getId());
 
 
+        $this->followersRepository->save($follow);
 
 
+        if ($this->followersRepository->findIdFollowers($userFollow->getId(),$userAddFollow->getId()) != 0 || $this->followersRepository->findIdFollowers($userFollow->getId(),$userAddFollow->getId()) != null ){
 
-
+        }
 
         $mensaje = "Follower añadido";
 
