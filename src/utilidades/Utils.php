@@ -59,12 +59,9 @@ class Utils
             $usuario->setEmail($data['username']);
 
 
-
-            return $usuario;
-
-
         }
 
 
+        return $usuario;
     }
 }
