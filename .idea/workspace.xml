@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+    <list default="true" id="e730bf92-1ee1-4686-9466-8df54fb55a62" name="Changes" comment="utils subir">
+      <change beforePath="$PROJECT_DIR$/src/Utilidades/Utils.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utilidades/Utils.php" afterDir="false" />
     <list default="true" id="e730bf92-1ee1-4686-9466-8df54fb55a62" name="Changes" comment="comments">
       <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/symfonyRedSocial.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/symfonyRedSocial.iml" afterDir="false" />
@@ -31,13 +33,21 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="PhpServers">
     <servers>
       <server host="127.0.0.1" id="4d5f5771-1e78-43aa-af30-9cf2b6a71354" name="Unnamed" port="8000" />
-      <server host="127.0.0.1:8000" id="ba2ef34d-bc52-4ec9-89cb-fecfbfc963c6" name="127.0.0.1:8000" port="8000" />
+      <server host="127.0.0.1" id="ba2ef34d-bc52-4ec9-89cb-fecfbfc963c6" name="xdebug_server" port="8000" />
     </servers>
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
@@ -119,13 +129,6 @@
       <path value="$PROJECT_DIR$/vendor/symfony/twig-bridge" />
       <path value="$PROJECT_DIR$/vendor/symfony/yaml" />
       <path value="$PROJECT_DIR$/vendor/rbdwllr/reallysimplejwt" />
-      <path value="$PROJECT_DIR$/vendor/nelmio/api-doc-bundle" />
-      <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-common" />
-      <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-docblock" />
-      <path value="$PROJECT_DIR$/vendor/phpdocumentor/type-resolver" />
-      <path value="$PROJECT_DIR$/vendor/zircote/swagger-php" />
-      <path value="$PROJECT_DIR$/vendor/webmozart/assert" />
-      <path value="$PROJECT_DIR$/vendor/symfony/options-resolver" />
     </include_path>
   </component>
   <component name="ProjectId" id="2KT5Auyv7JXKOBGpu8eQk8QnFsr" />
@@ -133,8 +136,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
+  </component>
   <component name="RunManager">
-    <configuration name="Unnamed" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" nameIsGenerated="true" server_name="Unnamed">
+    <configuration name="server " type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" server_name="xdebug_server">
       <method v="2" />
     </configuration>
   </component>
@@ -156,6 +166,16 @@
       <workItem from="1674225424747" duration="4657000" />
       <workItem from="1674231793935" duration="8785000" />
       <workItem from="1674495607557" duration="2029000" />
+      <workItem from="1674662642027" duration="10355000" />
+      <workItem from="1674844559458" duration="2500000" />
+      <workItem from="1675159524793" duration="1853000" />
+      <workItem from="1675181179810" duration="5429000" />
+      <workItem from="1675188805138" duration="1544000" />
+      <workItem from="1675190513851" duration="1929000" />
+      <workItem from="1675192577479" duration="1487000" />
+      <workItem from="1675194131744" duration="448000" />
+      <workItem from="1675268204357" duration="8930000" />
+      <workItem from="1675347262924" duration="1348000" />
       <workItem from="1674577203055" duration="9069000" />
       <workItem from="1674662474644" duration="10484000" />
       <workItem from="1674674896631" duration="82000" />
@@ -226,6 +246,63 @@
       <updated>1674760784514</updated>
     </task>
     <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00004" summary="añadido swagger">
+      <created>1674846260575</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1674846260575</updated>
+    </task>
+    <task id="LOCAL-00005" summary="creando eliminar followers">
+      <created>1675193610810</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1675193610810</updated>
+    </task>
+    <task id="LOCAL-00006" summary="funcion eliminar followers creada">
+      <created>1675280047128</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1675280047128</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Creando funcion añadir follow">
+      <created>1675348081948</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1675348081948</updated>
+    </task>
+    <task id="LOCAL-00008" summary="utils">
+      <created>1675348391921</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1675348391921</updated>
+    </task>
+    <task id="LOCAL-00009" summary="utils subir">
+      <created>1675348506866</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1675348506866</updated>
+    </task>
+    <task id="LOCAL-00010" summary="utils subir">
+      <created>1675348570541</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1675348570541</updated>
+    </task>
+    <task id="LOCAL-00011" summary="utils subir">
+      <created>1675348592386</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1675348592386</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -250,5 +327,17 @@
     <MESSAGE value="post/update" />
     <MESSAGE value="comments" />
     <option name="LAST_COMMIT_MESSAGE" value="comments" />
+    <MESSAGE value="añadido swagger" />
+    <MESSAGE value="creando eliminar followers" />
+    <MESSAGE value="creando añadida funcion utils" />
+    <MESSAGE value="funcion eliminar followers creada" />
+    <MESSAGE value="Creando funcion añadir follow" />
+    <MESSAGE value="utils" />
+    <MESSAGE value="utils subir" />
+    <option name="LAST_COMMIT_MESSAGE" value="utils subir" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
