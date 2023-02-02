@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utilidades;
+namespace App\utilidades;
 
 use App\Entity\User;
 use App\Repository\UserProfileRepository;
