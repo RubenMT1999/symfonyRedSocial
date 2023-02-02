@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e730bf92-1ee1-4686-9466-8df54fb55a62" name="Changes" comment="funcion eliminar followers creada">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/FollowersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/FollowersController.php" afterDir="false" />
+    <list default="true" id="e730bf92-1ee1-4686-9466-8df54fb55a62" name="Changes" comment="Creando funcion añadir follow">
       <change beforePath="$PROJECT_DIR$/src/Utilidades/Utils.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utilidades/Utils.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -174,7 +172,7 @@
       <workItem from="1675192577479" duration="1487000" />
       <workItem from="1675194131744" duration="448000" />
       <workItem from="1675268204357" duration="8930000" />
-      <workItem from="1675347262924" duration="663000" />
+      <workItem from="1675347262924" duration="1008000" />
     </task>
     <task id="LOCAL-00001" summary="prueba">
       <created>1674068855044</created>
@@ -218,7 +216,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675280047128</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Creando funcion añadir follow">
+      <created>1675348081948</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1675348081948</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -243,7 +248,8 @@
     <MESSAGE value="creando eliminar followers" />
     <MESSAGE value="creando añadida funcion utils" />
     <MESSAGE value="funcion eliminar followers creada" />
-    <option name="LAST_COMMIT_MESSAGE" value="funcion eliminar followers creada" />
+    <MESSAGE value="Creando funcion añadir follow" />
+    <option name="LAST_COMMIT_MESSAGE" value="Creando funcion añadir follow" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
