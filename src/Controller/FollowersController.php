@@ -48,7 +48,7 @@ class FollowersController extends AbstractController
     }
 
     #[Route('followers/delete', name:'app_followers_borrar_id', methods:['DELETE'])]
-    public function deleteUser( Utils $utils,Request $request): JsonResponse{
+    public function deleteFollower( Utils $utils,Request $request): JsonResponse{
 
         $userToken = $utils->obtenerUsuarioToken($request);
 
@@ -73,5 +73,32 @@ class FollowersController extends AbstractController
         return new JsonResponse($usuJson,200,[],true);
 
     }
+
+    #[Route('followers/add', name:'app_followers_añadir_id', methods:['POST'])]
+    public  function addFollower(Utils $utils, Request $request): JsonResponse{
+
+        $userToken = $utils->obtenerUsuarioToken($request);
+
+        $userFollow = $this->userRepository->findOneBy(['email' =>$userToken->getEmail()]);
+
+        $idUserParam = $request->get('idFollow');
+
+        $userAddFollow = $this->userRepository->findOneBy(['id' => $idUserParam]);
+
+        $Follow = new Followers();
+
+
+
+
+
+
+
+        $mensaje = "Follower añadido";
+
+        $messageJson = $utils->toJson($mensaje);
+        return new JsonResponse($messageJson,200,true);
+    }
+
+
 
 }
