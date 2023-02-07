@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e730bf92-1ee1-4686-9466-8df54fb55a62" name="Changes" comment="utils subir">
-      <change beforePath="$PROJECT_DIR$/src/Utilidades/Utils.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utilidades/Utils.php" afterDir="false" />
+    <list default="true" id="8251fa56-8e54-4be9-b8b2-1ce73cd13924" name="Changes" comment="Creada función añadir follow">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     <list default="true" id="e730bf92-1ee1-4686-9466-8df54fb55a62" name="Changes" comment="comments">
       <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/symfonyRedSocial.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/symfonyRedSocial.iml" afterDir="false" />
@@ -48,6 +48,7 @@
     <servers>
       <server host="127.0.0.1" id="4d5f5771-1e78-43aa-af30-9cf2b6a71354" name="Unnamed" port="8000" />
       <server host="127.0.0.1" id="ba2ef34d-bc52-4ec9-89cb-fecfbfc963c6" name="xdebug_server" port="8000" />
+      <server host="127.0.0.1:8000" id="71dd180a-d091-4c15-9928-300baf424c4f" name="127.0.0.1:8000" port="8000" />
     </servers>
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
@@ -302,7 +303,21 @@
       <option name="project" value="LOCAL" />
       <updated>1675348592386</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="creando save follow">
+      <created>1675349871482</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1675349871482</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Creada función añadir follow">
+      <created>1675364748082</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1675364748082</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -334,7 +349,40 @@
     <MESSAGE value="Creando funcion añadir follow" />
     <MESSAGE value="utils" />
     <MESSAGE value="utils subir" />
-    <option name="LAST_COMMIT_MESSAGE" value="utils subir" />
+    <MESSAGE value="creando save follow" />
+    <MESSAGE value="Creada función añadir follow" />
+    <option name="LAST_COMMIT_MESSAGE" value="Creada función añadir follow" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/src/utilidades/Utils.php</url>
+          <line>35</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/src/utilidades/Utils.php</url>
+          <line>36</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/src/utilidades/Utils.php</url>
+          <line>37</line>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/src/utilidades/Utils.php</url>
+          <line>40</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/src/utilidades/Utils.php</url>
+          <line>42</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -60,22 +60,26 @@ class FollowersController extends AbstractController
 
         $follower = $this->followersRepository->findIdFollowers($userEmisor->getId(), $value2);
 
-        $followerBorrar = $this->followersRepository->findOneBy(['id' =>$follower[0]['id']]);
 
-        $this->followersRepository->removeFollower($followerBorrar);
+        if (empty($follower)){
+            throw new NotFoundHttpException('No existe ese follower');
+        }else {
 
-        $mensaje = "Follower eliminado";
+            $followerBorrar = $this->followersRepository->findOneBy(['id' => $follower[0]['id']]);
 
-        $usuJson = $utils->toJson($mensaje);
+            $this->followersRepository->removeFollower($followerBorrar);
+
+        }
 
 
-
-        return new JsonResponse($usuJson,200,[],true);
+        return new JsonResponse(['resultado' => 'Follow Eliminado!'], Response::HTTP_CREATED);
 
     }
 
     #[Route('followers/add', name:'app_followers_añadir_id', methods:['POST'])]
     public  function addFollower(Utils $utils, Request $request): JsonResponse{
+
+
 
         $userToken = $utils->obtenerUsuarioToken($request);
 
@@ -85,18 +89,32 @@ class FollowersController extends AbstractController
 
         $userAddFollow = $this->userRepository->findOneBy(['id' => $idUserParam]);
 
-        $Follow = new Followers();
+
+        if (!empty($this->followersRepository->findIdFollowers($userFollow->getId(),$userAddFollow->getId()) )){
+            throw new NotFoundHttpException('Usted ya sigue a este usuario');
+        }else{
+
+
+        if ($userFollow == null || $userAddFollow == null){
+            throw new NotFoundHttpException('Usuario incorrecto');
+        }else {
+
+            $follow = new Followers();
+
+            $follow->setIdEmisor($userFollow);
+            $follow->setIdReceptor($userAddFollow);
+
+
+            $this->followersRepository->addFollower($follow);
+
+
+        }
+        }
 
 
 
 
-
-
-
-        $mensaje = "Follower añadido";
-
-        $messageJson = $utils->toJson($mensaje);
-        return new JsonResponse($messageJson,200,true);
+        return new JsonResponse(['resultado' => 'Follow Creado!'], Response::HTTP_CREATED);
     }
 
 
