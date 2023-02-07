@@ -15,6 +15,7 @@
         "nelmio/cors-bundle": "^2.2",
         "rbdwllr/reallysimplejwt": "^5.0",
         "sensio/framework-extra-bundle": "^6.2",
+        "symfony/asset": "6.2.*",
         "symfony/console": "^6.2",
         "symfony/dotenv": "6.2.*",
         "symfony/flex": "^2",
@@ -70,7 +71,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "6.2.*"
         }
     },
