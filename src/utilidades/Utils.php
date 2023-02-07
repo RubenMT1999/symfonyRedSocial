@@ -23,6 +23,7 @@ class Utils
                                 UserPasswordHasherInterface $userPasswordHasher,
                                 JWTEncoderInterface         $jwtEncoder)
     {
+
         $this->userRepository = $userRepository;
         $this->userProfileRepository = $userProfileRepository;
         $this->userPasswordHasher = $userPasswordHasher;
