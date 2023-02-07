@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use DateTime;
 use App\Entity\User;
-use App\Entity\MicroPost;
 use App\Entity\UserProfile;
 use App\Entity\Followers;
 use App\Repository\UserProfileRepository;
@@ -115,6 +114,58 @@ class FollowersController extends AbstractController
 
 
         return new JsonResponse(['resultado' => 'Follow Creado!'], Response::HTTP_CREATED);
+    }
+
+    // Metodo para ver la gente que sigue tal usuario
+    #[Route('/followers', name: 'app_followers')]
+    public function getFollowers(FollowersRepository $followersRepository,UserProfileRepository $userProfileRepository,Utils $utilidades, Request $request): JsonResponse
+    {
+
+        $data = json_decode($request->getContent(), true);
+        $followers = $followersRepository->findBy(['id_emisor' => $data]);
+
+        foreach ($followers as $array){
+            $getProfile = $userProfileRepository->findOneBy(['user' => $array->getIdReceptor()]);
+            $data2 [] = [
+                'name' => $getProfile->getName(),
+                'username' => $getProfile->getTwitterUsername(),
+                'avatar' => $getProfile->getAvatar()
+
+            ];
+        }
+
+        if ($followers == null){
+            return new JsonResponse(['status' => "No tiene Seguidores"], Response::HTTP_CREATED);
+        }
+
+        $toJson = $utilidades->toJson($data2, null);
+
+        return new JsonResponse($toJson, 200,[],true);
+    }
+
+// Metodo para ver la gente sigue tal usuario
+    #[Route('/following', name: 'app_following')]
+    public function getFollowing(FollowersRepository $followersRepository,UserProfileRepository $userProfileRepository,Utils $utilidades, Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $following = $followersRepository->findBy(['id_receptor' => $data]);
+
+        foreach ($following as $array){
+            $getProfile = $userProfileRepository->findOneBy(['user' => $array->getIdEmisor()]);
+            $data2 [] = [
+                'name' => $getProfile->getName(),
+                'username' => $getProfile->getTwitterUsername(),
+                'avatar' => $getProfile->getAvatar()
+            ];
+        }
+
+        if ($following == null){
+            return new JsonResponse(['status' => "No siges a nadie"], Response::HTTP_CREATED);
+        }
+
+        $toJson = $utilidades->toJson($data2, null);
+
+        return new JsonResponse($toJson, 200,[],true);
     }
 
 
