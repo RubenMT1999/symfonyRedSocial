@@ -49,7 +49,7 @@ class UserProfileRepository extends ServiceEntityRepository
 
 
     public function guardarProfile($name, $bio, $website_url, $twitter_username,
-                                    $company, $location, $date_of_birth, $usermail)
+                                    $company, $location, $date_of_birth, $usermail,$phone_number)
     {
         $newProfile = new UserProfile;
 
@@ -65,7 +65,9 @@ class UserProfileRepository extends ServiceEntityRepository
             ->setCompany($company)
             ->setLocation($location)
             ->setDateOfBirth($fecha)
+            ->setPhoneNumber($phone_number)
             ->setUser($user);
+            
     
         $this->getEntityManager()->persist($newProfile);
         $this->getEntityManager()->flush();
@@ -95,6 +97,23 @@ class UserProfileRepository extends ServiceEntityRepository
             ->setUser($user);
         
         $user->setUserProfile($nuevoProfile);
+    }
+
+    /**
+    * @return UserProfile[]
+     */
+    public function sugerirProfile(String $string): array{
+
+        $entityManager = $this->getEntityManager();
+
+        return $this->createQueryBuilder('u')
+           ->andWhere('u.twitterUsername LIKE :val')
+           ->setParameter('val', $string.'%')
+           ->setMaxResults(10)
+           ->getQuery()
+           ->getResult()
+       ;
+
     }
 
 

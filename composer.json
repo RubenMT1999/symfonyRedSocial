@@ -4,23 +4,28 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.13",
         "lexik/jwt-authentication-bundle": "^2.16",
+        "nelmio/api-doc-bundle": "^4.11",
         "nelmio/cors-bundle": "^2.2",
+        "rbdwllr/reallysimplejwt": "^5.0",
         "sensio/framework-extra-bundle": "^6.2",
-        "symfony/console": "6.2.*",
+        "symfony/asset": "6.2.*",
+        "symfony/console": "^6.2",
         "symfony/dotenv": "6.2.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "6.2.*",
+        "symfony/http-foundation": "6.2.*",
         "symfony/maker-bundle": "^1.48",
         "symfony/password-hasher": "6.2.*",
         "symfony/runtime": "^6.2",
         "symfony/security-bundle": "6.2.*",
+        "symfony/serializer": "6.2.*",
         "symfony/yaml": "6.2.*"
     },
     "config": {
@@ -66,7 +71,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "6.2.*"
         }
     },
