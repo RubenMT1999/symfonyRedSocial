@@ -8,7 +8,12 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
-
+/composer.json
+/composer.lock
+/symfony.lock
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
+/.idea
+/.idea/php.xml
+/.idea/symfonyRedSocial.iml
