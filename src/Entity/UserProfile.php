@@ -19,6 +19,9 @@ class UserProfile
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column]
+    private ?int $user_id = null;
+
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
@@ -59,6 +62,22 @@ class UserProfile
     public function getPhoneNumber(): ?string
     {
         return $this->phoneNumber;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getUserId(): ?int
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * @param int|null $user_id
+     */
+    public function setUserId(?int $user_id): void
+    {
+        $this->user_id = $user_id;
     }
 
     public function setPhoneNumber(?string $phoneNumber): self
