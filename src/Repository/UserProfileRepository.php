@@ -81,6 +81,14 @@ class UserProfileRepository extends ServiceEntityRepository
         return $profile;
     }
 
+    public function findIdUser($value1): array {
+        return $this->createQueryBuilder('u')
+            ->select('u.user_id')
+            ->andWhere('u.twitterUsername = :value1')
+            ->setParameter('value1', $value1)
+            ->getQuery()
+            ->getResult();
+    }
 
     public function establecerProfileVacio(User $user){
         

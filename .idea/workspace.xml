@@ -3,18 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="8251fa56-8e54-4be9-b8b2-1ce73cd13924" name="Changes" comment="Creada función añadir follow">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    <list default="true" id="e730bf92-1ee1-4686-9466-8df54fb55a62" name="Changes" comment="comments">
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/symfonyRedSocial.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/symfonyRedSocial.iml" afterDir="false" />
-    <list default="true" id="e730bf92-1ee1-4686-9466-8df54fb55a62" name="Changes" comment="funcion user delete creada">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/CommentsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/CommentsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilidades/Utils.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilidades/Utils.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/FollowersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/FollowersController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/UserProfile.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/UserProfile.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/UserProfileRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/UserProfileRepository.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -152,7 +143,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="e730bf92-1ee1-4686-9466-8df54fb55a62" name="Changes" comment="" />
+      <changelist id="8251fa56-8e54-4be9-b8b2-1ce73cd13924" name="Changes" comment="Creada función añadir follow" />
       <created>1673985593614</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -177,11 +168,6 @@
       <workItem from="1675194131744" duration="448000" />
       <workItem from="1675268204357" duration="8930000" />
       <workItem from="1675347262924" duration="1348000" />
-      <workItem from="1674577203055" duration="9069000" />
-      <workItem from="1674662474644" duration="10484000" />
-      <workItem from="1674674896631" duration="82000" />
-      <workItem from="1674754811587" duration="5906000" />
-      <workItem from="1675181271267" duration="1471000" />
     </task>
     <task id="LOCAL-00001" summary="prueba">
       <created>1674068855044</created>
