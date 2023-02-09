@@ -17,6 +17,10 @@ class Utils
 {
 
     private $jwtEncoder;
+    private $userRepository;
+    private $userProfileRepository;
+    private $userPasswordHasher;
+
 
     public function __construct(UserRepository              $userRepository,
                                 UserProfileRepository       $userProfileRepository,
