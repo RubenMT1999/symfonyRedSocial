@@ -201,6 +201,7 @@ class ProfileController extends AbstractController
 
         foreach ($misProfiles as $miProfile) {
             $data2[] = [
+                'id' => $miProfile->getUser()->getId(),
                 'name' => $miProfile->getName(),
                 'bio' => $miProfile->getBio(),
                 'website_url' => $miProfile->getWebsiteUrl(),

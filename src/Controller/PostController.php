@@ -63,7 +63,7 @@ class PostController extends AbstractController
         return new JsonResponse(['status' => 'Post Creado'], Response::HTTP_CREATED);
     }
     //Visualizar las publicaciones del usuario.
-    #[Route('/post/user/list',  name: 'app_user_list' ,methods:['GET'])]
+    #[Route('/post/user/list',  name: 'app_user_list' ,methods:['POST'])]
     public function post_user_list(PostRepository $postRepository,UserRepository $userRepository,Utils $utilidades, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(),true);
@@ -73,6 +73,7 @@ class PostController extends AbstractController
         $data2= [];
         foreach($listPost as $array){
             $data2[] = [
+                'id' => $array->getId(),
                 'message' => $array->getMessage(),
                 'image' => $array->getImage(),
                 'relio' => $array->getRelio(),
@@ -89,7 +90,7 @@ class PostController extends AbstractController
         $data = json_decode($request->getContent(),true);
         $post = $postRepository->findOneBy(['id' => $data]);
         if ($post==null){
-            return new JsonResponse(['status' => 'No existe publicacón'], Response::HTTP_CREATED);
+            return new JsonResponse(['status' => 'No existe publicacón'], Response::HTTP_BAD_REQUEST);
         }else{
             $postRepository->remove($post,true);
             return new JsonResponse(['status' => 'Post Eliminado'], Response::HTTP_CREATED);
