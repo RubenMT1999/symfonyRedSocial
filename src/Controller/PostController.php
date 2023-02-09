@@ -63,24 +63,25 @@ class PostController extends AbstractController
         return new JsonResponse(['status' => 'Post Creado'], Response::HTTP_CREATED);
     }
     //Visualizar las publicaciones del usuario.
-    #[Route('/post/user/list',  name: 'app_post_user_list' ,methods:['GET'])]
+    #[Route('/post/user/list',  name: 'app_user_list' ,methods:['POST'])]
     public function post_user_list(PostRepository $postRepository,UserRepository $userRepository,Utils $utilidades, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(),true);
         $user = $userRepository->findOneBy(['email' => $data]);
 //        $listProfile = $followersRepository->findOneBy(['id_receptor' => $user]);
         $listPost = $postRepository ->findPostOrder($user);
-        $data2 = [];
+        $data2= [];
         foreach($listPost as $array){
             $data2[] = [
+                'id' => $array->getId(),
                 'message' => $array->getMessage(),
                 'image' => $array->getImage(),
                 'relio' => $array->getRelio(),
                 'publication' => $array->getPublicationDate()
             ];
         }
-        $listJson = $utilidades -> toJson($data2);
-        return new JsonResponse($listJson, 200,[], true);
+        
+        return new JsonResponse(['userPosts' => $data2], Response::HTTP_OK);
     }
     //Borrar publicación.
     #[Route('/post/delete',  name: 'app_delete_post' ,methods:['DELETE'])]
@@ -89,7 +90,7 @@ class PostController extends AbstractController
         $data = json_decode($request->getContent(),true);
         $post = $postRepository->findOneBy(['id' => $data]);
         if ($post==null){
-            return new JsonResponse(['status' => 'No existe publicacón'], Response::HTTP_CREATED);
+            return new JsonResponse(['status' => 'No existe publicacón'], Response::HTTP_BAD_REQUEST);
         }else{
             $postRepository->remove($post,true);
             return new JsonResponse(['status' => 'Post Eliminado'], Response::HTTP_CREATED);

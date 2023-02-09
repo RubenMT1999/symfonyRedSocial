@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Repository\UserProfileRepository;
 use App\Repository\UserRepository;
-use App\utilidades\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +13,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
+
+    private $userRepository;
+    private $userProfileRepository;
+
+
+    public function __construct(UserRepository $userRepository,
+    UserProfileRepository $userProfileRepository){
+        $this->userRepository = $userRepository;
+        $this->userProfileRepository = $userProfileRepository;
+}
+
 
 
 
@@ -74,6 +84,10 @@ class UserController extends AbstractController
 
     }
 
+
+
+    
+
     #[Route('/user/name',  name: 'app_user_list_name' ,methods:['POST'])]
     public function list_name(UserProfileRepository $userProfileRepository,UserRepository $userRepository,Utils $utilidades, Request $request): JsonResponse
     {
@@ -100,8 +114,5 @@ class UserController extends AbstractController
 
         return new JsonResponse($listJson, 200,[], true);
     }
-
-
-
 
 }
