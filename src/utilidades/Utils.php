@@ -12,6 +12,8 @@ use Symfony\Component\Serializer\Serializer;
 class Utils
 {
 
+    private $jwtEncoder;
+
     public function toJson($data): string
     {
         //Inicialización de serializador
