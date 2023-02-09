@@ -129,7 +129,7 @@ class FollowersController extends AbstractController
             $data2 [] = [
                 'name' => $getProfile->getName(),
                 'username' => $getProfile->getTwitterUsername(),
-                
+                'image' => $getProfile->getImage()
 
             ];
         }
@@ -155,7 +155,7 @@ class FollowersController extends AbstractController
             $data2 [] = [
                 'name' => $getProfile->getName(),
                 'username' => $getProfile->getTwitterUsername(),
-                
+                'image' => $getProfile->getImage()
             ];
         }
 
