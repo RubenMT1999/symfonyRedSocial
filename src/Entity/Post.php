@@ -22,8 +22,6 @@ class Post
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $image = null;
 
-
-
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $publication_date = null;
 

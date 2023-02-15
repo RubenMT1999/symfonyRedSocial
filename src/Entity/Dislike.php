@@ -14,34 +14,34 @@ class Dislike
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'id_dislike')]
-    private ?post $id_post = null;
+    private ?Post $id_post = null;
 
     #[ORM\ManyToOne(inversedBy: 'id_dislike')]
-    private ?user $id_user = null;
+    private ?User $id_user = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getIdPost(): ?post
+    public function getIdPost(): ?Post
     {
         return $this->id_post;
     }
 
-    public function setIdPost(?post $id_post): self
+    public function setIdPost(?Post $id_post): self
     {
         $this->id_post = $id_post;
 
         return $this;
     }
 
-    public function getIdUser(): ?user
+    public function getIdUser(): ?User
     {
         return $this->id_user;
     }
 
-    public function setIdUser(?user $id_user): self
+    public function setIdUser(?User $id_user): self
     {
         $this->id_user = $id_user;
 

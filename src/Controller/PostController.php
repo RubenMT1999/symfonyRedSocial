@@ -1,9 +1,9 @@
 <?php
 namespace App\Controller;
 
-use App\Entity\Followers;
 use App\Entity\Post;
 use App\Repository\FollowersRepository;
+use App\Repository\LikeRepository;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use App\utilidades\Utils;
@@ -23,9 +23,9 @@ class PostController extends AbstractController
             'controller_name' => 'PostController',
         ]);
     }
-    //Visualizar todos las publicaciones de tus seguidores.
+    //Visualizar todas las publicaciones de tus seguidores.
     #[Route('/post/user',  name: 'app_post_user' ,methods:['POST'])]
-    public function post_user(PostRepository $postRepository,FollowersRepository $followersRepository,UserRepository $userRepository,Utils $utilidades, Request $request): JsonResponse
+    public function post_user(LikeRepository $likeRepository,PostRepository $postRepository,FollowersRepository $followersRepository,UserRepository $userRepository,Utils $utilidades, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(),true);
         $user = $userRepository->findOneBy(['email' => $data]);
@@ -38,12 +38,15 @@ class PostController extends AbstractController
                     $data2[] = [
                         'message' => $array->getMessage(),
                         'image' => $array->getImage(),
-                        'relio' => $array->getRelio(),
                         'publication' => $array->getPublicationDate()
                     ];
                 }
             }
-            }
+            }else{
+            $listaLike = $likeRepository -> findPorLike();
+            $data2 = $listaLike;
+
+        }
 
         return new JsonResponse(['userPosts' => $data2], Response::HTTP_OK);
     }
@@ -68,7 +71,7 @@ class PostController extends AbstractController
     }
     //Visualizar las publicaciones del usuario.
     #[Route('/post/user/list',  name: 'app_user_list' ,methods:['POST'])]
-    public function post_user_list(PostRepository $postRepository,UserRepository $userRepository,Utils $utilidades, Request $request): JsonResponse
+    public function post_user_list(PostRepository $postRepository,UserRepository $userRepository, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(),true);
         $user = $userRepository->findOneBy(['email' => $data]);
@@ -80,7 +83,6 @@ class PostController extends AbstractController
                 'id' => $array->getId(),
                 'message' => $array->getMessage(),
                 'image' => $array->getImage(),
-                'relio' => $array->getRelio(),
                 'publication' => $array->getPublicationDate()
             ];
         }
@@ -102,7 +104,6 @@ class PostController extends AbstractController
     #[Route('/post/update',  name: 'app_update_post' ,methods:['PUT'])]
     public function post_update(PostRepository $postRepository,Utils $utilidades,UserRepository $userRepository, Request $request): JsonResponse
     {
-        $newPost= new Post;
         $data = json_decode($request->getContent(),true);
         $data2 = $postRepository->findOneBy(['id'=>$data]);
         $publication = $data['publication_date'];
@@ -113,7 +114,6 @@ class PostController extends AbstractController
         }else{
             $data2->setMessage($data['message']);
             $data2->setImage($data['image']);
-            $data2->setRelio($data['relio']);
             $data2->setPublicationDate($date);
 
         }
