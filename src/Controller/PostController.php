@@ -7,7 +7,6 @@ use App\Repository\FollowersRepository;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use App\utilidades\Utils;
-use Cassandra\Date;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -25,23 +24,28 @@ class PostController extends AbstractController
         ]);
     }
     //Visualizar todos las publicaciones de tus seguidores.
-    #[Route('/post/user',  name: 'app_post_user' ,methods:['GET'])]
+    #[Route('/post/user',  name: 'app_post_user' ,methods:['POST'])]
     public function post_user(PostRepository $postRepository,FollowersRepository $followersRepository,UserRepository $userRepository,Utils $utilidades, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(),true);
         $user = $userRepository->findOneBy(['email' => $data]);
-        $listProfile = $followersRepository->findOneBy(['id_receptor' => $user]);
-        $listPost = $postRepository ->findPostOrder($listProfile);
-        foreach($listPost as $array){
-            $data2[] = [
-                'message' => $array->getMessage(),
-                'image' => $array->getImage(),
-                'relio' => $array->getRelio(),
-                'publication' => $array->getPublicationDate()
-            ];
-        }
-        $listJson = $utilidades -> toJson($data2);
-        return new JsonResponse($listJson, 200,[], true);
+        $lista = $followersRepository->findBy(['id_emisor' => $user]);
+        $data2 = [];
+        if ($lista!= null){
+            foreach ($lista as $a) {
+                $listPost = $postRepository ->findPostOrder($a->getIdReceptor()->getId());
+                foreach($listPost as $array){
+                    $data2[] = [
+                        'message' => $array->getMessage(),
+                        'image' => $array->getImage(),
+                        'relio' => $array->getRelio(),
+                        'publication' => $array->getPublicationDate()
+                    ];
+                }
+            }
+            }
+
+        return new JsonResponse(['userPosts' => $data2], Response::HTTP_OK);
     }
     //Crear post de un usuario.
     #[Route('/post/create',  name: 'post_create' ,methods:['POST'])]
@@ -63,7 +67,7 @@ class PostController extends AbstractController
         return new JsonResponse(['status' => 'Post Creado'], Response::HTTP_CREATED);
     }
     //Visualizar las publicaciones del usuario.
-    #[Route('/post/user/list',  name: 'app_post_user_list' ,methods:['GET'])]
+    #[Route('/post/user/list',  name: 'app_user_list' ,methods:['POST'])]
     public function post_user_list(PostRepository $postRepository,UserRepository $userRepository,Utils $utilidades, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(),true);
@@ -73,14 +77,14 @@ class PostController extends AbstractController
         $data2 = [];
         foreach($listPost as $array){
             $data2[] = [
+                'id' => $array->getId(),
                 'message' => $array->getMessage(),
                 'image' => $array->getImage(),
                 'relio' => $array->getRelio(),
                 'publication' => $array->getPublicationDate()
             ];
         }
-        $listJson = $utilidades -> toJson($data2);
-        return new JsonResponse($listJson, 200,[], true);
+        return new JsonResponse(['userPosts' => $data2], Response::HTTP_OK);
     }
     //Borrar publicación.
     #[Route('/post/delete',  name: 'app_delete_post' ,methods:['DELETE'])]
