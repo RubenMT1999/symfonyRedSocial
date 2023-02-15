@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8251fa56-8e54-4be9-b8b2-1ce73cd13924" name="Changes" comment="Creada función añadir follow">
+    <list default="true" id="8251fa56-8e54-4be9-b8b2-1ce73cd13924" name="Changes" comment="añadido usuario token">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    <list default="true" id="e730bf92-1ee1-4686-9466-8df54fb55a62" name="Changes" comment="comments">
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/symfonyRedSocial.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/symfonyRedSocial.iml" afterDir="false" />
-    <list default="true" id="e730bf92-1ee1-4686-9466-8df54fb55a62" name="Changes" comment="funcion user delete creada">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/CommentsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/CommentsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilidades/Utils.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilidades/Utils.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/nelmio_api_doc.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/nelmio_api_doc.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20230209180001.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Post.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Post.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/FollowersRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/FollowersRepository.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +21,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="test" />
+        <entry key="$PROJECT_DIR$" value="cornejo" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -129,7 +122,22 @@
       <path value="$PROJECT_DIR$/vendor/symfony/twig-bundle" />
       <path value="$PROJECT_DIR$/vendor/symfony/twig-bridge" />
       <path value="$PROJECT_DIR$/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/vendor/nelmio/api-doc-bundle" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-common" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-docblock" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/type-resolver" />
+      <path value="$PROJECT_DIR$/vendor/zircote/swagger-php" />
+      <path value="$PROJECT_DIR$/vendor/webmozart/assert" />
+      <path value="$PROJECT_DIR$/vendor/symfony/options-resolver" />
       <path value="$PROJECT_DIR$/vendor/rbdwllr/reallysimplejwt" />
+      <path value="$PROJECT_DIR$/vendor/symfony/options-resolver" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/type-resolver" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-docblock" />
+      <path value="$PROJECT_DIR$/vendor/zircote/swagger-php" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-common" />
+      <path value="$PROJECT_DIR$/vendor/nelmio/api-doc-bundle" />
+      <path value="$PROJECT_DIR$/vendor/webmozart/assert" />
+      <path value="$PROJECT_DIR$/vendor/symfony/asset" />
     </include_path>
   </component>
   <component name="ProjectId" id="2KT5Auyv7JXKOBGpu8eQk8QnFsr" />
@@ -152,7 +160,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="e730bf92-1ee1-4686-9466-8df54fb55a62" name="Changes" comment="" />
+      <changelist id="8251fa56-8e54-4be9-b8b2-1ce73cd13924" name="Changes" comment="Creada función añadir follow" />
       <created>1673985593614</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -177,11 +185,7 @@
       <workItem from="1675194131744" duration="448000" />
       <workItem from="1675268204357" duration="8930000" />
       <workItem from="1675347262924" duration="1348000" />
-      <workItem from="1674577203055" duration="9069000" />
-      <workItem from="1674662474644" duration="10484000" />
-      <workItem from="1674674896631" duration="82000" />
-      <workItem from="1674754811587" duration="5906000" />
-      <workItem from="1675181271267" duration="1471000" />
+      <workItem from="1676477282846" duration="5335000" />
     </task>
     <task id="LOCAL-00001" summary="prueba">
       <created>1674068855044</created>
@@ -204,49 +208,6 @@
       <option name="project" value="LOCAL" />
       <updated>1674243184693</updated>
     </task>
-    <task id="LOCAL-00004" summary="Post/create">
-      <created>1674502806382</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1674502806382</updated>
-    </task>
-    <task id="LOCAL-00005" summary="post/update">
-      <created>1674588865690</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1674588865690</updated>
-    </task>
-    <task id="LOCAL-00006" summary="post/update">
-      <created>1674665363658</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1674665363658</updated>
-    </task>
-    <task id="LOCAL-00007" summary="post/update">
-      <created>1674674829326</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1674674829326</updated>
-    </task>
-    <task id="LOCAL-00008" summary="post/update">
-      <created>1674674841640</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1674674841640</updated>
-    </task>
-    <task id="LOCAL-00009" summary="comments">
-      <created>1674760784514</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1674760784514</updated>
-    </task>
-    <option name="localTasksCounter" value="10" />
     <task id="LOCAL-00004" summary="añadido swagger">
       <created>1674846260575</created>
       <option name="number" value="00004" />
@@ -341,7 +302,6 @@
     <MESSAGE value="Post/create" />
     <MESSAGE value="post/update" />
     <MESSAGE value="comments" />
-    <option name="LAST_COMMIT_MESSAGE" value="comments" />
     <MESSAGE value="añadido swagger" />
     <MESSAGE value="creando eliminar followers" />
     <MESSAGE value="creando añadida funcion utils" />
@@ -352,37 +312,6 @@
     <MESSAGE value="creando save follow" />
     <MESSAGE value="Creada función añadir follow" />
     <option name="LAST_COMMIT_MESSAGE" value="Creada función añadir follow" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/utilidades/Utils.php</url>
-          <line>35</line>
-          <option name="timeStamp" value="21" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/utilidades/Utils.php</url>
-          <line>36</line>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/utilidades/Utils.php</url>
-          <line>37</line>
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/utilidades/Utils.php</url>
-          <line>40</line>
-          <option name="timeStamp" value="24" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/utilidades/Utils.php</url>
-          <line>42</line>
-          <option name="timeStamp" value="25" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

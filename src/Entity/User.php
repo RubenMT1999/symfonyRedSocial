@@ -8,8 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\Ignore;
+use OpenApi\Attributes as OA;
 
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -43,9 +42,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'id_user', targetEntity: Comments::class)]
     private Collection $id_comments;
 
+    #[ORM\OneToMany(mappedBy: 'id_user', targetEntity: Like::class)]
+    private Collection $id_like;
+
+    #[ORM\OneToMany(mappedBy: 'id_user', targetEntity: Dislike::class)]
+    private Collection $id_dislike;
+
+    #[ORM\OneToMany(mappedBy: 'id_user', targetEntity: Relio::class)]
+    private Collection $id_relio;
+
+
     public function __construct()
     {
         $this->id_comments = new ArrayCollection();
+        $this->id_like = new ArrayCollection();
+        $this->id_dislike = new ArrayCollection();
+        $this->id_relio = new ArrayCollection();
     }
 
 
@@ -166,5 +178,97 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Like>
+     */
+    public function getIdLike(): Collection
+    {
+        return $this->id_like;
+    }
+
+    public function addIdLike(Like $idLike): self
+    {
+        if (!$this->id_like->contains($idLike)) {
+            $this->id_like->add($idLike);
+            $idLike->setIdUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdLike(Like $idLike): self
+    {
+        if ($this->id_like->removeElement($idLike)) {
+            // set the owning side to null (unless already changed)
+            if ($idLike->getIdUser() === $this) {
+                $idLike->setIdUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Dislike>
+     */
+    public function getIdDislike(): Collection
+    {
+        return $this->id_dislike;
+    }
+
+    public function addIdDislike(Dislike $idDislike): self
+    {
+        if (!$this->id_dislike->contains($idDislike)) {
+            $this->id_dislike->add($idDislike);
+            $idDislike->setIdUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdDislike(Dislike $idDislike): self
+    {
+        if ($this->id_dislike->removeElement($idDislike)) {
+            // set the owning side to null (unless already changed)
+            if ($idDislike->getIdUser() === $this) {
+                $idDislike->setIdUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Relio>
+     */
+    public function getIdRelio(): Collection
+    {
+        return $this->id_relio;
+    }
+
+    public function addIdRelio(Relio $idRelio): self
+    {
+        if (!$this->id_relio->contains($idRelio)) {
+            $this->id_relio->add($idRelio);
+            $idRelio->setIdUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdRelio(Relio $idRelio): self
+    {
+        if ($this->id_relio->removeElement($idRelio)) {
+            // set the owning side to null (unless already changed)
+            if ($idRelio->getIdUser() === $this) {
+                $idRelio->setIdUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 
 }

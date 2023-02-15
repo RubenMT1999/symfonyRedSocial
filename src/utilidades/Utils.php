@@ -3,11 +3,7 @@
 namespace App\utilidades;
 
 use App\Entity\User;
-use App\Repository\UserProfileRepository;
-use App\Repository\UserRepository;
-use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -17,18 +13,6 @@ class Utils
 {
 
     private $jwtEncoder;
-
-    public function __construct(UserRepository              $userRepository,
-                                UserProfileRepository       $userProfileRepository,
-                                UserPasswordHasherInterface $userPasswordHasher,
-                                JWTEncoderInterface         $jwtEncoder)
-    {
-        $this->userRepository = $userRepository;
-        $this->userProfileRepository = $userProfileRepository;
-        $this->userPasswordHasher = $userPasswordHasher;
-        $this->jwtEncoder = $jwtEncoder;
-    }
-
 
     public function toJson($data): string
     {
@@ -42,7 +26,6 @@ class Utils
 
         return $json;
     }
-
 
     public function obtenerUsuarioToken(Request $request): User
     {
@@ -65,4 +48,5 @@ class Utils
 
         return $usuario;
     }
+
 }

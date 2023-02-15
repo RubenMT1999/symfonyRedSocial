@@ -129,7 +129,7 @@ class FollowersController extends AbstractController
             $data2 [] = [
                 'name' => $getProfile->getName(),
                 'username' => $getProfile->getTwitterUsername(),
-                'avatar' => $getProfile->getAvatar()
+                'image' => $getProfile->getImage()
 
             ];
         }
@@ -155,7 +155,7 @@ class FollowersController extends AbstractController
             $data2 [] = [
                 'name' => $getProfile->getName(),
                 'username' => $getProfile->getTwitterUsername(),
-                'avatar' => $getProfile->getAvatar()
+                'image' => $getProfile->getImage()
             ];
         }
 
@@ -167,6 +167,82 @@ class FollowersController extends AbstractController
 
         return new JsonResponse($toJson, 200,[],true);
     }
+
+
+    #[Route('followers/addFollower', name:'app_followers_añadir_username', methods:['POST'])]
+    public  function addFollowerUsername(Utils $utils, Request $request): JsonResponse{
+
+
+
+        $userToken = $utils->obtenerUsuarioToken($request);
+
+        $userFollow = $this->userRepository->findOneBy(['email' =>$userToken->getEmail()]);
+
+        $idUserParam = $request->get('twitter_username');
+
+       $idUserFollower = $this->userProfileRepository->findIdUser($idUserParam);
+
+       $userBuscar= $this->userRepository->findOneBy(['id' => $idUserFollower[0]['user_id']]);
+
+
+        if (!empty($this->followersRepository->findIdFollowers($userFollow->getId(),$userBuscar->getId()) )){
+            throw new NotFoundHttpException('Usted ya sigue a este usuario');
+        }else{
+
+
+            if ($userFollow == null || $idUserFollower == null){
+                throw new NotFoundHttpException('Usuario incorrecto');
+            }else {
+
+                $follow = new Followers();
+
+                $follow->setIdEmisor($userFollow);
+                $follow->setIdReceptor($userBuscar);
+
+
+                $this->followersRepository->addFollower($follow);
+
+
+            }
+        }
+
+
+
+
+        return new JsonResponse(['resultado' => 'Follow Creado!'], Response::HTTP_CREATED);
+    }
+
+    #[Route('followers/deleteFollower', name:'app_followers_borrar_username', methods:['DELETE'])]
+    public function deleteFollowerUsername( Utils $utils,Request $request): JsonResponse{
+
+        $userToken = $utils->obtenerUsuarioToken($request);
+
+        $userEmisor = $this->userRepository->findOneBy(['email' =>$userToken->getEmail()]);
+
+        $idUserParam = $request->get('twitter_username');
+
+        $idUserFollower = $this->userProfileRepository->findIdUser($idUserParam);
+
+        $userBuscar= $this->userRepository->findOneBy(['id' => $idUserFollower[0]['user_id']]);
+
+        $follower = $this->followersRepository->findIdFollowers($userEmisor->getId(), $userBuscar->getId());
+
+
+        if (empty($follower)){
+            throw new NotFoundHttpException('No existe ese follower');
+        }else {
+
+            $followerBorrar = $this->followersRepository->findOneBy(['id' => $follower[0]['id']]);
+
+            $this->followersRepository->removeFollower($followerBorrar);
+
+        }
+
+
+        return new JsonResponse(['resultado' => 'Follow Eliminado!'], Response::HTTP_CREATED);
+
+    }
+
 
 
 

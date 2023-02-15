@@ -74,7 +74,7 @@ class PostController extends AbstractController
         $user = $userRepository->findOneBy(['email' => $data]);
 //        $listProfile = $followersRepository->findOneBy(['id_receptor' => $user]);
         $listPost = $postRepository ->findPostOrder($user);
-        $data2 = [];
+        $data2= [];
         foreach($listPost as $array){
             $data2[] = [
                 'id' => $array->getId(),
@@ -93,7 +93,7 @@ class PostController extends AbstractController
         $data = json_decode($request->getContent(),true);
         $post = $postRepository->findOneBy(['id' => $data]);
         if ($post==null){
-            return new JsonResponse(['status' => 'No existe publicacón'], Response::HTTP_CREATED);
+            return new JsonResponse(['status' => 'No existe publicacón'], Response::HTTP_BAD_REQUEST);
         }else{
             $postRepository->remove($post,true);
             return new JsonResponse(['status' => 'Post Eliminado'], Response::HTTP_CREATED);
