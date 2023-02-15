@@ -1,14 +1,7 @@
 nelmio_api_doc:
-<<<<<<< HEAD
     documentation:
         info:
             title: TalkToTalk
-=======
-    use_validation_groups: true
-    documentation:
-        info:
-            title: My App
->>>>>>> origin/test
             description: This is an awesome app!
             version: 1.0.0
     areas: # to filter documented areas
