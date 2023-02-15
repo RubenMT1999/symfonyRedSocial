@@ -19,6 +19,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use OpenApi\Attributes as OA;
+
+use function PHPSTORM_META\type;
 
 class ProfileController extends AbstractController
 {
@@ -40,7 +45,28 @@ class ProfileController extends AbstractController
         $this->jwtEncoder = $jwtEncoder;
     }
 
-    #[Route('/user/create', methods: ['POST'], name: 'user_create')]
+
+/*     #[OA\Response(
+        response: 200,
+        description: 'Usuario creado correctamente',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: User::class, groups: ['full']))
+        )
+    )]
+    #[OA\RequestBody(
+        description: 'Envía el email, los roles y el password',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property:'email',type:'string'),
+                new OA\Property(property:'roles',type:'array', @OA\Items(anyOf={@OA\Schema(type: "string")})),
+                new OA\Property(property:'password',type:'string'),
+            ]
+        )
+    )] */
+    
+
+    #[Route('/user/create', methods:['POST'], name: 'user_create')]
     public function addUser(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -94,7 +120,17 @@ class ProfileController extends AbstractController
         }
 
         $obtenerUser = $this->userRepository->findOneBy(['email' => $usermail]);
-        if ($obtenerUser->getUserProfile() != null) {
+        $obtenerProfile = $this->userProfileRepository->findOneBy(['twitterUsername' => $twitter_username]);
+
+
+        if($obtenerProfile != null){
+            if($obtenerProfile->getTwitterUsername() != $obtenerUser->getEmail()
+                && $obtenerProfile->getTwitterUsername() != $obtenerUser->getUserProfile()->getTwitterUsername()){
+                return new JsonResponse(['status' => 'Ese username ya está en uso!'], Response::HTTP_CONFLICT);
+            }
+        }
+
+        if($obtenerUser->getUserProfile() != null){
             $obtenerUser->getUserProfile()->setName($name);
             $obtenerUser->getUserProfile()->setBio($bio);
             $obtenerUser->getUserProfile()->setWebsiteUrl($website_url);
@@ -165,6 +201,7 @@ class ProfileController extends AbstractController
 
         foreach ($misProfiles as $miProfile) {
             $data2[] = [
+                'id' => $miProfile->getUser()->getId(),
                 'name' => $miProfile->getName(),
                 'bio' => $miProfile->getBio(),
                 'website_url' => $miProfile->getWebsiteUrl(),
