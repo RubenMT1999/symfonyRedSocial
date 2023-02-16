@@ -31,8 +31,6 @@ class Post
     #[ORM\OneToMany(mappedBy: 'id_post', targetEntity: Comments::class)]
     private Collection $id_comments;
 
-    #[ORM\OneToMany(mappedBy: 'id_post', targetEntity: Like::class)]
-    private Collection $id_like;
 
     #[ORM\OneToMany(mappedBy: 'id_post', targetEntity: Dislike::class)]
     private Collection $id_dislike;
@@ -40,14 +38,17 @@ class Post
     #[ORM\OneToMany(mappedBy: 'id_post', targetEntity: Relio::class)]
     private Collection $id_relio;
 
+    #[ORM\OneToMany(mappedBy: 'id_post', targetEntity: Megusta::class)]
+    private Collection $id_megusta;
+
 
 
     public function __construct()
     {
         $this->id_comments = new ArrayCollection();
-        $this->id_like = new ArrayCollection();
         $this->id_dislike = new ArrayCollection();
         $this->id_relio = new ArrayCollection();
+        $this->id_megusta = new ArrayCollection();
     }
 
 
@@ -135,35 +136,7 @@ class Post
         return $this;
     }
 
-    /**
-     * @return Collection<int, Like>
-     */
-    public function getIdLike(): Collection
-    {
-        return $this->id_like;
-    }
 
-    public function addIdLike(Like $idLike): self
-    {
-        if (!$this->id_like->contains($idLike)) {
-            $this->id_like->add($idLike);
-            $idLike->setIdPost($this);
-        }
-
-        return $this;
-    }
-
-    public function removeIdLike(Like $idLike): self
-    {
-        if ($this->id_like->removeElement($idLike)) {
-            // set the owning side to null (unless already changed)
-            if ($idLike->getIdPost() === $this) {
-                $idLike->setIdPost(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Dislike>
@@ -219,6 +192,36 @@ class Post
             // set the owning side to null (unless already changed)
             if ($idRelio->getIdPost() === $this) {
                 $idRelio->setIdPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Megusta>
+     */
+    public function getIdMegusta(): Collection
+    {
+        return $this->id_megusta;
+    }
+
+    public function addIdMegustum(Megusta $idMegustum): self
+    {
+        if (!$this->id_megusta->contains($idMegustum)) {
+            $this->id_megusta->add($idMegustum);
+            $idMegustum->setIdPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdMegustum(Megusta $idMegustum): self
+    {
+        if ($this->id_megusta->removeElement($idMegustum)) {
+            // set the owning side to null (unless already changed)
+            if ($idMegustum->getIdPost() === $this) {
+                $idMegustum->setIdPost(null);
             }
         }
 

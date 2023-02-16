@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Repository\FollowersRepository;
 use App\Repository\LikeRepository;
+use App\Repository\MegustaRepository;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use App\utilidades\Utils;
@@ -25,7 +26,7 @@ class PostController extends AbstractController
     }
     //Visualizar todas las publicaciones de tus seguidores.
     #[Route('/post/user',  name: 'app_post_user' ,methods:['POST'])]
-    public function post_user(LikeRepository $likeRepository,PostRepository $postRepository,FollowersRepository $followersRepository,UserRepository $userRepository,Utils $utilidades, Request $request): JsonResponse
+    public function post_user(MegustaRepository $likeRepository,PostRepository $postRepository,FollowersRepository $followersRepository,UserRepository $userRepository,Utils $utilidades, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(),true);
         $user = $userRepository->findOneBy(['email' => $data]);
@@ -43,7 +44,16 @@ class PostController extends AbstractController
                 }
             }
             }else{
+
             $listaLike = $likeRepository -> findPorLike();
+            foreach ($listaLike as $array){
+//                $listaConMasLike = $postRepository -> findPostOrder($listaLike->)
+                $data2[] = [
+                    'message' => $array->getMessage(),
+                    'image' => $array -> getImage(),
+                    'publication' => $array->getPublicationDate()
+                ];
+            }
             $data2 = $listaLike;
 
         }
