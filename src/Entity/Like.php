@@ -15,10 +15,10 @@ class Like
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'id_like')]
-    private ?post $id_post = null;
+    private ?Post $id_post = null;
 
     #[ORM\ManyToOne(inversedBy: 'id_like')]
-    private ?user $id_user = null;
+    private ?User $id_user = null;
 
     public function getId(): ?int
     {

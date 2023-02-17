@@ -3,7 +3,9 @@
 namespace App\utilidades;
 
 use App\Entity\User;
+use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -12,7 +14,19 @@ use Symfony\Component\Serializer\Serializer;
 class Utils
 {
 
+
+    private $userPasswordHasher;
+
     private $jwtEncoder;
+
+    public function __construct(
+                                UserPasswordHasherInterface $userPasswordHasher,
+                                JWTEncoderInterface         $jwtEncoder)
+    {
+
+        $this->userPasswordHasher = $userPasswordHasher;
+        $this->jwtEncoder = $jwtEncoder;
+    }
 
     public function toJson($data): string
     {
@@ -23,6 +37,8 @@ class Utils
 
         //Conversion a JSON
         $json = $serializer->serialize($data, 'json');
+
+
 
         return $json;
     }
