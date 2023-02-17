@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8251fa56-8e54-4be9-b8b2-1ce73cd13924" name="Changes" comment="añadido usuario token">
+    <list default="true" id="8251fa56-8e54-4be9-b8b2-1ce73cd13924" name="Changes" comment="creada las tablas de relio, like y dislike">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/nelmio_api_doc.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/nelmio_api_doc.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20230209180001.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Post.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Post.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/FollowersRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/FollowersRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/lexik_jwt_authentication.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/lexik_jwt_authentication.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/routes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PostController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Dislike.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Dislike.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Like.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Like.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Relio.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Relio.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/DislikeRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/DislikeRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/LikeRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/LikeRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/RelioRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/RelioRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utilidades/Utils.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilidades/Utils.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,7 +27,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="cornejo" />
+        <entry key="$PROJECT_DIR$" value="test" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -186,6 +192,9 @@
       <workItem from="1675268204357" duration="8930000" />
       <workItem from="1675347262924" duration="1348000" />
       <workItem from="1676477282846" duration="5335000" />
+      <workItem from="1676568968874" duration="7068000" />
+      <workItem from="1676593176795" duration="2563000" />
+      <workItem from="1676643119005" duration="8786000" />
     </task>
     <task id="LOCAL-00001" summary="prueba">
       <created>1674068855044</created>
@@ -311,7 +320,8 @@
     <MESSAGE value="utils subir" />
     <MESSAGE value="creando save follow" />
     <MESSAGE value="Creada función añadir follow" />
-    <option name="LAST_COMMIT_MESSAGE" value="Creada función añadir follow" />
+    <MESSAGE value="creada las tablas de relio, like y dislike" />
+    <option name="LAST_COMMIT_MESSAGE" value="creada las tablas de relio, like y dislike" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

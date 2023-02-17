@@ -14,10 +14,10 @@ class Relio
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'id_relio')]
-    private ?post $id_post = null;
+    private ?Post $id_post = null;
 
     #[ORM\ManyToOne(inversedBy: 'id_relio')]
-    private ?user $id_user = null;
+    private ?User $id_user = null;
 
     public function getId(): ?int
     {
