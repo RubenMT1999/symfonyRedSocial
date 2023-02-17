@@ -47,15 +47,13 @@ class PostController extends AbstractController
 
             $listaLike = $likeRepository -> findPorLike();
             foreach ($listaLike as $array){
-//                $listaConMasLike = $postRepository -> findPostOrder($listaLike->)
+                $listaConMasLike = $postRepository -> findOneBy(['id' =>$array[0]->getIdPost()]);
                 $data2[] = [
-                    'message' => $array->getMessage(),
-                    'image' => $array -> getImage(),
-                    'publication' => $array->getPublicationDate()
+                    'message' => $listaConMasLike->getMessage(),
+                    'image' => $listaConMasLike -> getImage(),
+                    'publication' => $listaConMasLike->getPublicationDate()
                 ];
             }
-            $data2 = $listaLike;
-
         }
 
         return new JsonResponse(['userPosts' => $data2], Response::HTTP_OK);
