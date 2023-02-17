@@ -6,6 +6,7 @@ use App\Repository\FollowersRepository;
 use App\Repository\LikeRepository;
 use App\Repository\MegustaRepository;
 use App\Repository\PostRepository;
+use App\Repository\UserProfileRepository;
 use App\Repository\UserRepository;
 use App\utilidades\Utils;
 use DateTime;
@@ -26,7 +27,7 @@ class PostController extends AbstractController
     }
     //Visualizar todas las publicaciones de tus seguidores.
     #[Route('/post/user',  name: 'app_post_user' ,methods:['POST'])]
-    public function post_user(MegustaRepository $likeRepository,PostRepository $postRepository,FollowersRepository $followersRepository,UserRepository $userRepository,Utils $utilidades, Request $request): JsonResponse
+    public function post_user(MegustaRepository $likeRepository,PostRepository $postRepository,FollowersRepository $followersRepository,UserRepository $userRepository,UserProfileRepository $userProfileRepository, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(),true);
         $user = $userRepository->findOneBy(['email' => $data]);
@@ -36,7 +37,10 @@ class PostController extends AbstractController
             foreach ($lista as $a) {
                 $listPost = $postRepository ->findPostOrder($a->getIdReceptor()->getId());
                 foreach($listPost as $array){
+                    $user1 = $userRepository -> findOneBy(['id' =>$array->getIdUser()]);
                     $data2[] = [
+                        'username' => $user1->getUserProfile()->getTwitterUsername(),
+                        'pais' => $user1->getUserProfile()->getLocation(),
                         'message' => $array->getMessage(),
                         'image' => $array->getImage(),
                         'publication' => $array->getPublicationDate()
@@ -48,7 +52,10 @@ class PostController extends AbstractController
             $listaLike = $likeRepository -> findPorLike();
             foreach ($listaLike as $array){
                 $listaConMasLike = $postRepository -> findOneBy(['id' =>$array[0]->getIdPost()]);
+                $user1 = $userRepository -> findOneBy(['id' =>$listaConMasLike->getIdUser()]);
                 $data2[] = [
+                    'username' => $user1->getUserProfile()->getTwitterUsername(),
+                    'pais' => $user1->getUserProfile()->getLocation(),
                     'message' => $listaConMasLike->getMessage(),
                     'image' => $listaConMasLike -> getImage(),
                     'publication' => $listaConMasLike->getPublicationDate()
