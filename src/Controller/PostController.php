@@ -174,7 +174,7 @@ class PostController extends AbstractController
         if (!empty($likeComprobar)){
             $likeEliminar = $likeRepository->findOneBy(['id'=> $likeComprobar[0]['id']]);
             $likeRepository->removeLike($likeEliminar);
-            throw new NotFoundHttpException('Like eliminado');
+            return new JsonResponse(['resultado' => 'Like Eliminado!'], Response::HTTP_CREATED);
         }else{
 
         $newlike = new Like();
@@ -185,13 +185,15 @@ class PostController extends AbstractController
 
         $likeRepository->addLike($newlike);
 
+            return new JsonResponse(['resultado' => 'Like Creado!'], Response::HTTP_CREATED);
+
             }
 
 
 
 
 
-        return new JsonResponse(['resultado' => 'Like Creado!'], Response::HTTP_CREATED);
+
     }
 
     #[Route('/post/addDislike', name:'app_post_añadir_dislike', methods:['POST'])]
@@ -214,7 +216,7 @@ class PostController extends AbstractController
         if (!empty($dislikeComprobar)){
             $dislikeEliminar = $dislikeRepository->findOneBy(['id'=> $dislikeComprobar[0]['id']]);
             $dislikeRepository->removeDislike($dislikeEliminar);
-            throw new NotFoundHttpException('Dislike eliminado');
+            return new JsonResponse(['resultado' => 'Dislike Eliminado!'], Response::HTTP_CREATED);
         }else{
 
             $newDislike = new Dislike();
@@ -224,14 +226,11 @@ class PostController extends AbstractController
 
 
             $dislikeRepository->addDislike($newDislike);
+            return new JsonResponse(['resultado' => 'Dislike Creado!'], Response::HTTP_CREATED);
 
         }
 
 
-
-
-
-        return new JsonResponse(['resultado' => 'Dislike Creado!'], Response::HTTP_CREATED);
     }
 
 
@@ -255,7 +254,7 @@ class PostController extends AbstractController
         if (!empty($relioComprobar)){
             $relioEliminar = $relioRepository->findOneBy(['id'=> $relioComprobar[0]['id']]);
             $relioRepository->removeRelio($relioEliminar);
-            throw new NotFoundHttpException('Relio eliminado');
+            return new JsonResponse(['resultado' => 'Relio eliminado!'], Response::HTTP_CREATED);
         }else{
 
             $newRelio = new Relio();
@@ -266,13 +265,15 @@ class PostController extends AbstractController
 
             $relioRepository->addRelio($newRelio);
 
+            return new JsonResponse(['resultado' => 'Relio Creado!'], Response::HTTP_CREATED);
+
         }
 
 
 
 
 
-        return new JsonResponse(['resultado' => 'Relio Creado!'], Response::HTTP_CREATED);
+
     }
 
     #[Route('/post/mostrarRelio', name:'app_post_mostrar_relio', methods:['POST'])]
@@ -283,6 +284,7 @@ class PostController extends AbstractController
         $userToken = $utils->obtenerUsuarioToken($request);
 
         $userP = $this->userRepository->findOneBy(['email' =>$userToken->getEmail()]);
+
 
         $idPost = $request->get('id_post');
 
