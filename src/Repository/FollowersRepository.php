@@ -20,6 +20,9 @@ use phpDocumentor\Reflection\Types\Integer;
  */
 class FollowersRepository extends ServiceEntityRepository
 {
+
+    public EntityManagerInterface $manager;
+
     public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, Followers::class);
