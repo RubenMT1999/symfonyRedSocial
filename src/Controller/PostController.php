@@ -36,7 +36,6 @@ class PostController extends AbstractController
             $data2[] = [
                 'message' => $array->getMessage(),
                 'image' => $array->getImage(),
-                'relio' => $array->getRelio(),
                 'publication' => $array->getPublicationDate()
             ];
         }
@@ -55,7 +54,6 @@ class PostController extends AbstractController
         $newPost
             ->setMessage($data['message'])
             ->setImage($data['image'])
-            ->setRelio($data['relio'])
             ->setPublicationDate($date)
             ->setIdUser($userRepository->findOneBy(['email'=>$data]));
         $postRepository->save($newPost, true);
@@ -76,7 +74,6 @@ class PostController extends AbstractController
                 'id' => $array->getId(),
                 'message' => $array->getMessage(),
                 'image' => $array->getImage(),
-                'relio' => $array->getRelio(),
                 'publication' => $array->getPublicationDate()
             ];
         }
@@ -110,7 +107,6 @@ class PostController extends AbstractController
         }else{
             $data2->setMessage($data['message']);
             $data2->setImage($data['image']);
-            $data2->setRelio($data['relio']);
             $data2->setPublicationDate($date);
 
         }
