@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Like;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @extends ServiceEntityRepository<Like>
@@ -16,9 +17,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class LikeRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+
+    public function __construct(ManagerRegistry $registry,  EntityManagerInterface $manager)
     {
         parent::__construct($registry, Like::class);
+        $this->manager = $manager;
     }
 
     public function save(Like $entity, bool $flush = false): void
@@ -37,6 +40,26 @@ class LikeRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function addLike(Like $like){
+        $this->getEntityManager()->persist($like);
+        $this->manager->flush();
+    }
+
+    public function removeLike(Like $like){
+        $this->manager->remove($like);
+        $this->manager->flush();
+    }
+
+    public function findIdLike($value1, $value2): array {
+        return $this->createQueryBuilder('l')
+            ->select('l.id')
+            ->andWhere('l.id_post= :value1 and l.id_user = :value2')
+            ->setParameter('value1', $value1)
+            ->setParameter('value2', $value2)
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

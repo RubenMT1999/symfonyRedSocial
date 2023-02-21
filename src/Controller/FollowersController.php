@@ -21,7 +21,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Symfony\Component\VarExporter\Internal\Values;
 
 class FollowersController extends AbstractController
 {
@@ -106,18 +106,14 @@ class FollowersController extends AbstractController
 
             $this->followersRepository->addFollower($follow);
 
-
         }
         }
-
-
-
 
         return new JsonResponse(['resultado' => 'Follow Creado!'], Response::HTTP_CREATED);
     }
 
     // Metodo para ver la gente que sigue tal usuario
-    #[Route('/followers', name: 'app_followers')]
+/*     #[Route('/followers', name: 'app_followers')]
     public function getFollowers(FollowersRepository $followersRepository,UserProfileRepository $userProfileRepository,Utils $utilidades, Request $request): JsonResponse
     {
 
@@ -141,10 +137,10 @@ class FollowersController extends AbstractController
         $toJson = $utilidades->toJson($data2, null);
 
         return new JsonResponse($toJson, 200,[],true);
-    }
+    } */
 
 // Metodo para ver la gente sigue tal usuario
-    #[Route('/following', name: 'app_following')]
+/*     #[Route('/following', name: 'app_following')]
     public function getFollowing(FollowersRepository $followersRepository,UserProfileRepository $userProfileRepository,Utils $utilidades, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -166,84 +162,210 @@ class FollowersController extends AbstractController
         $toJson = $utilidades->toJson($data2, null);
 
         return new JsonResponse($toJson, 200,[],true);
-    }
+    } */
 
 
     #[Route('followers/addFollower', name:'app_followers_añadir_username', methods:['POST'])]
-    public  function addFollowerUsername(Utils $utils, Request $request): JsonResponse{
+    public  function addFollowerUsername(Request $request): JsonResponse{
 
 
+        // Obtener el token JWT del encabezado de la solicitud
+        $token = $request->headers->get('Authorization');
+        if ($token) {
+            // Decodificar el token JWT y obtener el contenido
+            $data = $this->jwtEncoder->decode($token);
 
-        $userToken = $utils->obtenerUsuarioToken($request);
+            $data2 =  $data['username'];
+        }
 
-        $userFollow = $this->userRepository->findOneBy(['email' =>$userToken->getEmail()]);
+        $usuarioDelToken = $this->userRepository->findOneBy(['email' => $data2]);
 
-        $idUserParam = $request->get('twitter_username');
+        /* $userToken = $utils->obtenerUsuarioToken($request); */
 
-       $idUserFollower = $this->userProfileRepository->findIdUser($idUserParam);
+        /* $userFollow = $this->userRepository->findOneBy(['email' =>$userToken->getEmail()]); */
 
-       $userBuscar= $this->userRepository->findOneBy(['id' => $idUserFollower[0]['user_id']]);
+        $data3 = json_decode($request->getContent(), true);
 
+        $userParam = $data3['twitterUsername'];
 
-        if (!empty($this->followersRepository->findIdFollowers($userFollow->getId(),$userBuscar->getId()) )){
-            throw new NotFoundHttpException('Usted ya sigue a este usuario');
+       $idUserFollower = $this->userProfileRepository->findOneBy(['twitterUsername' => $userParam]);
+
+       $userBuscar= $idUserFollower->getUser();
+
+        if (!empty($this->followersRepository->findIdFollowers($usuarioDelToken->getId(),$userBuscar->getId()) )){
+            return new JsonResponse(['Seguido' => 'Usted ya sigue a este usuario!'], Response::HTTP_CREATED);
         }else{
 
-
-            if ($userFollow == null || $idUserFollower == null){
+            if ($usuarioDelToken == null || $idUserFollower == null){
                 throw new NotFoundHttpException('Usuario incorrecto');
             }else {
 
                 $follow = new Followers();
 
-                $follow->setIdEmisor($userFollow);
+                $follow->setIdEmisor($usuarioDelToken);
                 $follow->setIdReceptor($userBuscar);
 
-
                 $this->followersRepository->addFollower($follow);
-
-
             }
         }
-
-
-
-
         return new JsonResponse(['resultado' => 'Follow Creado!'], Response::HTTP_CREATED);
     }
 
     #[Route('followers/deleteFollower', name:'app_followers_borrar_username', methods:['DELETE'])]
     public function deleteFollowerUsername( Utils $utils,Request $request): JsonResponse{
 
-        $userToken = $utils->obtenerUsuarioToken($request);
+        $token = $request->headers->get('Authorization');
+        if ($token) {
+            // Decodificar el token JWT y obtener el contenido
+            $data = $this->jwtEncoder->decode($token);
 
-        $userEmisor = $this->userRepository->findOneBy(['email' =>$userToken->getEmail()]);
+            $data2 =  $data['username'];
+        }
 
-        $idUserParam = $request->get('twitter_username');
+        $userEmisor = $this->userRepository->findOneBy(['email' => $data2]);
 
-        $idUserFollower = $this->userProfileRepository->findIdUser($idUserParam);
+        $data3 = json_decode($request->getContent(), true);
 
-        $userBuscar= $this->userRepository->findOneBy(['id' => $idUserFollower[0]['user_id']]);
+        $userParam = $data3['twitter_username'];
 
-        $follower = $this->followersRepository->findIdFollowers($userEmisor->getId(), $userBuscar->getId());
+        $idUserFollower = $this->userProfileRepository->findOneBy(['twitterUsername' => $userParam]);
 
+        $userReceptor= $idUserFollower->getUser();
+
+        $follower = $this->followersRepository->findIdFollowers($userEmisor->getId(), $userReceptor->getId());
 
         if (empty($follower)){
             throw new NotFoundHttpException('No existe ese follower');
         }else {
-
             $followerBorrar = $this->followersRepository->findOneBy(['id' => $follower[0]['id']]);
 
             $this->followersRepository->removeFollower($followerBorrar);
-
         }
 
-
         return new JsonResponse(['resultado' => 'Follow Eliminado!'], Response::HTTP_CREATED);
-
     }
 
 
+    #[Route('followers/contarFollowers', name:'app_contar_followers', methods:['POST'])]
+    public function contarSeguidores(Request $request): JsonResponse{
+
+        $data = json_decode($request->getContent(), true);
+
+        $username = $data['twitter_username'];
+
+        $usuarioProfile = $this->userProfileRepository->findOneBy(['twitterUsername' => $username]);
+
+        $usuario = $usuarioProfile->getUser();
+
+        $usuarioId = $usuario->getId();
+
+        $miArray = $this->followersRepository->contarSeguidores($usuarioId);
+
+        return new JsonResponse(['array' => $miArray[0]['numero']], Response::HTTP_CREATED);
+    }
+
+
+    #[Route('followers/listarFollowers', name:'app_listar_followers', methods:['POST'])]
+    public function listarSeguidores(Request $request): JsonResponse{
+
+        $data = json_decode($request->getContent(), true);
+
+        $username = $data['twitter_username'];
+
+        $usuarioProfile = $this->userProfileRepository->findOneBy(['twitterUsername' => $username]);
+
+        $usuario = $usuarioProfile->getUser();
+
+        $usuarioId = $usuario->getId();
+
+        $miArray = $this->followersRepository->listarSeguidores($usuarioId);
+
+        $listaUsuarios= [];
+
+        foreach ($miArray as $misSeguidores) {
+           $idUser = $this->userRepository->findOneBy(['id' => $misSeguidores['seguidor']]);
+           $perfil = $idUser->getUserProfile();
+           $twitterUsernamePerfil = $perfil->getTwitterUsername();
+           $listaUsuarios[] = $twitterUsernamePerfil;
+        }
+
+
+        return new JsonResponse(['listaUsuarios' => $listaUsuarios], Response::HTTP_CREATED);
+    }
+
+
+    #[Route('followers/loSigue', name:'app_loSigue_followers', methods:['POST'])]
+    public function loSigue(Request $request): JsonResponse{
+
+        $data = json_decode($request->getContent(), true);
+
+        $usernameEmisor = $data['usernameEmisor'];
+        $usernameReceptor = $data['usernameReceptor'];
+
+        $perfil1 = $this->userProfileRepository->findOneBy(['twitterUsername' => $usernameEmisor]);
+        $idEmisor1 = $perfil1->getId();
+
+        $perfil2 = $this->userProfileRepository->findOneBy(['twitterUsername' => $usernameReceptor]);
+        $idReceptor= $perfil2->getId();
+
+        $miId = $this->followersRepository->loEstasSiguiendo($idEmisor1,$idReceptor);
+        $miId2 = array_column($miId,'id');
+
+        if($miId == null){
+            return new JsonResponse(['error'], Response::HTTP_NOT_FOUND);
+        }
+
+        return new JsonResponse(['idFollow' => $miId2], Response::HTTP_CREATED);
+    }
+
+
+
+    #[Route('followers/contarQuienMeSigue', name:'app_contarQuienMeSigue_followers', methods:['POST'])]
+    public function contarQuienMeSigue(Request $request): JsonResponse{
+
+        $data = json_decode($request->getContent(), true);
+
+        $username = $data['twitter_username'];
+
+        $usuarioProfile = $this->userProfileRepository->findOneBy(['twitterUsername' => $username]);
+
+        $usuario = $usuarioProfile->getUser();
+
+        $usuarioId = $usuario->getId();
+
+        $miArray = $this->followersRepository->contarCuantosMeSiguen($usuarioId);
+
+        return new JsonResponse(['array' => $miArray[0]['numero']], Response::HTTP_CREATED);
+    }
+
+
+    #[Route('followers/listarQuienMeSigue', name:'app_listarQuienMeSigue_followers', methods:['POST'])]
+    public function listarQuienMeSigue(Request $request): JsonResponse{
+
+        $data = json_decode($request->getContent(), true);
+
+        $username = $data['twitter_username'];
+
+        $usuarioProfile = $this->userProfileRepository->findOneBy(['twitterUsername' => $username]);
+
+        $usuario = $usuarioProfile->getUser();
+
+        $usuarioId = $usuario->getId();
+
+        $miArray = $this->followersRepository->personasQueMeSiguen($usuarioId);
+
+        $listaUsuarios= [];
+
+        foreach ($miArray as $misSeguidores) {
+           $idUser = $this->userRepository->findOneBy(['id' => $misSeguidores['seguidor']]);
+           $perfil = $idUser->getUserProfile();
+           $twitterUsernamePerfil = $perfil->getTwitterUsername();
+           $listaUsuarios[] = $twitterUsernamePerfil;
+        }
+
+
+        return new JsonResponse(['listaUsuarios' => $listaUsuarios], Response::HTTP_CREATED);
+    }
 
 
 }
