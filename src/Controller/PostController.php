@@ -66,14 +66,20 @@ class PostController extends AbstractController
         if ($lista!= null){
             foreach ($lista as $a) {
                 $listPost = $postRepository ->findPostOrder($a->getIdReceptor()->getId());
+
                 foreach($listPost as $array){
                     $user1 = $userRepository -> findOneBy(['id' =>$array->getIdUser()]);
+                    $like = $likeRepository->findPorLikeUser($array);
+                    if($like==null){
+                        $like=0;
+                    }
                     $data2[] = [
                         'username' => $user1->getUserProfile()->getTwitterUsername(),
                         'pais' => $user1->getUserProfile()->getLocation(),
                         'message' => $array->getMessage(),
                         'image' => $array->getImage(),
-                        'publication' => $array->getPublicationDate()
+                        'publication' => $array->getPublicationDate(),
+                        'like' => $like[0]['veces']
                     ];
                 }
             }
@@ -107,7 +113,6 @@ class PostController extends AbstractController
         $newPost
             ->setMessage($data['message'])
             ->setImage($data['image'])
-            ->setRelio($data['relio'])
             ->setPublicationDate($date)
             ->setIdUser($userRepository->findOneBy(['email'=>$data]));
         $postRepository->save($newPost, true);

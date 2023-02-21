@@ -6,6 +6,7 @@ use App\Entity\Megusta;
 use Container5x7Xsgz\getMegustaRepositoryService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\PseudoTypes\Numeric_;
 
 /**
  * @extends ServiceEntityRepository<Megusta>
@@ -65,6 +66,19 @@ class MegustaRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+
+    public function findPorLikeUser($value): array
+    {
+        return $this->createQueryBuilder('l')
+            ->select('count(l.id_post) as veces')
+            ->groupBy('l.id_post')
+            ->andWhere('l.id_post = :val')
+           ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 
 
 
