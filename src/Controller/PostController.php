@@ -13,7 +13,6 @@ use App\Repository\MegustaRepository;
 use App\Repository\PostRepository;
 use App\Repository\UserProfileRepository;
 use App\Repository\UserRepository;
-use App\Repository\LikeRepository;
 use App\Repository\DislikeRepository;
 use App\Repository\RelioRepository;
 use App\utilidades\Utils;
