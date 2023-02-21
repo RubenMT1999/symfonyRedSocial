@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Relio;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @extends ServiceEntityRepository<Relio>
@@ -16,9 +17,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class RelioRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, Relio::class);
+        $this->manager = $manager;
     }
 
     public function save(Relio $entity, bool $flush = false): void
@@ -37,6 +39,26 @@ class RelioRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findIdRelio($value1, $value2): array {
+        return $this->createQueryBuilder('r')
+            ->select('r.id')
+            ->andWhere('r.id_post= :value1 and r.id_user = :value2')
+            ->setParameter('value1', $value1)
+            ->setParameter('value2', $value2)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function addRelio(Relio $relio){
+        $this->getEntityManager()->persist($relio);
+        $this->manager->flush();
+    }
+
+    public function removeRelio(Relio $relio){
+        $this->manager->remove($relio);
+        $this->manager->flush();
     }
 
 //    /**

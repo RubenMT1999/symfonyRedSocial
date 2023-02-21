@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Dislike;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @extends ServiceEntityRepository<Dislike>
@@ -16,9 +17,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class DislikeRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, Dislike::class);
+        $this->manager = $manager;
     }
 
     public function save(Dislike $entity, bool $flush = false): void
@@ -37,6 +39,25 @@ class DislikeRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+    public function findIdDislike($value1, $value2): array {
+        return $this->createQueryBuilder('d')
+            ->select('d.id')
+            ->andWhere('d.id_post= :value1 and d.id_user = :value2')
+            ->setParameter('value1', $value1)
+            ->setParameter('value2', $value2)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function addDislike(Dislike $dislike){
+        $this->getEntityManager()->persist($dislike);
+        $this->manager->flush();
+    }
+
+    public function removeDislike(Dislike $dislike){
+        $this->manager->remove($dislike);
+        $this->manager->flush();
     }
 
 //    /**

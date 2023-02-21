@@ -20,6 +20,9 @@ use phpDocumentor\Reflection\Types\Integer;
  */
 class FollowersRepository extends ServiceEntityRepository
 {
+    private EntityManagerInterface $manager;
+
+
     public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, Followers::class);
@@ -78,6 +81,65 @@ class FollowersRepository extends ServiceEntityRepository
             ->getResult();
         }
 
+
+        public function contarSeguidores($idEmisor): array{
+
+            return $this->createQueryBuilder('u')
+            ->select('count(u.id) as numero')
+            ->andWhere('u.id_emisor = :value1')
+            ->setParameter('value1', $idEmisor)
+            ->getQuery()
+            ->getResult();
+
+        }
+
+        public function listarSeguidores($idEmisor){
+
+            return $this->createQueryBuilder('u')
+            ->select('IDENTITY(u.id_receptor) as seguidor')
+            ->andWhere('u.id_emisor = :value1')
+            ->setParameter('value1', $idEmisor)
+            ->getQuery()
+            ->getResult();
+
+        }
+
+
+        public function loEstasSiguiendo($usernameEmisor, $usernameReceptor){
+            return $this->createQueryBuilder('u')
+                ->select('u.id')
+                ->andWhere('u.id_emisor = :value1 and u.id_receptor = :value2')
+                ->setParameter('value1', $usernameEmisor)
+                ->setParameter('value2', $usernameReceptor)
+                ->getQuery()
+                ->getResult();
+        }
+
+
+
+
+        public function contarCuantosMeSiguen($idReceptor){
+
+            return $this->createQueryBuilder('u')
+            ->select('count(u.id) as numero')
+            ->andWhere('u.id_receptor = :value1')
+            ->setParameter('value1', $idReceptor)
+            ->getQuery()
+            ->getResult();
+
+        }
+
+
+        public function personasQueMeSiguen($idReceptor){
+
+            return $this->createQueryBuilder('u')
+            ->select('IDENTITY(u.id_emisor) as seguidor')
+            ->andWhere('u.id_receptor = :value1')
+            ->setParameter('value1', $idReceptor)
+            ->getQuery()
+            ->getResult();
+
+        }
 
 
 //        public function finIdFollowers($value1,$value2): array {
