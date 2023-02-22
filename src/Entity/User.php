@@ -51,6 +51,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'id_user', targetEntity: Relio::class)]
     private Collection $id_relio;
 
+    #[ORM\OneToMany(mappedBy: 'usuario_emisor', targetEntity: Messages::class)]
+    private Collection $messages;
+
+
+
+
 
     public function __construct()
     {
@@ -58,6 +64,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->id_like = new ArrayCollection();
         $this->id_dislike = new ArrayCollection();
         $this->id_relio = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
 
@@ -268,6 +275,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Messages>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Messages $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setUsuarioEmisor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Messages $message): self
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getUsuarioEmisor() === $this) {
+                $message->setUsuarioEmisor(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
 
 
 
