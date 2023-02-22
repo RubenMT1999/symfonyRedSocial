@@ -76,6 +76,7 @@ class PostController extends AbstractController
                     }
 
                     $data2[] = [
+                        'id' => $array->getId(),
                         'username' => $user1->getUserProfile()->getTwitterUsername(),
                         'pais' => $user1->getUserProfile()->getLocation(),
                         'message' => $array->getMessage(),
@@ -91,12 +92,15 @@ class PostController extends AbstractController
             foreach ($listaLike as $array){
                 $listaConMasLike = $postRepository -> findOneBy(['id' =>$array[0]->getIdPost()]);
                 $user1 = $userRepository -> findOneBy(['id' =>$listaConMasLike->getIdUser()]);
+                $like= $array['veces'];
                 $data2[] = [
+                    'id' => $listaConMasLike->getId(),
                     'username' => $user1->getUserProfile()->getTwitterUsername(),
                     'pais' => $user1->getUserProfile()->getLocation(),
                     'message' => $listaConMasLike->getMessage(),
                     'image' => $listaConMasLike -> getImage(),
-                    'publication' => $listaConMasLike->getPublicationDate()
+                    'publication' => $listaConMasLike->getPublicationDate(),
+                    'like'=>$like
                 ];
             }
         }
@@ -178,16 +182,12 @@ class PostController extends AbstractController
     #[Route('/post/addlike', name:'app_post_añadir_like', methods:['POST'])]
     public  function addPostLike(Utils $utils, Request $request, MegustaRepository $likeRepository, UserRepository $userRepository, PostRepository $postRepository): JsonResponse{
 
-
+        $data = json_decode($request->getContent(), true);
         $userToken = $utils->obtenerUsuarioToken($request);
 
         $userP = $this->userRepository->findOneBy(['email' =>$userToken->getEmail()]);
 
-
-
-
-
-        $idPost = $request->get('id_post');
+        $idPost = $data['id_post'];
 
         $Post = $postRepository->findOneBy(['id' => (int)$idPost]);
 
