@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Megusta;
 use Container5x7Xsgz\getMegustaRepositoryService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use phpDocumentor\Reflection\PseudoTypes\Numeric_;
 
@@ -18,28 +19,12 @@ use phpDocumentor\Reflection\PseudoTypes\Numeric_;
  */
 class MegustaRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry,  EntityManagerInterface $manager)
     {
         parent::__construct($registry, Megusta::class);
+        $this->manager = $manager;
     }
 
-    public function save(Megusta $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->persist($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-    public function remove(Megusta $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
 
 //    /**
 //     * @return Megusta[] Returns an array of Megusta objects
@@ -77,6 +62,44 @@ class MegustaRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
             ;
+    }
+
+    public function save(Megusta $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(Megusta $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function addLike(Megusta $like){
+        $this->getEntityManager()->persist($like);
+        $this->manager->flush();
+    }
+
+    public function removeLike(Megusta $like){
+        $this->manager->remove($like);
+        $this->manager->flush();
+    }
+
+    public function findIdLike($value1, $value2): array {
+        return $this->createQueryBuilder('l')
+            ->select('l.id')
+            ->andWhere('l.id_post= :value1 and l.id_user = :value2')
+            ->setParameter('value1', $value1)
+            ->setParameter('value2', $value2)
+            ->getQuery()
+            ->getResult();
     }
 
 

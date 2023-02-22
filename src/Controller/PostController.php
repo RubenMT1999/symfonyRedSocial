@@ -4,11 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Dislike;
 use App\Entity\Followers;
-use App\Entity\Like;
+use App\Entity\Megusta;
 use App\Entity\Post;
 use App\Entity\Relio;
 use App\Repository\FollowersRepository;
-use App\Repository\LikeRepository;
 use App\Repository\MegustaRepository;
 use App\Repository\PostRepository;
 use App\Repository\UserProfileRepository;
@@ -70,16 +69,19 @@ class PostController extends AbstractController
                 foreach($listPost as $array){
                     $user1 = $userRepository -> findOneBy(['id' =>$array->getIdUser()]);
                     $like = $likeRepository->findPorLikeUser($array);
-                    if($like==null){
+                    if(empty($like)){
                         $like=0;
+                    }else{
+                        $like = $like[0]['veces'];
                     }
+
                     $data2[] = [
                         'username' => $user1->getUserProfile()->getTwitterUsername(),
                         'pais' => $user1->getUserProfile()->getLocation(),
                         'message' => $array->getMessage(),
                         'image' => $array->getImage(),
                         'publication' => $array->getPublicationDate(),
-                        'like' => $like[0]['veces']
+                        'like' => $like
                     ];
                 }
             }
@@ -174,7 +176,7 @@ class PostController extends AbstractController
     }
 
     #[Route('/post/addlike', name:'app_post_añadir_like', methods:['POST'])]
-    public  function addPostLike(Utils $utils, Request $request, LikeRepository $likeRepository, UserRepository $userRepository, PostRepository $postRepository): JsonResponse{
+    public  function addPostLike(Utils $utils, Request $request, MegustaRepository $likeRepository, UserRepository $userRepository, PostRepository $postRepository): JsonResponse{
 
 
         $userToken = $utils->obtenerUsuarioToken($request);
@@ -199,7 +201,7 @@ class PostController extends AbstractController
             return new JsonResponse(['resultado' => 'Like Eliminado!'], Response::HTTP_CREATED);
         }else{
 
-        $newlike = new Like();
+        $newlike = new Megusta();
 
         $newlike->setIdPost($Post);
         $newlike->setIdUser($userP);
