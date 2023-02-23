@@ -6,8 +6,10 @@ use App\Entity\Comments;
 use App\Entity\Post;
 use App\Repository\CommentsRepository;
 use App\Repository\PostRepository;
+use App\Repository\UserProfileRepository;
 use App\Repository\UserRepository;
 use App\utilidades\Utils;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,19 +26,28 @@ class CommentsController extends AbstractController
         ]);
     }
     #[Route('/comments/create',  name: 'app_comments_create' ,methods:['POST'])]
-    public function comments_create(PostRepository $postRepository,UserRepository $userRepository,CommentsRepository $commentsRepository, Request $request): JsonResponse
+    public function comments_create(UserProfileRepository $userProfileRepository, PostRepository $postRepository,UserRepository $userRepository,CommentsRepository $commentsRepository, Request $request): JsonResponse
     {
         $newComments = new comments;
         $data = json_decode($request->getContent(),true);
+        $publication = $data['date_comments'];
+        $date = new DateTime($publication);
+        $username = $userProfileRepository->findOneBy(['twitterUsername'=>$data]);
 
-        $newComments
-            ->setText($data['text'])
-            ->setIdPost($postRepository->findOneBy(['id'=>$data]))
-            ->setIdUser($userRepository->findOneBy(['email'=>$data]))
-            ->setDateComments($data['date_comments']);
-        $commentsRepository->save($newComments, true);
+        if ($postRepository->findOneBy(['id'=>$data])==null){
+            return new JsonResponse(['status' => 'Post no existe'], Response::HTTP_CREATED);
+        }else{
+            $newComments
+                ->setText($data['message'])
+                ->setIdPost($postRepository->findOneBy(['id'=>$data]))
+                ->setIdUser($username->getUser())
+                ->setDateComments($date);
+            $commentsRepository->save($newComments, true);
 
-        return new JsonResponse(['status' => 'Comentario creado'], Response::HTTP_CREATED);
+            return new JsonResponse(['status' => 'Comentario creado'], Response::HTTP_CREATED);
+        }
+
+
     }
     #[Route('/comments/delete',  name: 'comments_delete' ,methods:['DELETE'])]
     public function comments_delete(CommentsRepository $commentsRepository, Request $request): JsonResponse
