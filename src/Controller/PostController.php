@@ -56,7 +56,7 @@ class PostController extends AbstractController
     }
     //Visualizar todas las publicaciones de tus seguidores.
     #[Route('/post/user',  name: 'app_post_user' ,methods:['POST'])]
-    public function post_user(MegustaRepository $likeRepository,PostRepository $postRepository,FollowersRepository $followersRepository,UserRepository $userRepository,UserProfileRepository $userProfileRepository, Request $request): JsonResponse
+    public function post_user(MegustaRepository $likeRepository,DislikeRepository $dislikeRepository,PostRepository $postRepository,FollowersRepository $followersRepository,UserRepository $userRepository,UserProfileRepository $userProfileRepository, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(),true);
         $user = $userRepository->findOneBy(['email' => $data]);
@@ -69,10 +69,16 @@ class PostController extends AbstractController
                 foreach($listPost as $array){
                     $user1 = $userRepository -> findOneBy(['id' =>$array->getIdUser()]);
                     $like = $likeRepository->findPorLikeUser($array);
+                    $dislike = $dislikeRepository->findPorDislikeUser($array);
                     if(empty($like)){
                         $like=0;
                     }else{
                         $like = $like[0]['veces'];
+                    }
+                    if(empty($dislike)){
+                        $dislike=0;
+                    }else{
+                        $dislike = $dislike[0]['veces'];
                     }
 
                     $data2[] = [
@@ -81,7 +87,8 @@ class PostController extends AbstractController
                         'message' => $array->getMessage(),
                         'image' => $array->getImage(),
                         'publication' => $array->getPublicationDate(),
-                        'like' => $like
+                        'like' => $like,
+                        'dislike' => $dislike
                     ];
                 }
             }
@@ -179,6 +186,11 @@ class PostController extends AbstractController
     public  function addPostLike(Utils $utils, Request $request, MegustaRepository $likeRepository, UserRepository $userRepository, PostRepository $postRepository): JsonResponse{
 
 
+        $data = json_decode($request->getContent(),true);
+
+        $user = $userRepository->findOneBy(['email' => $data]);
+
+
         $userToken = $utils->obtenerUsuarioToken($request);
 
         $userP = $this->userRepository->findOneBy(['email' =>$userToken->getEmail()]);
@@ -187,7 +199,7 @@ class PostController extends AbstractController
 
 
 
-        $idPost = $request->get('id_post');
+        $idPost = $data['id_post'];
 
         $Post = $postRepository->findOneBy(['id' => (int)$idPost]);
 
@@ -224,12 +236,13 @@ class PostController extends AbstractController
     public  function addPostDislike(Utils $utils, Request $request, DislikeRepository $dislikeRepository, UserRepository $userRepository, PostRepository $postRepository): JsonResponse{
 
 
+        $data = json_decode($request->getContent(),true);
 
         $userToken = $utils->obtenerUsuarioToken($request);
 
         $userP = $this->userRepository->findOneBy(['email' =>$userToken->getEmail()]);
 
-        $idPost = $request->get('id_post');
+        $idPost = $data['id_post'];
 
         $Post = $postRepository->findOneBy(['id' => (int)$idPost]);
 
@@ -262,12 +275,13 @@ class PostController extends AbstractController
     #[Route('/post/addrelio', name:'app_post_añadir_relio', methods:['POST'])]
     public  function addPostRelio(Utils $utils, Request $request, RelioRepository $relioRepository, UserRepository $userRepository, PostRepository $postRepository): JsonResponse{
 
+        $data = json_decode($request->getContent(),true);
 
         $userToken = $utils->obtenerUsuarioToken($request);
 
         $userP = $this->userRepository->findOneBy(['email' =>$userToken->getEmail()]);
 
-        $idPost = $request->get('id_post');
+        $idPost = $data['id_post'];
 
         $Post = $postRepository->findOneBy(['id' => (int)$idPost]);
 
@@ -305,12 +319,14 @@ class PostController extends AbstractController
 
 
 
+        $data = json_decode($request->getContent(),true);
+
         $userToken = $utils->obtenerUsuarioToken($request);
 
         $userP = $this->userRepository->findOneBy(['email' =>$userToken->getEmail()]);
 
 
-        $idPost = $request->get('id_post');
+        $idPost = $data['id_post'];
 
         $Post = $postRepository->findOneBy(['id' => (int)$idPost]);
 

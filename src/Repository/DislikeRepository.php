@@ -60,6 +60,18 @@ class DislikeRepository extends ServiceEntityRepository
         $this->manager->flush();
     }
 
+    public function findPorDislikeUser($value): array
+    {
+        return $this->createQueryBuilder('d')
+            ->select('count(d.id_post) as veces')
+            ->groupBy('d.id_post')
+            ->andWhere('d.id_post = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    /**
 //     * @return Dislike[] Returns an array of Dislike objects
 //     */
