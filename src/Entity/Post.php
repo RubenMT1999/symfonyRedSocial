@@ -28,17 +28,17 @@ class Post
     #[ORM\ManyToOne]
     private ?User $id_user = null;
 
-    #[ORM\OneToMany(mappedBy: 'id_post', targetEntity: Comments::class)]
+    #[ORM\OneToMany(mappedBy: 'id_post',targetEntity: Comments::class,cascade:['persist', 'remove'], )]
     private Collection $id_comments;
 
 
-    #[ORM\OneToMany(mappedBy: 'id_post', targetEntity: Dislike::class)]
+    #[ORM\OneToMany(mappedBy: 'id_post', targetEntity: Dislike::class, cascade: ['persist', 'remove'])]
     private Collection $id_dislike;
 
-    #[ORM\OneToMany(mappedBy: 'id_post', targetEntity: Relio::class)]
+    #[ORM\OneToMany(mappedBy: 'id_post', targetEntity: Relio::class,cascade:['persist', 'remove'])]
     private Collection $id_relio;
 
-    #[ORM\OneToMany(mappedBy: 'id_post', targetEntity: Megusta::class)]
+    #[ORM\OneToMany(mappedBy: 'id_post', targetEntity: Megusta::class,cascade:['persist', 'remove'])]
     private Collection $id_megusta;
 
 

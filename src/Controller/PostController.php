@@ -56,7 +56,7 @@ class PostController extends AbstractController
     }
     //Visualizar todas las publicaciones de tus seguidores.
     #[Route('/post/user',  name: 'app_post_user' ,methods:['POST'])]
-    public function post_user(MegustaRepository $likeRepository,DislikeRepository $dislikeRepository,PostRepository $postRepository,FollowersRepository $followersRepository,UserRepository $userRepository,UserProfileRepository $userProfileRepository, Request $request): JsonResponse
+    public function post_user(DislikeRepository $dislikeRepository,MegustaRepository $likeRepository,PostRepository $postRepository,FollowersRepository $followersRepository,UserRepository $userRepository,UserProfileRepository $userProfileRepository, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(),true);
         $user = $userRepository->findOneBy(['email' => $data]);
@@ -80,8 +80,8 @@ class PostController extends AbstractController
                     }else{
                         $dislike = $dislike[0]['veces'];
                     }
-
                     $data2[] = [
+                        'id' => $array->getId(),
                         'username' => $user1->getUserProfile()->getTwitterUsername(),
                         'pais' => $user1->getUserProfile()->getLocation(),
                         'message' => $array->getMessage(),
@@ -98,12 +98,15 @@ class PostController extends AbstractController
             foreach ($listaLike as $array){
                 $listaConMasLike = $postRepository -> findOneBy(['id' =>$array[0]->getIdPost()]);
                 $user1 = $userRepository -> findOneBy(['id' =>$listaConMasLike->getIdUser()]);
+                $like= $array['veces'];
                 $data2[] = [
+                    'id' => $listaConMasLike->getId(),
                     'username' => $user1->getUserProfile()->getTwitterUsername(),
                     'pais' => $user1->getUserProfile()->getLocation(),
                     'message' => $listaConMasLike->getMessage(),
                     'image' => $listaConMasLike -> getImage(),
-                    'publication' => $listaConMasLike->getPublicationDate()
+                    'publication' => $listaConMasLike->getPublicationDate(),
+                    'like'=>$like
                 ];
             }
         }
@@ -130,7 +133,7 @@ class PostController extends AbstractController
     }
     //Visualizar las publicaciones del usuario.
     #[Route('/post/user/list',  name: 'app_user_list' ,methods:['POST'])]
-    public function post_user_list(PostRepository $postRepository,UserRepository $userRepository, Request $request): JsonResponse
+    public function post_user_list(MegustaRepository $megustaRepository,PostRepository $postRepository,UserRepository $userRepository, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(),true);
         $user = $userRepository->findOneBy(['email' => $data]);
@@ -138,11 +141,19 @@ class PostController extends AbstractController
         $listPost = $postRepository ->findPostOrder($user);
         $data2= [];
         foreach($listPost as $array){
+            $like = $megustaRepository->findPorLikeUser($array);
+            if(empty($like)){
+                $like=0;
+            }else{
+                $like = $like[0]['veces'];
+            }
+
             $data2[] = [
                 'id' => $array->getId(),
                 'message' => $array->getMessage(),
                 'image' => $array->getImage(),
-                'publication' => $array->getPublicationDate()
+                'publication' => $array->getPublicationDate(),
+                'like'=>$like
             ];
         }
         return new JsonResponse(['userPosts' => $data2], Response::HTTP_OK);
@@ -185,19 +196,10 @@ class PostController extends AbstractController
     #[Route('/post/addlike', name:'app_post_añadir_like', methods:['POST'])]
     public  function addPostLike(Utils $utils, Request $request, MegustaRepository $likeRepository, UserRepository $userRepository, PostRepository $postRepository): JsonResponse{
 
-
-        $data = json_decode($request->getContent(),true);
-
-        $user = $userRepository->findOneBy(['email' => $data]);
-
-
+        $data = json_decode($request->getContent(), true);
         $userToken = $utils->obtenerUsuarioToken($request);
 
         $userP = $this->userRepository->findOneBy(['email' =>$userToken->getEmail()]);
-
-
-
-
 
         $idPost = $data['id_post'];
 
@@ -237,7 +239,6 @@ class PostController extends AbstractController
 
 
         $data = json_decode($request->getContent(),true);
-
         $userToken = $utils->obtenerUsuarioToken($request);
 
         $userP = $this->userRepository->findOneBy(['email' =>$userToken->getEmail()]);
