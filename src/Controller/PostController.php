@@ -127,7 +127,7 @@ class PostController extends AbstractController
     }
     //Visualizar las publicaciones del usuario.
     #[Route('/post/user/list',  name: 'app_user_list' ,methods:['POST'])]
-    public function post_user_list(PostRepository $postRepository,UserRepository $userRepository, Request $request): JsonResponse
+    public function post_user_list(MegustaRepository $megustaRepository,PostRepository $postRepository,UserRepository $userRepository, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(),true);
         $user = $userRepository->findOneBy(['email' => $data]);
@@ -135,11 +135,19 @@ class PostController extends AbstractController
         $listPost = $postRepository ->findPostOrder($user);
         $data2= [];
         foreach($listPost as $array){
+            $like = $megustaRepository->findPorLikeUser($array);
+            if(empty($like)){
+                $like=0;
+            }else{
+                $like = $like[0]['veces'];
+            }
+
             $data2[] = [
                 'id' => $array->getId(),
                 'message' => $array->getMessage(),
                 'image' => $array->getImage(),
-                'publication' => $array->getPublicationDate()
+                'publication' => $array->getPublicationDate(),
+                'like'=>$like
             ];
         }
         return new JsonResponse(['userPosts' => $data2], Response::HTTP_OK);
