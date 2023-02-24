@@ -47,7 +47,23 @@ class MessagesRepository extends ServiceEntityRepository
     public function listarMensajes($value1, $value2): array
     {
         return $this->createQueryBuilder('p')
-            ->select('p.texto')
+            ->select('p.texto, p.creation_date')
+            ->andWhere('p.usuario_receptor = :val and p.usuario_emisor = :val2 or 
+                        p.usuario_emisor = :val and p.usuario_receptor = :val2')
+            ->setParameter('val', $value1)
+            ->setParameter('val2', $value2)
+            ->orderBy('p.creation_date', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
+
+    public function listarMensajesMios($value1, $value2): array
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p.texto, p.creation_date')
             ->andWhere('p.usuario_emisor = :val and p.usuario_receptor = :val2')
             ->setParameter('val', $value1)
             ->setParameter('val2', $value2)

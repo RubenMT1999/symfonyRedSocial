@@ -4,12 +4,15 @@ namespace App\Controller;
 
 date_default_timezone_set('UTC');
 
+use App\Entity\MensajePersonalizado;
 use App\Entity\Messages;
+use App\Entity\PersonalizarMensaje;
 use App\Repository\MessagesRepository;
 use App\Repository\UserProfileRepository;
 use App\Repository\UserRepository;
 use DateTime;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
+use stdClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,7 +64,9 @@ class ChatController extends AbstractController
         $usernameReceptor = $this->userProfileRepository->findOneBy(['twitterUsername' => $data3['usernameReceptor']]);
         $userReceptor = $usernameReceptor->getUser();
 
-        $usernameEmisor = $this->userProfileRepository->findOneBy(['twitterUsername' => $data2]);
+        $prueba = $this->userRepository->findOneBy(['email' => $data2]);
+        $obtenerUsername = $prueba->getUserProfile()->getTwitterUsername();
+        $usernameEmisor = $this->userProfileRepository->findOneBy(['twitterUsername' => $obtenerUsername]);
         $userEmisor = $usernameEmisor->getUser();
 
         $newMessage = new Messages();
@@ -96,17 +101,51 @@ class ChatController extends AbstractController
         $usernameReceptor = $this->userProfileRepository->findOneBy(['twitterUsername' => $data3['usernameReceptor']]);
         $userReceptor = $usernameReceptor->getUser();
 
-        $usernameEmisor = $this->userProfileRepository->findOneBy(['twitterUsername' => $data2]);
+        $prueba = $this->userRepository->findOneBy(['email' => $data2]);
+        $obtenerUsername = $prueba->getUserProfile()->getTwitterUsername();
+        $usernameEmisor = $this->userProfileRepository->findOneBy(['twitterUsername' => $obtenerUsername]);
         $userEmisor = $usernameEmisor->getUser();
 
         $miLista = $this->messagesRepository->listarMensajes($userEmisor,$userReceptor);
 
         $datosMensajes= [];
         foreach($miLista as $array){
-            $mensaje = $array['texto'];
-            $datosMensajes[] = $mensaje;
+       
+            $datosMensajes[] = $array;
         }
         return new JsonResponse(['listaMensajes' => $datosMensajes], Response::HTTP_CREATED);
+    }
+
+
+    #[Route('message/listarMessagesMios', name:'app_listar_messagesmios', methods:['POST'])]
+    public function listarMessagesMios(Request $request): JsonResponse{
+
+
+        $token = $request->headers->get('Authorization');
+        if ($token) {
+            $data = $this->jwtEncoder->decode($token);
+        
+            $data2 =  $data['username'];
+        }
+
+        $data3 = json_decode($request->getContent(), true);
+
+        $usernameReceptor = $this->userProfileRepository->findOneBy(['twitterUsername' => $data3['usernameReceptor']]);
+        $userReceptor = $usernameReceptor->getUser();
+
+        $prueba = $this->userRepository->findOneBy(['email' => $data2]);
+        $obtenerUsername = $prueba->getUserProfile()->getTwitterUsername();
+        $usernameEmisor = $this->userProfileRepository->findOneBy(['twitterUsername' => $obtenerUsername]);
+        $userEmisor = $usernameEmisor->getUser();
+
+        $miLista = $this->messagesRepository->listarMensajesMios($userEmisor,$userReceptor);
+
+        $datosMensajes= [];
+        foreach($miLista as $array){
+       
+            $datosMensajes[] = $array;
+        }
+        return new JsonResponse(['listaMensajes' => $miLista], Response::HTTP_CREATED);
     }
 
 }
