@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8251fa56-8e54-4be9-b8b2-1ce73cd13924" name="Changes" comment="cambios dislike angular">
+    <list default="true" id="8251fa56-8e54-4be9-b8b2-1ce73cd13924" name="Changes" comment="metodo buscar follows en profile">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PostController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/DislikeRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/DislikeRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20230209184542.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20230215190202.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20230216183950.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ProfileController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ProfileController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,7 +189,8 @@
       <workItem from="1676643384486" duration="5065000" />
       <workItem from="1676650586325" duration="761000" />
       <workItem from="1676651684797" duration="6589000" />
-      <workItem from="1677165436103" duration="4589000" />
+      <workItem from="1677165436103" duration="12708000" />
+      <workItem from="1677247723727" duration="3911000" />
     </task>
     <task id="LOCAL-00001" summary="prueba">
       <created>1674068855044</created>
@@ -308,7 +311,21 @@
       <option name="project" value="LOCAL" />
       <updated>1677167276275</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="creado like y dislike de perfil">
+      <created>1677170555139</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1677170555139</updated>
+    </task>
+    <task id="LOCAL-00019" summary="metodo buscar follows en profile">
+      <created>1677193215636</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1677193215636</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -345,7 +362,9 @@
     <MESSAGE value="Publicacion like" />
     <MESSAGE value="creada las tablas de relio, like y dislike" />
     <MESSAGE value="cambios dislike angular" />
-    <option name="LAST_COMMIT_MESSAGE" value="cambios dislike angular" />
+    <MESSAGE value="creado like y dislike de perfil" />
+    <MESSAGE value="metodo buscar follows en profile" />
+    <option name="LAST_COMMIT_MESSAGE" value="metodo buscar follows en profile" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

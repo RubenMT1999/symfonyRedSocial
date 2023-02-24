@@ -217,12 +217,15 @@ class ProfileController extends AbstractController
             $meSiguenFinal = $meSiguen[0]['seguidor'];
         }
 
-        $data2[] = [
-            'sigo' => (int)$sigoFinal,
-            'meSiguen' => (int)$meSiguenFinal
-        ];
+        $data2= [];
 
-        return new JsonResponse([$data2], Response::HTTP_OK);
+        $data2[] = (int)$sigoFinal;
+        $data2[] = (int)$meSiguenFinal;
+
+
+
+
+        return new JsonResponse(['userSeguidores' => $data2], Response::HTTP_OK);
     }
 
 
