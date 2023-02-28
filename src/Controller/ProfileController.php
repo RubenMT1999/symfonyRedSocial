@@ -322,10 +322,36 @@ class ProfileController extends AbstractController
 
         $id_token = $data['token'];
 
-        $client = new Google_Client(['client_id' => $id_token]);  
+        $client = new Google_Client(['client_id' => '654622771453-jf22r6uopircg7fe0221dsd6kbjn5k60.apps.googleusercontent.com']);  
         $payload = $client->verifyIdToken($id_token);
 
-        return new JsonResponse( $id_token, Response::HTTP_OK);
+        if($payload == false){
+            throw new NotFoundHttpException('Payload incorrecto');
+        }
+
+        $email = $payload['email'];
+
+        $encontrarUser = $this->userRepository->findOneBy(['email' => $email]);
+
+        $newUser = new User();
+
+        if(!$encontrarUser){
+
+            $hashPassword = $this->userPasswordHasher->hashPassword($newUser, '@@@');
+
+            $newUser
+                ->setEmail($email)
+                ->setRoles(['Role_User'])
+                ->setPassword($hashPassword);
+
+            $this->userProfileRepository->establecerProfileVacio($newUser);
+        }else{
+            $newUser = $encontrarUser;
+        }
+
+        $this->userRepository->save($newUser, true);
+
+        return new JsonResponse( ['Usuario Creado!' => $payload], Response::HTTP_OK);
     
 }
 
