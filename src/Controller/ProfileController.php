@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Controller;
+require_once dirname(__DIR__).'/../vendor/autoload.php';
+require_once dirname(__DIR__).'/../vendor/google/apiclient-services/autoload.php';
 
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,7 +13,9 @@ use App\Entity\User;
 use App\Entity\MicroPost;
 use App\Entity\UserProfile;
 use App\Repository\UserProfileRepository;
+use App\utilidades\Utils;
 use Exception;
+use Google_Client;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -32,17 +36,21 @@ class ProfileController extends AbstractController
     private $userProfileRepository;
     private $userPasswordHasher;
 
+    private $utils;
     private $jwtEncoder;
 
     public function __construct(UserRepository              $userRepository,
                                 UserProfileRepository       $userProfileRepository,
                                 UserPasswordHasherInterface $userPasswordHasher,
-                                JWTEncoderInterface         $jwtEncoder)
+                                JWTEncoderInterface         $jwtEncoder,
+                                Utils $utils,
+)
     {
         $this->userRepository = $userRepository;
         $this->userProfileRepository = $userProfileRepository;
         $this->userPasswordHasher = $userPasswordHasher;
         $this->jwtEncoder = $jwtEncoder;
+        $this->utils = $utils;
     }
 
 
@@ -306,5 +314,19 @@ class ProfileController extends AbstractController
     }
 
 
+
+    #[Route('/login/google', methods:['POST'], name: 'google_sign')]
+    public function googleSignIn(Request $request): JsonResponse{
+
+        $data = json_decode($request->getContent(),true);
+
+        $id_token = $data['token'];
+
+        $client = new Google_Client(['client_id' => $id_token]);  
+        $payload = $client->verifyIdToken($id_token);
+
+        return new JsonResponse( $id_token, Response::HTTP_OK);
+    
+}
 
 }

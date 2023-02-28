@@ -5,8 +5,9 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class HelloController
+class HelloController extends AbstractController
 {
 
     private array $messages = [
@@ -19,12 +20,24 @@ class HelloController
     // con ? lo hacemos opcional y el 3 es el valor por defecto.
     #[Route('/{limit<\d+>?3}', name: 'app_index')]
     public function index(int $limit): Response{
-        return new Response(implode(',', array_slice($this->messages, 0, $limit)));
-    }
+        return $this->render(
+            'google_check.html.twig',
+            [
+                'message' => 'hola'
+            ]
+        );
+/*         return new Response(implode(',', array_slice($this->messages, 0, $limit)));
+ */    }
     
     #[Route('/messages/{id<\d+>}', name: 'app_show_one')]
     public function showOne($id): Response{
-        return new Response($this->messages[$id]);
+        return $this->render(
+            'google_check.html.twig',
+            [
+                'message' => 'hola'
+            ]
+        );
+        /* return new Response($this->messages[$id]); */
     }
 
 }
