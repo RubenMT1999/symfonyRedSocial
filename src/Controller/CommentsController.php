@@ -71,7 +71,7 @@ class CommentsController extends AbstractController
         return new JsonResponse(['status' => 'Comentario Actualizado'], Response::HTTP_CREATED);
     }
 
-    #[Route('/comments/post',  name: 'comments_post' ,methods:['GET'])]
+    #[Route('/comments/post',  name: 'comments_post' ,methods:['POST'])]
     public function comments_post(UserRepository $userRepository, CommentsRepository $commentsRepository, Utils $utilidades, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(),true);
@@ -83,11 +83,15 @@ class CommentsController extends AbstractController
             $data2[] = [
                 'text' => $array->getText(),
                 'date_comments' => $array->getDateComments(),
-                'email' => $id->getUserProfile()->getName()
+                'email' => $id->getUserProfile()->getName(),
+                'id_post' => $array->getIdPost()->getId()
             ];
+
+
+
         }
-        $listJson = $utilidades -> toJson($data2);
-        return new JsonResponse($listJson, 200,[], true);
+
+        return new JsonResponse(['commentsUser' => $data2], Response::HTTP_OK);
     }
 
     #[Route('/comments/user',  name: 'comments_user' ,methods:['GET'])]
