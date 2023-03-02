@@ -87,6 +87,15 @@ class ProfileController extends AbstractController
             throw new NotFoundHttpException('Se esperan otros parámetros!');
         }
 
+
+        $encontrarEmail = $this->userRepository->findOneBy(['email' => $email]);
+
+        if($encontrarEmail){
+            return new JsonResponse(['status' => 'Ese email ya está en uso!'], Response::HTTP_CONFLICT);
+        }
+
+
+
         $newUser = new User();
 
         $hashPassword = $this->userPasswordHasher->hashPassword($newUser, $password);
@@ -322,7 +331,7 @@ class ProfileController extends AbstractController
 
         $id_token = $data['token'];
 
-        $client = new Google_Client(['client_id' => '654622771453-jf22r6uopircg7fe0221dsd6kbjn5k60.apps.googleusercontent.com']);  
+         $client = new Google_Client(['client_id' => '654622771453-jf22r6uopircg7fe0221dsd6kbjn5k60.apps.googleusercontent.com']);  
         $payload = $client->verifyIdToken($id_token);
 
         if($payload == false){
@@ -351,7 +360,15 @@ class ProfileController extends AbstractController
 
         $this->userRepository->save($newUser, true);
 
-        return new JsonResponse( ['Usuario Creado!' => $payload], Response::HTTP_OK);
+        $data2 = [
+            'email' => $newUser->getEmail(),
+            'password' => $newUser->getPassword()
+        ];
+
+        
+
+
+        return new JsonResponse(  $data2, Response::HTTP_OK);
     
 }
 
