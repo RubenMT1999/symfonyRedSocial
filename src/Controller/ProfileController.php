@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Controller;
+require_once dirname(__DIR__).'/../vendor/autoload.php';
+require_once dirname(__DIR__).'/../vendor/google/apiclient-services/autoload.php';
 
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,7 +13,9 @@ use App\Entity\User;
 use App\Entity\MicroPost;
 use App\Entity\UserProfile;
 use App\Repository\UserProfileRepository;
+use App\utilidades\Utils;
 use Exception;
+use Google_Client;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -32,17 +36,21 @@ class ProfileController extends AbstractController
     private $userProfileRepository;
     private $userPasswordHasher;
 
+    private $utils;
     private $jwtEncoder;
 
     public function __construct(UserRepository              $userRepository,
                                 UserProfileRepository       $userProfileRepository,
                                 UserPasswordHasherInterface $userPasswordHasher,
-                                JWTEncoderInterface         $jwtEncoder)
+                                JWTEncoderInterface         $jwtEncoder,
+                                Utils $utils,
+)
     {
         $this->userRepository = $userRepository;
         $this->userProfileRepository = $userProfileRepository;
         $this->userPasswordHasher = $userPasswordHasher;
         $this->jwtEncoder = $jwtEncoder;
+        $this->utils = $utils;
     }
 
 
@@ -78,6 +86,15 @@ class ProfileController extends AbstractController
         if (empty($email) || empty($roles) || empty($password)) {
             throw new NotFoundHttpException('Se esperan otros parámetros!');
         }
+
+
+        $encontrarEmail = $this->userRepository->findOneBy(['email' => $email]);
+
+        if($encontrarEmail){
+            return new JsonResponse(['status' => 'Ese email ya está en uso!'], Response::HTTP_CONFLICT);
+        }
+
+
 
         $newUser = new User();
 
@@ -306,5 +323,53 @@ class ProfileController extends AbstractController
     }
 
 
+
+    #[Route('/login/google', methods:['POST'], name: 'google_sign')]
+    public function googleSignIn(Request $request): JsonResponse{
+
+        $data = json_decode($request->getContent(),true);
+
+        $id_token = $data['token'];
+
+         $client = new Google_Client(['client_id' => '654622771453-jf22r6uopircg7fe0221dsd6kbjn5k60.apps.googleusercontent.com']);  
+        $payload = $client->verifyIdToken($id_token);
+
+        if($payload == false){
+            throw new NotFoundHttpException('Payload incorrecto');
+        }
+
+        $email = $payload['email'];
+
+        $encontrarUser = $this->userRepository->findOneBy(['email' => $email]);
+
+        $newUser = new User();
+
+        if(!$encontrarUser){
+
+            $hashPassword = $this->userPasswordHasher->hashPassword($newUser, '@@@');
+
+            $newUser
+                ->setEmail($email)
+                ->setRoles(['Role_User'])
+                ->setPassword($hashPassword);
+
+            $this->userProfileRepository->establecerProfileVacio($newUser);
+        }else{
+            $newUser = $encontrarUser;
+        }
+
+        $this->userRepository->save($newUser, true);
+
+        $data2 = [
+            'email' => $newUser->getEmail(),
+            'password' => $newUser->getPassword()
+        ];
+
+        
+
+
+        return new JsonResponse(  $data2, Response::HTTP_OK);
+    
+}
 
 }

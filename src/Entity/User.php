@@ -48,8 +48,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'id_user', targetEntity: Relio::class)]
     private Collection $id_relio;
 
-    #[ORM\OneToMany(mappedBy: 'id_user', targetEntity: Megusta::class)]
-    private Collection $id_megusta;
+    #[ORM\OneToMany(mappedBy: 'usuario_emisor', targetEntity: Messages::class)]
+    private Collection $messages;
+
+
+
 
 
     public function __construct()
@@ -57,7 +60,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->id_comments = new ArrayCollection();
         $this->id_dislike = new ArrayCollection();
         $this->id_relio = new ArrayCollection();
-        $this->id_megusta = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
 
@@ -244,34 +247,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Megusta>
+     * @return Collection<int, Messages>
      */
-    public function getIdMegusta(): Collection
+    public function getMessages(): Collection
     {
-        return $this->id_megusta;
+        return $this->messages;
     }
 
-    public function addIdMegustum(Megusta $idMegustum): self
+    public function addMessage(Messages $message): self
     {
-        if (!$this->id_megusta->contains($idMegustum)) {
-            $this->id_megusta->add($idMegustum);
-            $idMegustum->setIdUser($this);
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setUsuarioEmisor($this);
         }
 
         return $this;
     }
 
-    public function removeIdMegustum(Megusta $idMegustum): self
+    public function removeMessage(Messages $message): self
     {
-        if ($this->id_megusta->removeElement($idMegustum)) {
+        if ($this->messages->removeElement($message)) {
             // set the owning side to null (unless already changed)
-            if ($idMegustum->getIdUser() === $this) {
-                $idMegustum->setIdUser(null);
+            if ($message->getUsuarioEmisor() === $this) {
+                $message->setUsuarioEmisor(null);
             }
         }
 
         return $this;
     }
+
+
+
 
 
 
