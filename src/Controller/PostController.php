@@ -276,12 +276,12 @@ class PostController extends AbstractController
     #[Route('/post/addrelio', name:'app_post_añadir_relio', methods:['POST'])]
     public  function addPostRelio(Utils $utils, Request $request, RelioRepository $relioRepository, UserRepository $userRepository, PostRepository $postRepository): JsonResponse{
 
-
+        $data = json_decode($request->getContent(), true);
         $userToken = $utils->obtenerUsuarioToken($request);
 
         $userP = $this->userRepository->findOneBy(['email' =>$userToken->getEmail()]);
 
-        $idPost = $request->get('id_post');
+        $idPost = $data['id_post'];
 
         $Post = $postRepository->findOneBy(['id' => (int)$idPost]);
 
@@ -323,35 +323,26 @@ class PostController extends AbstractController
 
         $userP = $this->userRepository->findOneBy(['email' =>$userToken->getEmail()]);
 
+        $relio = $relioRepository ->findBy(['id_user' => $userP->getId()]);
 
-        $idPost = $request->get('id_post');
-
-        $Post = $postRepository->findOneBy(['id' => (int)$idPost]);
-
-        $relioComprobar = $relioRepository->findIdRelio($Post,$userP);
-
-
-
-        if (empty($relioComprobar)){
-            return new JsonResponse(['resultado' => 'No existe el relio!'], Response::HTTP_CREATED);
-        }else{
+        foreach($relio as $array) {
+            $listaPost = $postRepository->findBy(['id' => $array->getIdPost()]);
 
             $data2[] = [
-                'id' => $Post->getId(),
-                'id_user' => $Post->getIdUser()->getId(),
-                'Mensaje' => $Post->getMessage(),
-                'Imagen' => $Post->getImage(),
-                'Fecha-Publicación' => $Post->getPublicationDate(),
+                'id_user' => $listaPost[0]->getIdUser()->getUserProfile()->getName(),
+                'mensaje' => $listaPost[0]->getMessage(),
+                'imagen' => $listaPost[0]->getImage(),
+                'fecha_Publicación' => $listaPost[0]->getPublicationDate(),
             ];
 
+        }
 
-
-            return new JsonResponse(['Publicación' => $data2], Response::HTTP_OK);
+            return new JsonResponse(['publicacion' => $data2], Response::HTTP_OK);
 
 
         }
 
-    }
+
 
 
 }

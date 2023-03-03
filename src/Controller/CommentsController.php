@@ -99,10 +99,11 @@ class CommentsController extends AbstractController
             $data2[] = [
                 'text' => $array->getText(),
                 'email' => $id->getUserProfile()->getName(),
-                'id_post' => $array->getIdPost()->getId()
+                'id_post' => $array->getIdPost()->getId(),
+                'date_comments' => $array->getDateComments()
             ];
         }
-        return new JsonResponse($data2, Response::HTTP_OK);
+        return new JsonResponse(['commentsUser' => $data2], Response::HTTP_OK);
     }
 
     #[Route('/comments/user',  name: 'comments_user' ,methods:['GET'])]
