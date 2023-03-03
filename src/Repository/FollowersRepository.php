@@ -141,6 +141,8 @@ class FollowersRepository extends ServiceEntityRepository
     }
 
 
+
+
         public function personasQueMeSiguen($idReceptor){
 
             return $this->createQueryBuilder('u')

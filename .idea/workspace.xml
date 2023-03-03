@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8251fa56-8e54-4be9-b8b2-1ce73cd13924" name="Changes" comment="metodo buscar follows en profile">
+    <list default="true" id="8251fa56-8e54-4be9-b8b2-1ce73cd13924" name="Changes" comment="cambiando comments">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20230209184542.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20230215190202.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20230216183950.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PostController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/ProfileController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ProfileController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/FollowersRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/FollowersRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/RelioRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/RelioRepository.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,6 +192,9 @@
       <workItem from="1676651684797" duration="6589000" />
       <workItem from="1677165436103" duration="12708000" />
       <workItem from="1677247723727" duration="3911000" />
+      <workItem from="1677783548873" duration="1083000" />
+      <workItem from="1677798674216" duration="15000" />
+      <workItem from="1677852905730" duration="4218000" />
     </task>
     <task id="LOCAL-00001" summary="prueba">
       <created>1674068855044</created>

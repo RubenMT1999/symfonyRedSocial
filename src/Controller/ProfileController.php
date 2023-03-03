@@ -229,6 +229,30 @@ class ProfileController extends AbstractController
     }
 
 
+    #[Route('/profile/numRelio', methods: ['POST'], name: 'profile_numRelio')]
+    public function getRelio(Request $request, Utils $utils): JsonResponse
+    {
+
+
+        $userToken = $utils->obtenerUsuarioToken($request);
+
+        $user = $this->userRepository->findOneBy(['email' =>$userToken->getEmail()]);
+
+
+        $relio = (int)$this->followerRepository->contarRelios($user->getId());
+
+
+
+
+
+
+
+
+
+        return new JsonResponse(['numRelios' => $relio], Response::HTTP_OK);
+    }
+
+
     #[Route('/profile/buscar', methods: ['POST'], name: 'buscar_usuario')]
     public function buscarUsuario(Request $request): JsonResponse
     {
