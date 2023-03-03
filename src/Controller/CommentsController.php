@@ -94,6 +94,7 @@ class CommentsController extends AbstractController
             $data2[] = [
                 'text' => $array->getText(),
                 'email' => $id->getUserProfile()->getName(),
+                'perfil' => $array->getIdUser()->getEmail(),
                 'id_post' => $array->getIdPost()->getId(),
                 'date_comments' => $array->getDateComments()
             ];
