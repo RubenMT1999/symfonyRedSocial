@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8251fa56-8e54-4be9-b8b2-1ce73cd13924" name="Changes" comment="Publicacion like">
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/symfonyRedSocial.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/symfonyRedSocial.iml" afterDir="false" />
+    <list default="true" id="8251fa56-8e54-4be9-b8b2-1ce73cd13924" name="Changes" comment="cambiando comments">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PostController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ProfileController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ProfileController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/FollowersRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/FollowersRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/RelioRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/RelioRepository.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,7 +21,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="adrian" />
+        <entry key="$PROJECT_DIR$" value="pedro" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -94,6 +94,8 @@
       <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-bundle" />
       <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-fixtures-bundle" />
       <path value="$PROJECT_DIR$/vendor/symfony/stopwatch" />
+      <path value="$PROJECT_DIR$/vendor/laminas/laminas-code" />
+      <path value="$PROJECT_DIR$/vendor/friendsofphp/proxy-manager-lts" />
       <path value="$PROJECT_DIR$/vendor/symfony/password-hasher" />
       <path value="$PROJECT_DIR$/vendor/symfony/security-core" />
       <path value="$PROJECT_DIR$/vendor/symfony/translation-contracts" />
@@ -146,12 +148,10 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
-  }
-}</component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
+  </component>
   <component name="RunManager">
     <configuration name="server " type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" server_name="xdebug_server">
       <method v="2" />
@@ -190,6 +190,11 @@
       <workItem from="1676643384486" duration="5065000" />
       <workItem from="1676650586325" duration="761000" />
       <workItem from="1676651684797" duration="6589000" />
+      <workItem from="1677165436103" duration="12708000" />
+      <workItem from="1677247723727" duration="3911000" />
+      <workItem from="1677783548873" duration="1083000" />
+      <workItem from="1677798674216" duration="15000" />
+      <workItem from="1677852905730" duration="4218000" />
     </task>
     <task id="LOCAL-00001" summary="prueba">
       <created>1674068855044</created>
@@ -303,7 +308,28 @@
       <option name="project" value="LOCAL" />
       <updated>1676645406501</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="cambios dislike angular">
+      <created>1677167276275</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1677167276275</updated>
+    </task>
+    <task id="LOCAL-00018" summary="creado like y dislike de perfil">
+      <created>1677170555139</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1677170555139</updated>
+    </task>
+    <task id="LOCAL-00019" summary="metodo buscar follows en profile">
+      <created>1677193215636</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1677193215636</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -338,21 +364,15 @@
     <MESSAGE value="Creada función añadir follow" />
     <MESSAGE value="Publicacion" />
     <MESSAGE value="Publicacion like" />
-    <option name="LAST_COMMIT_MESSAGE" value="Publicacion like" />
+    <MESSAGE value="creada las tablas de relio, like y dislike" />
+    <MESSAGE value="cambios dislike angular" />
+    <MESSAGE value="creado like y dislike de perfil" />
+    <MESSAGE value="metodo buscar follows en profile" />
+    <option name="LAST_COMMIT_MESSAGE" value="metodo buscar follows en profile" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/Repository/MegustaRepository.php</url>
-          <line>58</line>
-          <option name="timeStamp" value="53" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/Repository/MegustaRepository.php</url>
-          <line>61</line>
-          <option name="timeStamp" value="55" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/src/utilidades/Utils.php</url>
           <line>38</line>
@@ -377,15 +397,6 @@
           <url>file://$PROJECT_DIR$/src/utilidades/Utils.php</url>
           <line>36</line>
           <option name="timeStamp" value="60" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php-line-method">
-          <url>file://$PROJECT_DIR$/src/Repository/MegustaRepository.php</url>
-          <line>56</line>
-          <properties>
-            <option name="className" value="\App\Repository\MegustaRepository" />
-            <option name="methodName" value="findPorLike" />
-          </properties>
-          <option name="timeStamp" value="52" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

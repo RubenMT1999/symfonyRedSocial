@@ -12,8 +12,10 @@ use DateTime;
 use App\Entity\User;
 use App\Entity\MicroPost;
 use App\Entity\UserProfile;
-use App\Repository\UserProfileRepository;
 use App\utilidades\Utils;
+use App\Repository\UserProfileRepository;
+use App\Repository\FollowersRepository;
+
 use Exception;
 use Google_Client;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
@@ -35,11 +37,13 @@ class ProfileController extends AbstractController
     private $userRepository;
     private $userProfileRepository;
     private $userPasswordHasher;
+    private $followerRepository;
 
     private $utils;
     private $jwtEncoder;
 
     public function __construct(UserRepository              $userRepository,
+                                FollowersRepository         $followerRepository,
                                 UserProfileRepository       $userProfileRepository,
                                 UserPasswordHasherInterface $userPasswordHasher,
                                 JWTEncoderInterface         $jwtEncoder,
@@ -47,6 +51,7 @@ class ProfileController extends AbstractController
 )
     {
         $this->userRepository = $userRepository;
+        $this->followerRepository = $followerRepository;
         $this->userProfileRepository = $userProfileRepository;
         $this->userPasswordHasher = $userPasswordHasher;
         $this->jwtEncoder = $jwtEncoder;
@@ -140,6 +145,7 @@ class ProfileController extends AbstractController
         $obtenerProfile = $this->userProfileRepository->findOneBy(['twitterUsername' => $twitter_username]);
 
 
+
         if($obtenerProfile != null){
             if($obtenerProfile->getTwitterUsername() != $obtenerUser->getEmail()
                 && $obtenerProfile->getTwitterUsername() != $obtenerUser->getUserProfile()->getTwitterUsername()){
@@ -187,6 +193,8 @@ class ProfileController extends AbstractController
             throw new NotFoundHttpException('No existe un perfil de ese usuario');
         }
 
+
+
         $data2[] = [
             'name' => $miProfile->getName(),
             'bio' => $miProfile->getBio(),
@@ -199,6 +207,66 @@ class ProfileController extends AbstractController
         ];
 
         return new JsonResponse(['userProfile' => $data2], Response::HTTP_OK);
+    }
+
+    #[Route('/profile/follow', methods: ['POST'], name: 'profile_follow')]
+    public function getFollows(Request $request, Utils $utils): JsonResponse
+    {
+
+
+        $userToken = $utils->obtenerUsuarioToken($request);
+
+        $user = $this->userRepository->findOneBy(['email' =>$userToken->getEmail()]);
+
+        $sigo = $this->followerRepository->contarCuantosSigo($user->getId());
+        $meSiguen = $this->followerRepository->personasQueMeSiguen($user->getId());
+
+
+        if (empty($sigo)){
+            $sigoFinal = 0;
+        }else{
+            $sigoFinal = $sigo[0]['numero'];
+        }
+
+        if (empty($meSiguen)){
+            $meSiguenFinal = 0;
+        }else{
+            $meSiguenFinal = $meSiguen[0]['seguidor'];
+        }
+
+        $data2= [];
+
+        $data2[] = (int)$sigoFinal;
+        $data2[] = (int)$meSiguenFinal;
+
+
+
+
+        return new JsonResponse(['userSeguidores' => $data2], Response::HTTP_OK);
+    }
+
+
+    #[Route('/profile/numRelio', methods: ['POST'], name: 'profile_numRelio')]
+    public function getRelio(Request $request, Utils $utils): JsonResponse
+    {
+
+
+        $userToken = $utils->obtenerUsuarioToken($request);
+
+        $user = $this->userRepository->findOneBy(['email' =>$userToken->getEmail()]);
+
+
+        $relio = (int)$this->followerRepository->contarRelios($user->getId());
+
+
+
+
+
+
+
+
+
+        return new JsonResponse(['numRelios' => $relio], Response::HTTP_OK);
     }
 
 
@@ -331,7 +399,7 @@ class ProfileController extends AbstractController
 
         $id_token = $data['token'];
 
-         $client = new Google_Client(['client_id' => '654622771453-jf22r6uopircg7fe0221dsd6kbjn5k60.apps.googleusercontent.com']);  
+         $client = new Google_Client(['client_id' => '654622771453-jf22r6uopircg7fe0221dsd6kbjn5k60.apps.googleusercontent.com']);
         $payload = $client->verifyIdToken($id_token);
 
         if($payload == false){
@@ -365,11 +433,11 @@ class ProfileController extends AbstractController
             'password' => $newUser->getPassword()
         ];
 
-        
+
 
 
         return new JsonResponse(  $data2, Response::HTTP_OK);
-    
+
 }
 
 }

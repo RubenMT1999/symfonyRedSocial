@@ -129,6 +129,19 @@ class FollowersRepository extends ServiceEntityRepository
 
         }
 
+    public function contarCuantosSigo($idReceptor){
+
+        return $this->createQueryBuilder('u')
+            ->select('count(u.id) as numero')
+            ->andWhere('u.id_emisor = :value1')
+            ->setParameter('value1', $idReceptor)
+            ->getQuery()
+            ->getResult();
+
+    }
+
+
+
 
         public function personasQueMeSiguen($idReceptor){
 
