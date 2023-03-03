@@ -56,7 +56,7 @@ class PostController extends AbstractController
     }
     //Visualizar todas las publicaciones de tus seguidores.
     #[Route('/post/user',  name: 'app_post_user' ,methods:['POST'])]
-    public function post_user(DislikeRepository $dislikeRepository,MegustaRepository $likeRepository,PostRepository $postRepository,FollowersRepository $followersRepository,UserRepository $userRepository,UserProfileRepository $userProfileRepository, Request $request): JsonResponse
+    public function post_user(DislikeRepository $dislikeRepository,RelioRepository $relioRepository,MegustaRepository $likeRepository,PostRepository $postRepository,FollowersRepository $followersRepository,UserRepository $userRepository,UserProfileRepository $userProfileRepository, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(),true);
         $user = $userRepository->findOneBy(['email' => $data]);
@@ -70,6 +70,7 @@ class PostController extends AbstractController
                     $user1 = $userRepository -> findOneBy(['id' =>$array->getIdUser()]);
                     $like = $likeRepository->findPorLikeUser($array);
                     $dislike = $dislikeRepository->findPorDislikeUser($array);
+                    $relio = $relioRepository->findPorRelioeUser($array);
                     if(empty($like)){
                         $like=0;
                     }else{
@@ -80,6 +81,12 @@ class PostController extends AbstractController
                     }else{
                         $dislike = $dislike[0]['veces'];
                     }
+                    if(empty($relio)){
+                        $relio=0;
+                    }else{
+                        $relio = $relio[0]['veces'];
+                    }
+
                     $data2[] = [
                         'id' => $array->getId(),
                         'username' => $user1->getUserProfile()->getTwitterUsername(),
@@ -88,7 +95,8 @@ class PostController extends AbstractController
                         'image' => $array->getImage(),
                         'publication' => $array->getPublicationDate(),
                         'like' => $like,
-                        'dislike' => $dislike
+                        'dislike' => $dislike,
+                        'relio' => $relio
                     ];
                 }
             }
@@ -133,7 +141,7 @@ class PostController extends AbstractController
     }
     //Visualizar las publicaciones del usuario.
     #[Route('/post/user/list',  name: 'app_user_list' ,methods:['POST'])]
-    public function post_user_list(MegustaRepository $megustaRepository,PostRepository $postRepository,UserRepository $userRepository, Request $request): JsonResponse
+    public function post_user_list(DislikeRepository $dislikeRepository,MegustaRepository $megustaRepository,RelioRepository $relioRepository,PostRepository $postRepository,UserRepository $userRepository, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(),true);
         $user = $userRepository->findOneBy(['email' => $data]);
@@ -142,10 +150,22 @@ class PostController extends AbstractController
         $data2= [];
         foreach($listPost as $array){
             $like = $megustaRepository->findPorLikeUser($array);
+            $dislike = $dislikeRepository->findPorDislikeUser($array);
+            $relio = $relioRepository->findPorRelioeUser($array);
             if(empty($like)){
                 $like=0;
             }else{
                 $like = $like[0]['veces'];
+            }
+            if(empty($dislike)){
+                $dislike=0;
+            }else{
+                $dislike = $dislike[0]['veces'];
+            }
+            if(empty($relio)){
+                $relio=0;
+            }else{
+                $relio = $relio[0]['veces'];
             }
 
             $data2[] = [
@@ -153,7 +173,9 @@ class PostController extends AbstractController
                 'message' => $array->getMessage(),
                 'image' => $array->getImage(),
                 'publication' => $array->getPublicationDate(),
-                'like'=>$like
+                'like'=>$like,
+                 'dislike' => $dislike,
+                'relio' =>$relio
             ];
         }
         return new JsonResponse(['userPosts' => $data2], Response::HTTP_OK);
@@ -238,7 +260,7 @@ class PostController extends AbstractController
     public  function addPostDislike(Utils $utils, Request $request, DislikeRepository $dislikeRepository, UserRepository $userRepository, PostRepository $postRepository): JsonResponse{
 
 
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(),true);
         $userToken = $utils->obtenerUsuarioToken($request);
 
         $userP = $this->userRepository->findOneBy(['email' =>$userToken->getEmail()]);

@@ -61,6 +61,18 @@ class RelioRepository extends ServiceEntityRepository
         $this->manager->flush();
     }
 
+    public function findPorRelioeUser($value): array
+    {
+        return $this->createQueryBuilder('r')
+            ->select('count(r.id_post) as veces')
+            ->groupBy('r.id_post')
+            ->andWhere('r.id_post = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    /**
 //     * @return Relio[] Returns an array of Relio objects
 //     */
