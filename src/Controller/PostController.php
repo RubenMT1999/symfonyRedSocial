@@ -345,9 +345,9 @@ class PostController extends AbstractController
         $data2 = [];
         foreach ($relio as $array) {
             $listaPost = $postRepository->findBy(['id' => $array->getIdPost()]);
-            if($listaPost==null){
+            if ($listaPost == null) {
                 $data2 = [];
-            }else{
+            } else {
                 $like = $megustaRepository->findPorLikeUser($array->getIdPost());
                 $dislike = $dislikeRepository->findPorDislikeUser($array->getIdPost());
                 $relio = $relioRepository->findPorRelioeUser($array->getIdPost());
@@ -381,6 +381,29 @@ class PostController extends AbstractController
             }
         }
         return new JsonResponse(['publicacion' => $data2], Response::HTTP_OK);
+    }
+
+    #[Route('/relio/user', name: 'app_post_user_relio', methods: ['POST'])]
+    public function userRelio(MegustaRepository $megustaRepository, DislikeRepository $dislikeRepository, Utils $utils, Request $request, RelioRepository $relioRepository, UserRepository $userRepository, PostRepository $postRepository): JsonResponse
+    {
+        $userToken = $utils->obtenerUsuarioToken($request);
+
+        $userP = $this->userRepository->findOneBy(['email' => $userToken->getEmail()]);
+
+        $data2 =[];
+        $num = $relioRepository->relioUsernum($userP->getId());
+        if($num== null){
+            $data2[] = [
+                'veces' => 0,
+            ];
+        }else{
+            $data2[]=[
+                'veces'=>$num[0]['veces']
+            ];
+        }
+        return new JsonResponse($data2, Response::HTTP_OK);
+
+
     }
 }
 

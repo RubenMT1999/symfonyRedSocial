@@ -92,6 +92,7 @@ class CommentsController extends AbstractController
         foreach($listPost as $array){
         $id = $userRepository->findOneBy(['id'=>$array->getIdUser()]);
             $data2[] = [
+                'id'=> $array->getId(),
                 'text' => $array->getText(),
                 'email' => $id->getUserProfile()->getName(),
                 'perfil' => $array->getIdUser()->getEmail(),

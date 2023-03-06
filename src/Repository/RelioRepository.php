@@ -73,6 +73,18 @@ class RelioRepository extends ServiceEntityRepository
             ;
     }
 
+    public function relioUsernum($value): array
+    {
+        return $this->createQueryBuilder('r')
+            ->select('count(r.id_user) as veces')
+            ->groupBy('r.id_user')
+            ->andWhere('r.id_user = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    /**
 //     * @return Relio[] Returns an array of Relio objects
 //     */

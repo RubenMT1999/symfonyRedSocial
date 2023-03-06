@@ -29,17 +29,18 @@ class Comments
     /**
      * @return \DateTimeInterface|null
      */
-    public function getDateComments(): ?\DateTimeInterface
+    public function getDateComments(): ?string
     {
-        return $this->date_comments;
+        return $this->date_comments->format('Y-m-d');
     }
 
     /**
      * @param \DateTimeInterface|null $date_comments
      */
-    public function setDateComments(?\DateTimeInterface $date_comments): void
+    public function setDateComments(?\DateTimeInterface $date_comments): self
     {
         $this->date_comments = $date_comments;
+        return $this;
     }
 
 
