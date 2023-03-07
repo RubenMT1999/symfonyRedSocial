@@ -337,12 +337,11 @@ class ProfileController extends AbstractController
 
         if(!$encontrarUser){
 
-            $hashPassword = $this->userPasswordHasher->hashPassword($newUser, '@@@');
 
             $newUser
                 ->setEmail($email)
                 ->setRoles(['Role_User'])
-                ->setPassword($hashPassword);
+                ->setPassword('@@@');
 
             $this->userProfileRepository->establecerProfileVacio($newUser);
         }else{
@@ -351,7 +350,12 @@ class ProfileController extends AbstractController
 
         $this->userRepository->save($newUser, true);
 
-        return new JsonResponse( ['Usuario Creado!' => $payload], Response::HTTP_OK);
+        $data2 = [
+            'email' => $newUser->getEmail(),
+            'password' => $newUser->getPassword()
+        ] ;
+
+        return new JsonResponse( $data2, Response::HTTP_OK);
     
 }
 
