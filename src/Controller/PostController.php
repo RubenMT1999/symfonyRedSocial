@@ -373,7 +373,7 @@ class PostController extends AbstractController
                     'id_user' => $listaPost[0]->getIdUser()->getUserProfile()->getName(),
                     'mensaje' => $listaPost[0]->getMessage(),
                     'imagen' => $listaPost[0]->getImage(),
-                    'fecha_Publicación' => $listaPost[0]->getPublicationDate(),
+                    'fecha_Publicacion' => $listaPost[0]->getPublicationDate(),
                     'like' => $like,
                     'dislike' => $dislike,
                     'relio' => $relio
